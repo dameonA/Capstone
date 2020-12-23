@@ -1,4 +1,4 @@
-import React from 'react'
+
 class ExampleStateful extends React.Component {
     constructor(props) {
         super(props)
@@ -12,3 +12,4 @@ class ExampleStateful extends React.Component {
         )
     }
 }
+export default ExampleStateful;
