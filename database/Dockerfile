@@ -1,6 +1,7 @@
-FROM mysql:latest
+FROM postgres:alpine
 
-ENV MYSQL_ROOT_PASSWORD spaceballs
-ENV MYSQL_DATABASE spaceballs
+ENV POSTGRES_USER scheduler
+ENV POSTGRES_PASSWORD schedule
+ENV POSTGRES_DB schedule
 
 COPY *.sql /docker-entrypoint-initdb.d/
