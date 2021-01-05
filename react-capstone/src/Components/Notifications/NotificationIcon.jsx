@@ -7,7 +7,7 @@ class NotificationIcon extends React.Component {
         };
     }
     componentDidMount= async ()=> {
-        const result = await fetch("http://localhost:3000/user/"+this.props.user+"/notifications/").catch(err=>console.log("cannot fetch: ",err));
+        const result = await fetch(this.props.api+"/user/"+this.props.user.user_id+"/notifications/").catch(err=>console.log("cannot fetch: ",err));
         const json = await result.json().catch(err=>console.log("cannot convert to json: ",err,result));
         //console.log(json);
         //console.log(json.notifications.filter(n=>!n.read && !n.archived))
