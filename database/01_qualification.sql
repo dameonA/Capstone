@@ -19,6 +19,3 @@ INSERT INTO qualifications (qual_name) VALUES
     ('ICOT'),
     ('ICT')
  ;
-
-
-  
