@@ -1,4 +1,4 @@
-
+import React from 'react'
 class ExampleStateful extends React.Component {
     constructor(props) {
         super(props)
