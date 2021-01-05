@@ -5,19 +5,43 @@ class ConflictPage extends React.Component {
         this.state = {
             conflict: []
         };
+
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     };//end of constructor
 
     componentDidMount = async () => {
-        const result = await fetch("http://localhost:300/user/" + this.props.user + "/conflict/").catch(error => console.log("cannot display fetch: ", error, result));
-        const json = await result.json().catch(error => "cannot convert to json: ", error, result);
+        const result = await fetch(this.props.api +
+        "/user/" + this.props.user_id + "/conflict/").catch(error => console.log("can't fetch: ", error));
+        const json = await result.json().catch(error => console.log("can't convert to json: ", error, result));
         this.setState({conflict: json.conflict})
     }//end of component mount
 
+    handleChange(event) {
+        this.setState({conflict: event.target.conflict});
+    }
+
+    handleSubmit(event) {
+        alert('Conflict was submitted: ' + this.state.conflict);
+        event.preventDefault();
+    }
+
     render() {
         return (
-            <br />
-        )
-    }
+            <div>
+                <header> <h1>Conflict</h1></header>
+                <hr />
+                <form onSubmit={this.handleSubmit}>
+                    <label>
+                        Name:
+                        <input type="text" value={this.state.conflict} onChange={this.handleChange}/>
+                    </label>
+                    <input type="submit" value="Submit"/>
+                </form>
+
+            </div>
+        );
+    }//end of the rendering
 }//end of ConflictPage-class
 
 export default ConflictPage;
