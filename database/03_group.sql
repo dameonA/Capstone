@@ -1,10 +1,10 @@
 
-CREATE TABLE usergroup (
+CREATE TABLE usergroups (
     group_id serial primary key,
     group_name varchar(50)
 );
 
-INSERT INTO usergroup (group_name) VALUES
+INSERT INTO usergroups (group_name) VALUES
     ('Blue'),
     ('Green'),
     ('Day Staff'),

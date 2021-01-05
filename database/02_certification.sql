@@ -1,9 +1,9 @@
-CREATE TABLE certification (
+CREATE TABLE certifications (
     cert_id serial primary key,
     cert_name varchar(10)
 );
 
-INSERT INTO certification (cert_name) VALUES
+INSERT INTO certifications (cert_name) VALUES
     ('RSC'),
     ('FO'),
     ('EA'),

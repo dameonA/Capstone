@@ -5,7 +5,7 @@ CREATE TABLE user_qualifications (
     is_instructor boolean,
     is_evaluator boolean,
     FOREIGN KEY (user_id) REFERENCES users (user_id),
-    FOREIGN KEY (qual_id) REFERENCES qualification (qual_id)
+    FOREIGN KEY (qual_id) REFERENCES qualifications (qual_id)
 );
 
 INSERT INTO user_qualifications (user_id,qual_id,in_training,is_instructor,is_evaluator) VALUES

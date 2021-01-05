@@ -5,7 +5,7 @@ CREATE TABLE user_certifications (
     -- cert_is_instructor boolean,
     -- cert_is_evaluator boolean,
     FOREIGN KEY (user_id) REFERENCES users (user_id),
-    FOREIGN KEY (cert_id) REFERENCES certification (cert_id)
+    FOREIGN KEY (cert_id) REFERENCES certifications (cert_id)
 );
 
 INSERT INTO user_certifications (user_id,cert_id) VALUES
