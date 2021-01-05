@@ -1,5 +1,5 @@
 CREATE TABLE qualification (
-    id serial primary key,
+    qual_id serial primary key,
     qual_name varchar(10)
 );
 

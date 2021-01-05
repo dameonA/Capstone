@@ -1,13 +1,13 @@
 CREATE TABLE users (
-    id serial primary key,
+    user_id serial primary key,
     first_name varchar(20) NOT NULL,
     last_name varchar(20) NOT NULL,
     grade varchar(20) NOT NULL,
     -- qualification INTEGER REFERENCES user_qualifications(id) ON DELETE CASCADE,
     -- certification INTEGER REFERENCES user_certifications(id) ON DELETE CASCADE,
-    user_role INTEGER REFERENCES roles(id) ON DELETE CASCADE,
-    section INTEGER REFERENCES section(id) ON DELETE CASCADE,
-    user_group INTEGER REFERENCES usergroup(id) ON DELETE CASCADE,
+    user_role INTEGER REFERENCES roles(role_id) ON DELETE CASCADE,
+    section INTEGER REFERENCES section(section_id) ON DELETE CASCADE,
+    user_group INTEGER REFERENCES usergroup(group_id) ON DELETE CASCADE,
     active boolean
 );
 

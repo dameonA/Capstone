@@ -1,6 +1,6 @@
 
 CREATE TABLE usergroup (
-    id serial primary key,
+    group_id serial primary key,
     group_name varchar(50)
 );
 

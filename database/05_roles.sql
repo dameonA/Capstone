@@ -1,10 +1,10 @@
 
 CREATE TABLE roles (
-    id serial primary key,
-    roles_name varchar(50)
+    role_id serial primary key,
+    role_name varchar(50)
 );
 
-INSERT INTO roles (roles_name) VALUES
+INSERT INTO roles (role_name) VALUES
     ('Admin'),
     ('Scheduler'),
     ('Supervisor'),

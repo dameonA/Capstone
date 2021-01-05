@@ -1,6 +1,6 @@
 
 CREATE TABLE section (
-    id serial primary key,
+    section_id serial primary key,
     section_name varchar(50)
 );
 
