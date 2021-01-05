@@ -1,24 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import Header from './Components/ui/Header'
+import {ThemeProvider} from '@material-ui/styles'
+import theme from './Components/ui/Theme'
+import {Route,Switch, BrowserRouter} from 'react-router-dom'
+import Home from './Components/Home/Home'
+
 
 function App() {
+  const apiUrl = 'http//localhost:3001';
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={theme}>
+      <BrowserRouter>
+      <Header/>
+        <Switch>
+          <Route exact path='/'><Home/></Route>
+          {/* <Route exact path='/mx'><Mx/></Route>
+          <Route exact path='/logs'><Logs/></Route>
+          <Route exact path='/assetrequest'><AssetRequest/></Route>
+          <Route exact path='/opscap'><Opscap/></Route>
+          <Route exact path='/posneg'><PosNeg/></Route> */}
+        </Switch>
+      </BrowserRouter>
+    </ThemeProvider>
   );
 }
 
