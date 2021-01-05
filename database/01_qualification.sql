@@ -1,9 +1,9 @@
 CREATE TABLE qualification (
-    `id` int NOT NULL primary key serial,
-    `name` char(10),
+    id serial primary key,
+    qual_name varchar(10)
 );
 
-INSERT INTO qualification (`name`) VALUES
+INSERT INTO qualification (qual_name) VALUES
     ('MCC'),
     ('MCCT'),
     ('RSC'),
