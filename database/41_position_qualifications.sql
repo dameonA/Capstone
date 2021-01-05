@@ -5,7 +5,7 @@ CREATE TABLE position_qualifications (
     FOREIGN KEY (qual_id) REFERENCES qualifications (qual_id)
 );
 
-INSERT INTO positions (position_id,qual_id) VALUES
+INSERT INTO position_qualifications (position_id,qual_id) VALUES
 (1,1),
 (2,1),
 (3,2),
