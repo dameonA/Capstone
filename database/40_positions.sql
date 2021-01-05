@@ -1,7 +1,7 @@
 CREATE TABLE positions (
-    position_id PRIMARY KEY SERIAL,
+    position_id SERIAL PRIMARY KEY,
     position_name varchar(50) NOT NULL,
-    minimum INTEGER NOT NULL,
+    minimum INTEGER NOT NULL
 );
 
 INSERT INTO positions (position_name,minimum) VALUES
