@@ -1,28 +1,30 @@
 import React from 'react'
+
 class ConflictPage extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            conflict: []
+            value: []
         };
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+
     };//end of constructor
 
-    componentDidMount = async () => {
-        const result = await fetch(this.props.api +
-        "/user/" + this.props.user_id + "/conflict/").catch(error => console.log("can't fetch: ", error));
-        const json = await result.json().catch(error => console.log("can't convert to json: ", error, result));
-        this.setState({conflict: json.conflict})
-    }//end of component mount
+        // componentDidMount = async () => {
+        //     const result = await fetch(this.props.api +
+        //     "/user/" + this.props.user_id + "/conflict/").catch(error => console.log("can't fetch: ", error));
+        //     const json = await result.json().catch(error => console.log("can't convert to json: ", error, result));
+        //     this.setState({conflict: json.conflict})
+        // }//end of component mount
 
     handleChange(event) {
-        this.setState({conflict: event.target.conflict});
+        this.setState({value: event.target.value});
     }
 
     handleSubmit(event) {
-        alert('Conflict was submitted: ' + this.state.conflict);
+        alert('Conflict was submitted: ' + this.state.value);
         event.preventDefault();
     }
 
@@ -34,8 +36,20 @@ class ConflictPage extends React.Component {
                 <form onSubmit={this.handleSubmit}>
                     <label>
                         Name:
-                        <input type="text" value={this.state.conflict} onChange={this.handleChange}/>
+                        <input type="text" value={this.state.value} onChange={this.handleChange}/>
                     </label>
+
+                    <label>
+                        Conflict Type:
+                        <input type="text" value={this.state.value} onChange={this.handleChange}/>
+                    </label>
+
+                    <label>
+                        Date/Time:
+                        <input type="text" value={this.state.value} onChange={this.handleChange}/>
+                    </label>
+
+
                     <input type="submit" value="Submit"/>
                 </form>
 
