@@ -12,3 +12,4 @@ class ExampleStateful extends React.Component {
         )
     }
 }
+export default ExampleStateful;
