@@ -1,5 +1,5 @@
 CREATE TABLE conflict_type (
-    conlfict_type_id serial primary key,
+    conflict_type_id serial primary key,
     conflict_type_name varchar(250)
 );
 

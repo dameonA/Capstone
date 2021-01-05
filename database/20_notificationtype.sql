@@ -1,6 +1,6 @@
 CREATE TABLE notificationtype (
     id serial primary key,
-    notify_name varchar(10)
+    notify_name varchar(250)
 );
 
 INSERT INTO notificationtype (notify_name) VALUES
