@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS position_qualifications CASCADE;
 CREATE TABLE position_qualifications (
     position_id INTEGER NOT NULL,
     qual_id INTEGER NOT NULL,

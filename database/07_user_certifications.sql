@@ -1,3 +1,5 @@
+DROP TABLE IF EXISTS user_certifications CASCADE;
+
 CREATE TABLE user_certifications (
     user_id INTEGER NOT NULL,
     cert_id INTEGER NOT NULL,

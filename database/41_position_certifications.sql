@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS position_certifications CASCADE;
 CREATE TABLE position_certifications (
     position_id INTEGER NOT NULL,
     cert_id INTEGER NOT NULL,

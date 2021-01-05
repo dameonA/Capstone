@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS roles CASCADE;
 
 CREATE TABLE roles (
     role_id serial primary key,

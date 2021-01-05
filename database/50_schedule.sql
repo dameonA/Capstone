@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS schedule CASCADE;
 CREATE TABLE schedule (
     schedule_id serial primary key,
     start_time TIMESTAMP NOT NULL,
