@@ -1,3 +1,5 @@
+DROP TABLE IF EXISTS users CASCADE;
+
 CREATE TABLE users (
     user_id serial primary key,
     first_name varchar(20) NOT NULL,
@@ -14,9 +16,9 @@ CREATE TABLE users (
 INSERT INTO users (first_name, last_name, grade, user_role, section, user_group, active) VALUES
     ('joe', 'snuffy', 'A1C', 1, 2, 1, false),
     ('joe1', 'snuffy', 'A1C', 1, 2, 1, false),
-    ('joe2', 'snuffy', 'A1C', 1, 2, 1, false),
-    ('joe3', 'snuffy', 'A1C', 1, 2, 1, false),
-    ('joe4', 'snuffy', 'A1C', 1, 2, 1, false),
+    ('joe2', 'snuffy', 'A1C', 2, 2, 1, false),
+    ('joe3', 'snuffy', 'A1C', 3, 2, 1, false),
+    ('joe4', 'snuffy', 'A1C', 4, 2, 1, false),
     ('joe5', 'snuffy', 'A1C', 1, 2, 1, false),
     ('joe6', 'snuffy', 'A1C', 1, 2, 1, false),
     ('joe7', 'snuffy', 'A1C', 1, 2, 1, false),

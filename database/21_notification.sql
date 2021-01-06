@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS notification CASCADE;
 CREATE TABLE notification (
     id serial primary key,
     userId INTEGER REFERENCES users(user_id) ON DELETE CASCADE,
