@@ -71,11 +71,7 @@ export default function Header(props){
                         <Tab component={Link} to={'/'} className={classes.tab} label="Home" />
                         <Tab component={Link} to={'/Users'} className={classes.tab} label="Users" />                        
                         <Tab component={Link} to={'/Conflicts'} className={classes.tab} label="Conflicts" />                        
-                        {/* <Tab component={Link} to={'/opscap'} className={classes.tab} label="OpsCap" />
-                        <Tab component={Link} to={'/logs'} className={classes.tab} label="Logs" />
-                        <Tab component={Link} to={'/mx'} className={classes.tab} label="MX" />
-                        <Tab component={Link} to={'/posneg'} className={classes.tab} label="Pos/Neg" />
-                        <Tab component={Link} to={'/assetrequest'} className={classes.tab} label="Asset Task" /> */}
+                        <Tab component={Link} to={'/Notifications'} className={classes.tab} label="Notifications" /> 
                     </Tabs>
                 <LoginMenu/>
                 </Toolbar>
