@@ -1,3 +1,5 @@
+DROP TABLE IF EXISTS users CASCADE;
+
 CREATE TABLE users (
     user_id serial primary key,
     first_name varchar(20) NOT NULL,

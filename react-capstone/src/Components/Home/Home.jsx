@@ -7,7 +7,6 @@ export default class Home extends React.Component{
             <div>
                 <img src={logo} alt="logo" align="center"/>
             </div>
-
         )
     }
 }
