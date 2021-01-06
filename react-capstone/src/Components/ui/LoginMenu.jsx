@@ -30,7 +30,8 @@ export default function LoginMenu(props){
                 required
                 id="outlined-required"
                 label="Username"
-                defaultValue="Username"
+                // defaultValue="Username"
+                placeholder="Username"
                 variant="outlined"
                 color="white"
                 InputProps={{
@@ -47,7 +48,8 @@ export default function LoginMenu(props){
                 required
                 id="outlined-required"
                 label="Password"
-                defaultValue="Password"
+                // defaultValue="Password"
+                placeholder="Password"
                 variant="outlined"
                 InputProps={{
                     startAdornment: (

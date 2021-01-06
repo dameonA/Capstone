@@ -6,7 +6,6 @@ import {Route,Switch, BrowserRouter} from 'react-router-dom'
 import Home from './Components/Home/Home'
 import CreateUser from './Components/CreateUser/CreateUser'
 
-
 function App() {
   const apiUrl = 'http//localhost:3001';
   return (

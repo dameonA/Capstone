@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS positions CASCADE;
 CREATE TABLE positions (
     position_id SERIAL PRIMARY KEY,
     position_name varchar(50) NOT NULL,
