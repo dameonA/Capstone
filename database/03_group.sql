@@ -1,3 +1,5 @@
+DROP TABLE IF EXISTS usergroups CASCADE;
+
 
 CREATE TABLE usergroups (
     group_id serial primary key,

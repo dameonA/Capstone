@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS conflict CASCADE;
 CREATE TABLE conflict (
     conflict_id serial primary key,
     conflict_type_id INTEGER NOT NULL,

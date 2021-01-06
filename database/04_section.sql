@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS sections CASCADE;
 
 CREATE TABLE sections (
     section_id serial primary key,

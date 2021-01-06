@@ -1,3 +1,5 @@
+DROP TABLE IF EXISTS qualifications CASCADE;
+
 CREATE TABLE qualifications (
     qual_id serial primary key,
     qual_name varchar(10)

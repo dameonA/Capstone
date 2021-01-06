@@ -6,6 +6,7 @@ import {Route,Switch, BrowserRouter} from 'react-router-dom'
 import Home from './Components/Home/Home'
 import CreateUser from './Components/CreateUser/CreateUser'
 import ConflictPage from './Components/Conflict_Page/conflict_page'
+import NotificationPage from './Components/Notifications/NotificationPage'
 
 
 function App() {
@@ -17,7 +18,8 @@ function App() {
       <Switch>
           <Route exact path='/'><Home/></Route>
           <Route exact path='/Users'><CreateUser/></Route>
-          <Route exact path='/Conflicts'><ConflictPage/></Route>          
+          <Route exact path='/Conflicts'><ConflictPage/></Route>    
+          <Route exact path='/Notifications'><NotificationPage/></Route>                
           {/* <Route exact path='/mx'><Mx/></Route>
           <Route exact path='/logs'><Logs/></Route>
           <Route exact path='/assetrequest'><AssetRequest/></Route>
