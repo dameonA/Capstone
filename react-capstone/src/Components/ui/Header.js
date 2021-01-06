@@ -41,7 +41,7 @@ const useStyles = makeStyles(theme => ({
         borderColor: 'white'
     },
     button: {
-        marginLeft: "20px"
+        marginLeft: "15px"
     },
     logo: {
         maxWidth: "60px",
@@ -70,6 +70,7 @@ export default function Header(props){
                     <Tabs className={classes.tabContainer} centered onChange={handleChange} value={value}>
                         <Tab component={Link} to={'/'} className={classes.tab} label="Home" />
                         <Tab component={Link} to={'/Users'} className={classes.tab} label="Users" />                        
+                        <Tab component={Link} to={'/Conflicts'} className={classes.tab} label="Conflicts" />                        
                         {/* <Tab component={Link} to={'/opscap'} className={classes.tab} label="OpsCap" />
                         <Tab component={Link} to={'/logs'} className={classes.tab} label="Logs" />
                         <Tab component={Link} to={'/mx'} className={classes.tab} label="MX" />
