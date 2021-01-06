@@ -1,6 +1,6 @@
 import React from 'react'
 
-class AddUser extends React.Component {
+class ModifyUser extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -226,7 +226,7 @@ class AddUser extends React.Component {
      render() {
         return (
             <div>
-                <h2>Add New User</h2>
+                <h2>Modify User</h2>
                 <table>
                     <this.NewUserTableHeader/>
                     <this.NewUserInputForm />
@@ -236,4 +236,4 @@ class AddUser extends React.Component {
         )
     }
 }
-export default AddUser;
+export default ModifyUser;
