@@ -7,6 +7,8 @@ import Home from './Components/Home/Home'
 import CreateUser from './Components/CreateUser/CreateUser'
 import ConflictPage from './Components/Conflict_Page/conflict_page'
 import NotificationPage from './Components/Notifications/NotificationPage'
+import ScheduleHomePage from './Components/ScheduleHomePage/ScheduleHomePage'
+
 
 
 function App() {
@@ -19,7 +21,8 @@ function App() {
           <Route exact path='/'><Home/></Route>
           <Route exact path='/Users'><CreateUser/></Route>
           <Route exact path='/Conflicts'><ConflictPage/></Route>    
-          <Route exact path='/Notifications'><NotificationPage/></Route>                
+          <Route exact path='/Notifications'><NotificationPage/></Route>
+          <Route exact path='/Schedule'><ScheduleHomePage/></Route>                
       </Switch>
       </BrowserRouter>
     </ThemeProvider>
