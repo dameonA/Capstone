@@ -1,0 +1,10 @@
+/initdb
+    - rebuild the database from the sql files provided
+
+/user/:userId
+    - Provides a user object based on id provided.
+    - If no user is found or userid is not a number, provides an empty object
+
+/user/:userId/notifications
+    - provides an array of notification objects filtered on the userId provided and the user's role
+
