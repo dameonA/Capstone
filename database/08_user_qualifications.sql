@@ -1,3 +1,5 @@
+DROP TABLE IF EXISTS user_qualifications CASCADE;
+
 CREATE TABLE user_qualifications (
     user_id INTEGER NOT NULL,
     qual_id INTEGER NOT NULL,

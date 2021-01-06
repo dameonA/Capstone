@@ -1,3 +1,5 @@
+DROP TABLE IF EXISTS user_auth CASCADE;
+
 CREATE TABLE user_auth (
     username varchar(250) NOT NULL PRIMARY KEY UNIQUE,
     user_id integer REFERENCES users(user_id) ON DELETE CASCADE,

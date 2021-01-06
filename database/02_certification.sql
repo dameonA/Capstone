@@ -1,3 +1,5 @@
+DROP TABLE IF EXISTS certifications CASCADE;
+
 CREATE TABLE certifications (
     cert_id serial primary key,
     cert_name varchar(10)
