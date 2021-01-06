@@ -44,7 +44,7 @@ const useStyles = makeStyles(theme => ({
         marginLeft: "20px"
     },
     logo: {
-        maxWidth: "160px",
+        maxWidth: "60px",
         paddingRight: "20px"
     },
     background: {
@@ -69,6 +69,7 @@ export default function Header(props){
                     </Typography>
                     <Tabs className={classes.tabContainer} centered onChange={handleChange} value={value}>
                         <Tab component={Link} to={'/'} className={classes.tab} label="Home" />
+                        <Tab component={Link} to={'/Users'} className={classes.tab} label="Users" />                        
                         {/* <Tab component={Link} to={'/opscap'} className={classes.tab} label="OpsCap" />
                         <Tab component={Link} to={'/logs'} className={classes.tab} label="Logs" />
                         <Tab component={Link} to={'/mx'} className={classes.tab} label="MX" />
