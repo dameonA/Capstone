@@ -19,5 +19,6 @@ describe('App', () => {
 
 // The main app should have a link to CreateUser
 // CreateUser should have an option to add a new user
+// Adding a user should be a form that allows entry of the mandatory elements for a user
 // CreateUser should have an option to modify an existing user
 // CreateUser should have an option to archive a user
