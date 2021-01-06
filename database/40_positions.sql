@@ -1,7 +1,4 @@
 CREATE TABLE positions (
-    position_id PRIMARY KEY SERIAL,
-    position_name varchar(50) NOT NULL,
-    minimum INTEGER NOT NULL,
     position_id SERIAL PRIMARY KEY,
     position_name varchar(50) NOT NULL,
     minimum INTEGER NOT NULL
