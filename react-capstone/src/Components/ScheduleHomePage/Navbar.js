@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ScheduleHomePage } from './ScheduleHomePage';
+import { ScheduleHomePage } from './ScheduleHomePage/ScheduleHomePage';
 import '../App.css';
 
 function Navbar() {

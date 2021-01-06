@@ -1,31 +1,31 @@
-import React from 'react';
-import './App.css';
-import Navbar from './Components/Navbar';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import CrewMember from './Pages/CrewMember';
-import CrewPosition from './Pages/CrewPosition';
-import DailyView from './Pages/DailyView';
-import EntireSection from './Pages/EntireSection';
-import EntireShift from './Pages/EntireShift';
-import OverAllView from './Pages/OverAllView';
-import ViewEntireSchedule from './Pages/ViewEntireSchedule';
+import React from 'react'
+import Header from './Components/Header/Header'
+import {ThemeProvider} from '@material-ui/styles'
+import theme from './Components/ui/Theme'
+import {Route,Switch, BrowserRouter} from 'react-router-dom'
+import Home from './Components/Home/Home'
+import CreateUser from './Components/CreateUser/CreateUser'
+import ConflictPage from './Components/Conflict_Page/conflict_page'
+
 
 function App() {
+  const apiUrl = 'http//localhost:3001';
   return (
-    <>
-      <Router>
-        <Navbar />
-        <Switch>
-          <Route path='/' exact component={ViewEntireSchedule} />
-          <Route path='/overallview' component={OverAllView} />
-          <Route path='/dailyview' component={DailyView} />
-          <Route path='/shift'  component={EntireShift} />
-          <Route path='/section' component={EntireSection} />
-          <Route path='/crewpos' component={CrewPosition} />
-          <Route path='/crewmem' component={CrewMember} />
-        </Switch>
-      </Router>
-    </>
+    <ThemeProvider theme={theme}>
+      <BrowserRouter>
+      <Header/>
+      <Switch>
+          <Route exact path='/'><Home/></Route>
+          <Route exact path='/Users'><CreateUser/></Route>
+          <Route exact path='/Conflicts'><ConflictPage/></Route>          
+          {/* <Route exact path='/mx'><Mx/></Route>
+          <Route exact path='/logs'><Logs/></Route>
+          <Route exact path='/assetrequest'><AssetRequest/></Route>
+          <Route exact path='/opscap'><Opscap/></Route>
+          <Route exact path='/posneg'><PosNeg/></Route> */}
+      </Switch>
+      </BrowserRouter>
+    </ThemeProvider>
   );
 }
 
