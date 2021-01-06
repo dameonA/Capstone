@@ -20,11 +20,6 @@ function App() {
           <Route exact path='/Users'><CreateUser/></Route>
           <Route exact path='/Conflicts'><ConflictPage/></Route>    
           <Route exact path='/Notifications'><NotificationPage/></Route>                
-          {/* <Route exact path='/mx'><Mx/></Route>
-          <Route exact path='/logs'><Logs/></Route>
-          <Route exact path='/assetrequest'><AssetRequest/></Route>
-          <Route exact path='/opscap'><Opscap/></Route>
-          <Route exact path='/posneg'><PosNeg/></Route> */}
       </Switch>
       </BrowserRouter>
     </ThemeProvider>
