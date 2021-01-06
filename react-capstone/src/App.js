@@ -5,7 +5,6 @@ import theme from './Components/ui/Theme'
 import {Route,Switch, BrowserRouter} from 'react-router-dom'
 import Home from './Components/Home/Home'
 
-
 function App() {
   const apiUrl = 'http//localhost:3001';
   return (
