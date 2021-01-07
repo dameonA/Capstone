@@ -1,4 +1,5 @@
 import React from 'react'
+import UserTableHeader from './UserHeader'
 
 class AddUser extends React.Component {
     constructor(props) {
@@ -228,7 +229,7 @@ class AddUser extends React.Component {
             <div>
                 <h2>Add New User</h2>
                 <table>
-                    <this.NewUserTableHeader/>
+                    <UserTableHeader/>
                     <this.NewUserInputForm />
                 </table>
             </div>
