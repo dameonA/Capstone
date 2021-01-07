@@ -21,22 +21,19 @@ class ConflictPage extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            value: []
+            value: [],
+            selectedDate: new Date('2020-08-18T21:11:54')
         };
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-
-    };//end of constructor
-
-    MaterialUIPickers() {
-        const [selectedDate, setSelectedDate] = useState(new Date('2020-08-18T21:11:54'));
+        
+    };//end of constructor   
     
-        const handleDateChange = (date) => {
-            selectedDate(date);
-        };
+    handleDateChange = (date) => {
+            this.setState({selectedDate: date});
     }
-
+    
     handleChange(event) {
         this.setState({value: event.target.value});
     }
@@ -76,16 +73,16 @@ class ConflictPage extends React.Component {
                                 margin="normal"
                                 id="start-date"
                                 label="Start Date"
-                                value={selectedDate}
-                                onChange={handleDateChange}
+                                value={this.state.selectedDate}
+                                onChange={this.handleDateChange}
                                 KeyboardButtonProps={{"aria-label": 'change date',}}
                             />
                             <KeyboardTimePicker 
                                 margin='normal'
                                 id="start-time"
                                 label="Start Time"
-                                value={selectedDate}
-                                onChange={handleDateChange}
+                                value={this.state.selectedDate}
+                                onChange={this.handleDateChange}
                                 KeyboardButtonProps={{"aria-label": "change time",}}
                             />
                             <KeyboardDatePicker 
@@ -93,16 +90,16 @@ class ConflictPage extends React.Component {
                                 id="end-date"
                                 label="End Date"
                                 format="yyyy-MM-dd"
-                                value={selectedDate}
-                                onChange={handleDateChange}
+                                value={this.state.selectedDate}
+                                onChange={this.handleDateChange}
                                 KeyboardButtonProps={{"aria-label": 'change date',}}
                             />
                             <KeyboardTimePicker 
                                 margin="normal"
                                 id="end-time"
                                 label="End Time"
-                                value={selectedDate}
-                                onChange={handleDateChange}
+                                value={this.state.selectedDate}
+                                onChange={this.handleDateChange}
                                 KeyboardButtonProps={{"aria-label": "change time",}}
                             />
                         </Grid>
