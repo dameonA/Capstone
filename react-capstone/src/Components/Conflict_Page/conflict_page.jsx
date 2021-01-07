@@ -33,20 +33,24 @@ class ConflictPage extends React.Component {
         this.setState({selectedEndDate: date})
     }
     
-    // handleChange(event) {
-    //     this.setState({value: event.target.value});
-    // }
-
-    handleNameChange(event) {
-        this.setState({value: event.target.value})
+    handleConflictChange= (event) => {
+        this.setState({conflict: event.target.value});
     }
 
-    handleCommentChange(event) {
-        this.setState({value: event.target.value})
+    handleFirstNameChange= (event) => {
+        this.setState({firstname: event.target.value})
+    }
+
+    handleLastNameChange= (event) => {
+        this.setState({lastname: event.target.value})
+    }
+
+    handleCommentChange= (event) => {
+        this.setState({comment: event.target.value})
     }
 
     handleSubmit(event) {
-        alert('Conflict was submitted: ' + this.state.value);
+        alert('Conflict was submitted: ' + this.state.conflict);
         event.preventDefault();
     }
 
@@ -58,15 +62,15 @@ class ConflictPage extends React.Component {
                 <form onSubmit={this.handleSubmit}>
                     <label>
                         First Name:
-                        <input type="text" value={this.state.value} onChange={this.handleNameChange}/>
+                        <input type="text" value={this.state.firstname} onChange={this.handleFirstNameChange}/>
                         Last Name:
-                        <input type="text" value={this.state.value} onChange={this.handleNameChange}/>
+                        <input type="text" value={this.state.lastname} onChange={this.handleLastNameChange}/>
                     </label>
                     <br />
                     <br />
                     <label>
                         Select Conflict Type:
-                        <select value={this.state.value} onChange={this.handleChange}>
+                        <select value={this.state.conflict} onChange={this.handleConflictChange}>
                             <option value="leave-approved">1 Leave Approved</option>
                             <option value="leave-requested">2 Leave Requested</option>
                             <option value="tdy">3 TDY</option>
@@ -121,7 +125,7 @@ class ConflictPage extends React.Component {
                     <br />
                     <label>
                         Comments:
-                        <textarea value={this.state.value} onChange={this.handleCommentChange} />
+                        <textarea value={this.state.comment} onChange={this.handleCommentChange} />
                     </label>
                     <br />
                     <br />
