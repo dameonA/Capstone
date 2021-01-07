@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import 'date-fns';
 import Grid from '@material-ui/core/Grid';
 import DateFnsUtils from '@date-io/date-fns';
@@ -7,14 +7,15 @@ import {
     KeyboardTimePicker,
     KeyboardDatePicker,
 } from '@material-ui/pickers';
+//import { useState } from 'react';
 
-function MaterialUIPickers() {
-    const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18T21:11:54'));
+// function MaterialUIPickers() {
+//     const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18T21:11:54'));
 
-    const handleDateChange = (date) => {
-        selectedDate(date);
-    };
-};
+//     const handleDateChange = (date) => {
+//         selectedDate(date);
+//     };
+// };
 
 class ConflictPage extends React.Component {
     constructor(props) {
@@ -27,6 +28,14 @@ class ConflictPage extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
 
     };//end of constructor
+
+    MaterialUIPickers() {
+        const [selectedDate, setSelectedDate] = useState(new Date('2020-08-18T21:11:54'));
+    
+        const handleDateChange = (date) => {
+            selectedDate(date);
+        };
+    }
 
     handleChange(event) {
         this.setState({value: event.target.value});
@@ -77,7 +86,7 @@ class ConflictPage extends React.Component {
                                 label="Start Time"
                                 value={selectedDate}
                                 onChange={handleDateChange}
-                                KeyboardButtonProps={{"aria-label": "change time"}}
+                                KeyboardButtonProps={{"aria-label": "change time",}}
                             />
                             <KeyboardDatePicker 
                                 margin="normal"
@@ -88,9 +97,16 @@ class ConflictPage extends React.Component {
                                 onChange={handleDateChange}
                                 KeyboardButtonProps={{"aria-label": 'change date',}}
                             />
+                            <KeyboardTimePicker 
+                                margin="normal"
+                                id="end-time"
+                                label="End Time"
+                                value={selectedDate}
+                                onChange={handleDateChange}
+                                KeyboardButtonProps={{"aria-label": "change time",}}
+                            />
                         </Grid>
                     </MuiPickersUtilsProvider>
-
 
                     <input type="submit" value="Submit"/>
                 </form>
@@ -98,6 +114,7 @@ class ConflictPage extends React.Component {
             </div>
         );
     }//end of the rendering
+
 }//end of ConflictPage-class
 
 export default ConflictPage;
