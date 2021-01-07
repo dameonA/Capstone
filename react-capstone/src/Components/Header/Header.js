@@ -61,7 +61,7 @@ export default function Header(props){
     return (
         <React.Fragment>
         <ElevationScroll>
-            <AppBar>
+            <AppBar position="static">
                 <Toolbar>
                     <img src={logo} alt="logo" className={classes.logo} />
                     <Typography variant="h4">
@@ -72,6 +72,7 @@ export default function Header(props){
                         <Tab component={Link} to={'/Users'} className={classes.tab} label="Users" />                        
                         <Tab component={Link} to={'/Conflicts'} className={classes.tab} label="Conflicts" />                        
                         <Tab component={Link} to={'/Notifications'} className={classes.tab} label="Notifications" /> 
+                        <Tab component={Link} to={'/Schedule'} className={classes.tab} label="Schedule" /> 
                     </Tabs>
                 <LoginMenu/>
                 </Toolbar>
