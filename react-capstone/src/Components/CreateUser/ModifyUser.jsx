@@ -1,10 +1,11 @@
 import React from 'react'
 import UserTableHeader from './UserHeader'
 
-class AddUser extends React.Component {
+class ModifyUser extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
+            users: {},
             newUser: {},
             newUserQualifications: {},
             newUserCertifications:{},
@@ -47,7 +48,7 @@ class AddUser extends React.Component {
         }
     }
 
-    SubmitNewUser = () => {
+    SubmitUpdatedUser = () => {
         console.log(this.state.newUser);
         //when submitting a new user, you will need to return the user_id that was created. newUserId is critical to creating the qualification and certification
         this.SubmitNewUserQualifications(this.state.newUserId);
@@ -64,23 +65,6 @@ class AddUser extends React.Component {
         console.log(this.state.newUserCertifications);
     }
 
-    NewUserTableHeader = () => {
-        return(
-              <thead>
-                <tr>
-                  <th>Grade</th>
-                  <th>First Name</th>
-                  <th>Last Name</th>
-                  <th>Access Role</th>
-                  <th>Crew Qualification</th>
-                  <th>Certification</th>
-                  <th>Flight</th>
-                  <th>Crew</th>
-                  <th></th>
-                </tr>
-              </thead>
-        )
-    }
 
     NewUserInputForm = () => {
 
@@ -227,7 +211,7 @@ class AddUser extends React.Component {
      render() {
         return (
             <div>
-                <h2>Add New User</h2>
+                <h2>Modify User</h2>
                 <table>
                     <UserTableHeader/>
                     <this.NewUserInputForm />
@@ -237,4 +221,4 @@ class AddUser extends React.Component {
         )
     }
 }
-export default AddUser;
+export default ModifyUser;
