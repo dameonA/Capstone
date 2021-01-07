@@ -1,4 +1,20 @@
-import React from 'react'
+import React from 'react';
+import 'date-fns';
+import Grid from '@material-ui/core/Grid';
+import DateFnsUtils from '@date-io/date-fns';
+import {
+    MuiPickersUtilsProvider,
+    KeyboardTimePicker,
+    KeyboardDatePicker,
+} from '@material-ui/pickers';
+
+export default function MaterialUIPickers() {
+    const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18T21:11:54'));
+
+    const handleDateChange = (date) => {
+        selectedDate(date);
+    };
+};
 
 class ConflictPage extends React.Component {
     constructor(props) {
@@ -11,13 +27,6 @@ class ConflictPage extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
 
     };//end of constructor
-
-        // componentDidMount = async () => {
-        //     const result = await fetch(this.props.api +
-        //     "/user/" + this.props.user_id + "/conflict/").catch(error => console.log("can't fetch: ", error));
-        //     const json = await result.json().catch(error => console.log("can't convert to json: ", error, result));
-        //     this.setState({conflict: json.conflict})
-        // }//end of component mount
 
     handleChange(event) {
         this.setState({value: event.target.value});
