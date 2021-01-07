@@ -14,7 +14,7 @@ class NotificationPage extends React.Component {
         if (notif) {
             const result = await fetch(this.props.api+"/notifications/"+id+"/read", { method: "POST"}).catch(err=>console.log("cannot mark read: ",err));
             let json = await result.json().catch((err)=>console.log("cannot convert to json: ",err, result));
-            console.log(json, json!={} )
+            //console.log(json, json!={} )
             if (json != {}) {
                 notif = json
                 notifs.splice(notifs.findIndex(n=>n.id===id),1,notif)
@@ -28,11 +28,10 @@ class NotificationPage extends React.Component {
         if (notif) {
             const result = await fetch(this.props.api+"/notifications/"+id+"/archive", { method: "POST"}).catch(err=>console.log("cannot mark read: ",err));
             let json = await result.json().catch((err)=>console.log("cannot convert to json: ",err, result));
-            console.log(json, json!={} )
+            //console.log(json, json!={} )
             if (json != {}) {
                 notif = json
                 notifs.splice(notifs.findIndex(n=>n.id===id),1,notif)
-                notifs.sort((a, b) => b.send_tm - a.send_tm)
             }
             this.setState({notifications:notifs});
         }
@@ -40,9 +39,9 @@ class NotificationPage extends React.Component {
     componentDidMount= async ()=> {
         if (this.props.api && this.props.user && this.props.user.user_id) {
             const result = await fetch(this.props.api+"/users/"+this.props.user.user_id+"/notifications/").catch(err=>console.log("cannot fetch: ",err));
-            const json = await result.json().catch(err=>console.log("cannot convert to json: ",err,result));
-            json.sort((a, b) => b.send_tm - a.send_tm)
-            this.setState({notifications:json})
+            result.json().then(json=>{
+                this.setState({notifications:json})
+            }).catch(err=>console.log("cannot convert to json: ",err,result));
         }
     }
     render() {
@@ -50,7 +49,7 @@ class NotificationPage extends React.Component {
             <div>
                 <header> <h1>Notifications</h1></header>
                 Show Archived: <Checkbox onChange={(evt)=>this.setState({showArchived:evt.target.checked})} />
-                {(Array.isArray(this.state.notifications))?((this.state.notifications.length > 0)?
+                {(Array.isArray(this.state.notifications) && this.state.notifications.length > 0)?
                     this.state.notifications.filter(n=>this.state.showArchived || n.archived===false).map(notification=>{
                         let msg = notification.sent_tm+" - "+notification.comment
                         if (!notification.is_read) {
@@ -60,7 +59,7 @@ class NotificationPage extends React.Component {
                             msg = "*"+msg
                         }
                         return <p key={notification.id}>{msg}{(notification.is_read)?"":<button type="button" onClick={()=>this.markRead(notification.id)}>Mark Read</button>}{(notification.archived)?"":<button type="button" onClick={()=>this.archive(notification.id)}>Archive</button>}</p>
-                    }):<p>No Notifications</p>):""
+                    }):<p>No Notifications</p>
                 }
             </div>
         )

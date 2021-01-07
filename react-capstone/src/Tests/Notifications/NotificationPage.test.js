@@ -46,7 +46,7 @@ test('displays message for no notifications', async ()=>{
 test('marks message as read when clicked', async ()=>{
     fetch.mockResponse(req=>{
         if (req.url.includes('users')) {
-            console.log("users")
+            //console.log("users")
             return Promise.resolve(JSON.stringify([
                 {
                     "id": 2,
@@ -60,7 +60,7 @@ test('marks message as read when clicked', async ()=>{
                 }
             ]));
         }else{
-            console.log("nousers")
+            //console.log("nousers")
             return Promise.resolve(
                 JSON.stringify({
                     "id": 2,
@@ -79,10 +79,9 @@ test('marks message as read when clicked', async ()=>{
 
     );
     await render(<NotificationPage user={{user_id:1}} api={apiUrl} />);
-    let element = await screen.findByText("Joe is on quarters", {exact: false});
-    screen.debug();
+    let element = await screen.findByText("Mark Read", {exact: false});
     await fireEvent.click(element);
-    screen.debug();
+    expect(await screen.findByText("Mark Read", {exact: false})).not.toBeInTheDocument();
     //expect((await screen.findByText("Joe is on quarters", {exact: false})).type
     //expect(await screen.findByText("No Notifications", { exact: false })).toBeInTheDocument();
 });
