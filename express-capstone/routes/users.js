@@ -5,6 +5,12 @@ var UserService;
 var NotificationService;
 var router = express.Router()
 
+router.get('', function (req, res) {
+    var users = UserService.getUsers()
+    .then(ret=>res.send(ret))
+    .catch(ret=>res.send([ ]));
+})
+
 router.get('/:id', function (req, res) {
   let userId = Number.parseInt(req.params.id);
   if (!isNaN(userId)) {

@@ -11,4 +11,13 @@ module.exports.Users = class Users {
         return undefined;
       }
     }
+
+    async getUsers () {
+      try {
+          return await this.db.any('select * from users')
+      } catch(error) {
+        //console.log(error);
+        return undefined;
+      }
+    }
 }

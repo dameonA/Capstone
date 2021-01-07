@@ -15,10 +15,25 @@ let fakeUser= {
     "user_group": 300,
     "active": false
 }
+
+let fakeUser2 = {
+    "user_id": -2,
+    "first_name": "blue",
+    "last_name": "yellow",
+    "grade": "unkempt",
+    "user_role": 102,
+    "section": 202,
+    "user_group": 302,
+    "active": true
+}
+
+let fakeUsers = [fakeUser, fakeUser2];
+
 let fakeDB = {
     manyOrNone: sinon.stub().resolves([{user_id: 3}]),
     any: sinon.stub().resolves([{user_id: 1},{user_id: 2},{user_id: 3}]),
     one: sinon.stub().resolves({user_id: 3})
+
     
 }
 
@@ -46,5 +61,15 @@ describe('UserService', () => {
         //assert.equal(isValid, true);
 //        expect(isValid).to.be.true;
     });
+    it('should return a mocked db array', async function(){
+        fakeDb.any = sinon.stub().resolves(fakeUsers);
+        userService = new UserService(fakeDB);
+        data = await userService.getUsers();
+        sinon.assert.calledOnce(fakeDB.any);
+        expect(data).to.eql(fakeUsers);
+        //assert.equal(isValid, true);
+//        expect(isValid).to.be.true;
+    });
+
 });
 
