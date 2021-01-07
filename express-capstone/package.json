@@ -2,22 +2,27 @@
   "name": "express-capstone",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "directories": {
     "test": "tests"
   },
   "scripts": {
-    "test": "mocha --timeout 10000 --exit"
+    "start": "node app.js",
+    "test": "mocha --timeout 10000 --exit",
+    "coverage": "nyc --reporter=text mocha --timeout 10000 --exit"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
-    "mocha": "^8.2.1"
+    "mocha": "^8.2.1",
+    "nyc": "^15.1.0",
+    "sinon": "^9.2.3"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "pg-promise": "^10.8.6"
   }
