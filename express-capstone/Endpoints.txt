@@ -1,10 +1,15 @@
-/initdb
+GET /initdb
     - rebuild the database from the sql files provided
 
-/user/:userId
+GET /user/:userId
     - Provides a user object based on id provided.
     - If no user is found or userid is not a number, provides an empty object
 
-/user/:userId/notifications
+GET /user/:userId/notifications
     - provides an array of notification objects filtered on the userId provided and the user's role
 
+POST /notifications/:id/read
+    - marks any notifications with the given id (should be unique) as read and returns an array of them
+
+POST /notifications/:id/archive
+    - marks any notifications with the given id (should be unique) as archived and returns an array of them

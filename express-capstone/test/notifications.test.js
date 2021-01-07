@@ -10,7 +10,7 @@ var sinon = require('sinon');
 let fakeNotification={
  id: 1, comment:"hey buddy, come see us"
 }
-let successfulNotificationCall = sinon.stub().resolves(fakeNotification);
+let successfulNotificationCall = sinon.stub().resolves([fakeNotification]);
 let failedNotificationCall = sinon.stub().rejects();
 
 let NotificationService={

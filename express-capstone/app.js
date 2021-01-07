@@ -6,8 +6,11 @@ const listen_port = 3001;
 
 const Database = require('./services/database.js').database;
 const db = new Database();
-const NotificationService = new (require('./services/notifications').Notifications)(db);
-const UserService = new (require('./services/users').Users)(db);
+db.connectdb();
+
+
+const NotificationService = new (require('./services/notifications').Notifications)(db.db);
+const UserService = new (require('./services/users').Users)(db.db);
 
 //var exampleRouter = require('./routes/example')
 var userRouter = require('./routes/users')(UserService,NotificationService);
@@ -27,7 +30,6 @@ app.get('/initdb',async(req,res)=>{
   db.initDB("../database/").then(()=>res.send("success")).catch((err)=>res.sendStatus(500).send());
 })
 
-db.connectdb();
 app.listen(listen_port, function () {
   console.log('App listening on port '+listen_port+"!")
 })

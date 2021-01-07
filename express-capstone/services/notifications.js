@@ -13,7 +13,7 @@ module.exports.Notifications = class Notifications {
     }
     async markRead (notificationId) {
         try {
-            return await this.db.any('update notification set is_read=true where id = $1;',[notificationId]);
+            return await this.db.any('update notification set is_read=true where id = $1 RETURNING *;',[notificationId]);
         } catch(error) {
           //console.log(error);
           return [];
@@ -21,7 +21,7 @@ module.exports.Notifications = class Notifications {
     }
     async archive (notificationId) {
         try {
-           return await this.db.any('update notification set is_read=true,archived=true where id = $1;',[notificationId]);
+           return await this.db.any('update notification set is_read=true,archived=true where id = $1 RETURNING *;',[notificationId]);
         } catch(error) {
           //console.log(error);
             return [];

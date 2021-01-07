@@ -19,11 +19,14 @@ var router = express.Router()
 router.post('/:id/read', async function (req, res) {
   let notificationId = Number.parseInt(req.params.id);
   NotificationService.markRead(notificationId)
-    .then(notif=>{
-        res.send(notif);
+    .then((notif)=>{
+      if (Array.isArray(notif) && notif.length > 0)
+        res.send(notif[0]);
+      else
+        res.send({})
     })
     .catch(err=>{
-      //console.log(err);
+//      console.log(err);
       res.send({ });
     })
 })
@@ -32,7 +35,10 @@ router.post('/:id/archive', async function (req, res) {
     let notificationId = Number.parseInt(req.params.id);
     NotificationService.archive(notificationId)
       .then(notif=>{
-          res.send(notif);
+        if (Array.isArray(notif) && notif.length > 0)
+          res.send(notif[0]);
+        else
+          res.send({ })
       })
       .catch(err=>{
         //console.log(err);
