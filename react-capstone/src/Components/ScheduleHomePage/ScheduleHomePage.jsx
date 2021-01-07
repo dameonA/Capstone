@@ -5,21 +5,28 @@ class ScheduleHomePage extends React.Component{
         super(props);
         this.state = {
             crewSchedules: [],
+            firstName: "",
+            lastName: "",
+
         };
     };
     // componentDidMount() {
-    //     helpers.getEmpSchedules().then((response) => {
-    //         if (response !== this.state.empSchedules) {
-    //             this.setState({ empSchedules: response.data });
+    //     helpers.getCrewSchedules().then((response) => {
+    //         if (response !== this.state.crewSchedules) {
+    //             this.setState({ crewSchedules: response.data });
     //         }
     //     });
     // };
+
+
     render() {
-        return (
+        return ( 
             <div className="row">
+                <header> 
+                    <h1> Crew Schedule View </h1></header>
+                <hr />
                 <div className="col s12">
                     <div className="section schedule">
-                        <h5>View of Schedule</h5>
                         <table className="bordered">
                             <thead>
                                 <tr>

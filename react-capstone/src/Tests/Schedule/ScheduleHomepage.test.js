@@ -3,6 +3,7 @@ import {render, screen} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import fetchMock from 'jest-fetch-mock'
 import ScheduleHomePage from '../../Components/ScheduleHomePage/ScheduleHomePage'
+import ViewEntireSchedule from '../../Components/ScheduleHomePage/Pages/ViewEntireSchedule'
 var apiUrl = "WASSUPP";
 
 beforeEach(() => {
@@ -12,8 +13,8 @@ beforeEach(() => {
 //Test to verify Schedule page renders
 test('Schedule Display exists', ()=>{
     fetch.mockResponse(JSON.stringify({schedule:[]}));
-    render(<ScheduleHomePage user={{user_id:2}} api={apiUrl} />);
-    expect(screen.getByText("ViewEntireSchedule")).toBeInTheDocument();
+    render(<ViewEntireSchedule user={{user_id:2}} api={apiUrl} />);
+    expect(screen.getByText("viewenterschedule")).toBeInTheDocument();
 });
 
 //Test that verifies the entire schedule is displayed
