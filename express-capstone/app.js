@@ -1,6 +1,7 @@
 var express = require('express')
 var app = express()
 var bodyParser =require('body-parser');
+const cors = require("cors")
 
 const listen_port = 3001;
 
@@ -11,6 +12,10 @@ db.connectdb();
 
 const NotificationService = new (require('./services/notifications').Notifications)(db.db);
 const UserService = new (require('./services/users').Users)(db.db);
+
+//setup for cors
+app.use(cors());
+app.options('*', cors());
 
 //var exampleRouter = require('./routes/example')
 var userRouter = require('./routes/users')(UserService,NotificationService);
