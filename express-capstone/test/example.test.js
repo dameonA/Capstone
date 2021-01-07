@@ -14,26 +14,26 @@ describe('Example', () => {
            done();
         });
     });
-  describe('/GET /example ', () => {
-      it('it should GET an Example', (done) => {
-        chai.request(app)
-            .get('/example')
-            .end((err, res) => {
-                  res.should.have.status(200);
-                  res.text.should.eql("an Example");
-              done();
-            });
-      });
-      it('it should GET another example', (done) => {
-        chai.request(app)
-            .get('/example2')
-            .end((err, res) => {
-                  res.should.have.status(200);
-                  res.text.should.eql("another example");
-              done();
-            });
-      });
-  });
+  // describe('/GET /example ', () => {
+  //     it('it should GET an Example', (done) => {
+  //       chai.request(app)
+  //           .get('/example')
+  //           .end((err, res) => {
+  //                 res.should.have.status(200);
+  //                 res.text.should.eql("an Example");
+  //             done();
+  //           });
+  //     });
+  //     it('it should GET another example', (done) => {
+  //       chai.request(app)
+  //           .get('/example2')
+  //           .end((err, res) => {
+  //                 res.should.have.status(200);
+  //                 res.text.should.eql("another example");
+  //             done();
+  //           });
+  //     });
+  // });
   /*
   * Test the /POST route
   */
