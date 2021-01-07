@@ -11,6 +11,7 @@ const UserService = new (require('./services/users').Users)(db);
 
 //var exampleRouter = require('./routes/example')
 var userRouter = require('./routes/users')(UserService,NotificationService);
+var notificationRouter = require('./routes/notifications')(NotificationService);
 
 // Set up json parsing
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -19,6 +20,7 @@ app.use(bodyParser.json());
 // set up routes using routers
 //app.use(exampleRouter)
 app.use('/users', userRouter)
+app.use('/notifications', notificationRouter)
 
 // Method to initialize the database if needed 
 app.get('/initdb',async(req,res)=>{

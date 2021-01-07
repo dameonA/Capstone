@@ -11,5 +11,20 @@ module.exports.Notifications = class Notifications {
         }
         return [];
     }
-    
+    async markRead (notificationId) {
+        try {
+            return await this.db.any('update notification set is_read=true where id = $1;',[notificationId]);
+        } catch(error) {
+          //console.log(error);
+          return [];
+        }
+    }
+    async archive (notificationId) {
+        try {
+           return await this.db.any('update notification set is_read=true,archived=true where id = $1;',[notificationId]);
+        } catch(error) {
+          //console.log(error);
+            return [];
+        }
+    }
 }
