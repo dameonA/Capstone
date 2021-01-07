@@ -7,15 +7,6 @@ import {
     KeyboardTimePicker,
     KeyboardDatePicker,
 } from '@material-ui/pickers';
-//import { useState } from 'react';
-
-// function MaterialUIPickers() {
-//     const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18T21:11:54'));
-
-//     const handleDateChange = (date) => {
-//         selectedDate(date);
-//     };
-// };
 
 class ConflictPage extends React.Component {
     constructor(props) {
@@ -25,17 +16,33 @@ class ConflictPage extends React.Component {
             selectedDate: new Date('2020-08-18T21:11:54')
         };
 
-        this.handleChange = this.handleChange.bind(this);
+        // this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         
     };//end of constructor   
     
-    handleDateChange = (date) => {
-            this.setState({selectedDate: date});
+    // handleDateChange = (date) => {
+    //         this.setState({selectedDate: date});
+    // }
+
+    handleStartDateChange = (date) => {
+        this.setState({selectedStartDate: date})
+    }
+
+    handleEndDateChange = (date) => {
+        this.setState({selectedEndDate: date})
     }
     
-    handleChange(event) {
-        this.setState({value: event.target.value});
+    // handleChange(event) {
+    //     this.setState({value: event.target.value});
+    // }
+
+    handleNameChange(event) {
+        this.setState({value: event.target.value})
+    }
+
+    handleCommentChange(event) {
+        this.setState({value: event.target.value})
     }
 
     handleSubmit(event) {
@@ -50,20 +57,26 @@ class ConflictPage extends React.Component {
                 <hr />
                 <form onSubmit={this.handleSubmit}>
                     <label>
-                        Name:
-                        <input type="text" value={this.state.value} onChange={this.handleChange}/>
+                        First Name:
+                        <input type="text" value={this.state.value} onChange={this.handleNameChange}/>
+                        Last Name:
+                        <input type="text" value={this.state.value} onChange={this.handleNameChange}/>
                     </label>
-
+                    <br />
+                    <br />
                     <label>
-                        Conflict Type:
-                        <input type="text" value={this.state.value} onChange={this.handleChange}/>
+                        Select Conflict Type:
+                        <select value={this.state.value} onChange={this.handleChange}>
+                            <option value="leave-approved">1 Leave Approved</option>
+                            <option value="leave-requested">2 Leave Requested</option>
+                            <option value="tdy">3 TDY</option>
+                            <option value="dnic">4 DNIC</option>
+                            <option value="appointment">5 Appointment</option>
+                            <option value="other">6 Other</option>
+                        </select>
                     </label>
-
-                    {/* <label>
-                           Date/Time:
-                            <input type="text" value={this.state.value} onChange={this.handleChange}/>
-                    </label> */}
-
+                    <br />
+                    <br />
                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
                         <Grid container justify="space-around">
                             <KeyboardDatePicker 
@@ -73,16 +86,16 @@ class ConflictPage extends React.Component {
                                 margin="normal"
                                 id="start-date"
                                 label="Start Date"
-                                value={this.state.selectedDate}
-                                onChange={this.handleDateChange}
+                                value={this.state.selectedStartDate}
+                                onChange={this.handleStartDateChange}
                                 KeyboardButtonProps={{"aria-label": 'change date',}}
                             />
                             <KeyboardTimePicker 
                                 margin='normal'
                                 id="start-time"
                                 label="Start Time"
-                                value={this.state.selectedDate}
-                                onChange={this.handleDateChange}
+                                value={this.state.selectedStartDate}
+                                onChange={this.handleStartDateChange}
                                 KeyboardButtonProps={{"aria-label": "change time",}}
                             />
                             <KeyboardDatePicker 
@@ -90,26 +103,28 @@ class ConflictPage extends React.Component {
                                 id="end-date"
                                 label="End Date"
                                 format="yyyy-MM-dd"
-                                value={this.state.selectedDate}
-                                onChange={this.handleDateChange}
+                                value={this.state.selectedEndDate}
+                                onChange={this.handleEndDateChange}
                                 KeyboardButtonProps={{"aria-label": 'change date',}}
                             />
                             <KeyboardTimePicker 
                                 margin="normal"
                                 id="end-time"
                                 label="End Time"
-                                value={this.state.selectedDate}
-                                onChange={this.handleDateChange}
+                                value={this.state.selectedEndDate}
+                                onChange={this.handleEndDateChange}
                                 KeyboardButtonProps={{"aria-label": "change time",}}
                             />
                         </Grid>
                     </MuiPickersUtilsProvider>
-
+                    <br />
+                    <br />
                     <label>
                         Comments:
-                        <textarea value={this.state.value} onChange={this.handleChange} />
+                        <textarea value={this.state.value} onChange={this.handleCommentChange} />
                     </label>
-
+                    <br />
+                    <br />
                     <input type="submit" value="Submit"/>
                 </form>
 
