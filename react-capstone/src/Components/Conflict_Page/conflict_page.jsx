@@ -8,7 +8,7 @@ import {
     KeyboardDatePicker,
 } from '@material-ui/pickers';
 
-export default function MaterialUIPickers() {
+function MaterialUIPickers() {
     const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18T21:11:54'));
 
     const handleDateChange = (date) => {
@@ -53,10 +53,43 @@ class ConflictPage extends React.Component {
                         <input type="text" value={this.state.value} onChange={this.handleChange}/>
                     </label>
 
-                    <label>
-                        Date/Time:
-                        <input type="text" value={this.state.value} onChange={this.handleChange}/>
-                    </label>
+                    {/* <label>
+                           Date/Time:
+                            <input type="text" value={this.state.value} onChange={this.handleChange}/>
+                    </label> */}
+
+                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                        <Grid container justify="space-around">
+                            <KeyboardDatePicker 
+                                disableToolbar
+                                variant="inline"
+                                format="yyyy-MM-dd"
+                                margin="normal"
+                                id="start-date"
+                                label="Start Date"
+                                value={selectedDate}
+                                onChange={handleDateChange}
+                                KeyboardButtonProps={{"aria-label": 'change date',}}
+                            />
+                            <KeyboardTimePicker 
+                                margin='normal'
+                                id="start-time"
+                                label="Start Time"
+                                value={selectedDate}
+                                onChange={handleDateChange}
+                                KeyboardButtonProps={{"aria-label": "change time"}}
+                            />
+                            <KeyboardDatePicker 
+                                margin="normal"
+                                id="end-date"
+                                label="End Date"
+                                format="yyyy-MM-dd"
+                                value={selectedDate}
+                                onChange={handleDateChange}
+                                KeyboardButtonProps={{"aria-label": 'change date',}}
+                            />
+                        </Grid>
+                    </MuiPickersUtilsProvider>
 
 
                     <input type="submit" value="Submit"/>
