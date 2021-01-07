@@ -12,7 +12,8 @@ class LoginForm extends React.Component {
         obj[name]=value;
         this.setState(obj);
     }
-    login = async ()=>{
+    login = async (event)=>{
+        event.preventDefault();
         let loggedin = await fetch(this.props.api+"/auth", {
             method: "POST",
             body: JSON.stringify(this.state),
@@ -27,12 +28,12 @@ class LoginForm extends React.Component {
     }
     render() {
         return (
-            <form>
+            <form onSubmit={this.login}>
                 <label htmlFor='username'>Username</label>
                 <input id='username' onChange={(evt)=>this.handleInputChange('username',evt.target.value)} value={this.state.username} />
                 <label htmlFor='password'>Password</label>
                 <input id='password' type='password' onChange={(evt)=>this.handleInputChange('password',evt.target.value)} value={this.state.password} />
-                <button type="button" id='login' onClick={()=>this.login()} >Login</button>
+                <button type="submit" id='login' >Login</button>
             </form>
             
         )
