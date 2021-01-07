@@ -20,11 +20,19 @@ class ModifyUser extends React.Component {
         };
     }
 
+   
+
 
 
     // initialize newUser
-    componentDidMount = () => {
-        this.ResetNewUserForm();
+    componentDidMount = async () => { 
+      let servicesUrl = 'http://localhost:3001/'
+      
+      let response = await fetch(servicesUrl+'users');
+      let usersArray = await response.json();
+      console.log('usersArray: ' + usersArray);
+      this.setState({users: usersArray});
+      this.ResetNewUserForm();
     }
 
     ResetNewUserForm = () => {
@@ -55,7 +63,7 @@ class ModifyUser extends React.Component {
         this.SubmitNewUserCertifications(this.state.newUserId);
     }
 
-    SubmitNewUserQualifications = (userId) => {
+    SubmitUpdatedUserQualifications = (userId) => {
         this.state.newUserQualifications.user_id = userId;
         console.log(this.state.newUserQualifications)
     }

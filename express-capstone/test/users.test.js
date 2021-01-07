@@ -17,16 +17,34 @@ let fakeUser= {
     "user_group": 300,
     "active": false
 }
+
+let fakeUser2 = {
+    "user_id": -2,
+    "first_name": "blue",
+    "last_name": "yellow",
+    "grade": "unkempt",
+    "user_role": 102,
+    "section": 202,
+    "user_group": 302,
+    "active": true
+}
+
+let fakeUsers = [fakeUser, fakeUser2];
+
 let fakeNotifications=[
  
 ]
+
 let successfulUserCall = sinon.stub().resolves(fakeUser);
+let successfulUsersCall = sinon.stub().resolves(fakeUsers);
 let failedUserCall = sinon.stub().resolves(1).rejects();
+let failedUsersCall = sinon.stub().rejects();
 let successfulNotificationCall = sinon.stub().resolves(fakeNotifications);
 let failedNotificationCall = sinon.stub().resolves(1).rejects();
 
 let UserService={
-    getUser: successfulUserCall
+    getUser: successfulUserCall,
+    getUsers: successfulUsersCall
 }
 let NotificationService={
     getNotifications: successfulNotificationCall
@@ -41,10 +59,43 @@ describe('User', () => {
     beforeEach((done) => {
             successfulNotificationCall.resetHistory();
             successfulUserCall.resetHistory();
+            successfulUsersCall.resetHistory();
             UserService.getUser = successfulUserCall;
+            UserService.getUsers = successfulUsersCall;
             NotificationService.getNotifications = successfulNotificationCall;
            done();
         });
+
+  describe('/GET /users', () => {
+      it('it should GET all users', (done) => {
+          chai.request(app)
+            .get('')
+            .end((err, res) => {
+                res.should.have.status(200);
+                sinon.assert.calledOnce(UserService.getUsers);
+                done();
+            })
+      });
+      it('it should return an empty array if the service rejects', (done) => {
+        UserService.getUsers=failedUsersCall;
+      chai.request(app)
+          .get('')
+          .end((err, res) => {
+              res.should.have.status(200);
+              res.body.should.eql([])
+              done();
+          });
+      });  
+      it('it should return an array of user objects in the database', (done) => {
+          chai.request(app)
+            .get('')
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.body.should.eql(fakeUsers);
+                done();
+            })
+      })
+  })        
 
   describe('/GET /:id ', () => {
       it('it should GET a sample user', (done) => {
