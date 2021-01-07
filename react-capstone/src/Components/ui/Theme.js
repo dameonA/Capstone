@@ -4,7 +4,7 @@ export default createMuiTheme({
     typography:{
         tab:{
             fontSize: "1.2rem",
-            minWidth: 15,
+            minWidth: 10,
             marginLeft: "25px"
         }
     },
