@@ -5,7 +5,7 @@ CREATE TABLE conflict (
     FOREIGN KEY (conflict_type_id) REFERENCES conflict_type (conflict_type_id),
     start_time TIMESTAMP NOT NULL,
     stop_time TIMESTAMP NOT NULL,
-    comment CHAR(250),
+    comment VARCHAR(250),
     schedule_id INTEGER NOT NULL,
     FOREIGN KEY (schedule_id) REFERENCES schedule (schedule_id)
 );
