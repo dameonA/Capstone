@@ -12,6 +12,7 @@ db.connectdb();
 
 const NotificationService = new (require('./services/notifications').Notifications)(db.db);
 const UserService = new (require('./services/users').Users)(db.db);
+const ConflictService = new (require('./services/conflicts').Conflicts)(db.db);
 
 //setup for cors
 app.use(cors());
@@ -20,6 +21,7 @@ app.options('*', cors());
 //var exampleRouter = require('./routes/example')
 var userRouter = require('./routes/users')(UserService,NotificationService);
 var notificationRouter = require('./routes/notifications')(NotificationService);
+var conflictRouter = require('./routes/conflicts')(ConflictService);
 
 // Set up json parsing
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -29,6 +31,7 @@ app.use(bodyParser.json());
 //app.use(exampleRouter)
 app.use('/users', userRouter)
 app.use('/notifications', notificationRouter)
+app.use('/conflicts', conflictRouter)
 
 // Method to initialize the database if needed 
 app.get('/initdb',async(req,res)=>{
