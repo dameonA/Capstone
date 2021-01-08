@@ -13,8 +13,9 @@ router.get('', function (req, response) {
 router.post('', function (req, response) {
     var conflict = req.body;
     console.log(conflict);
-    //conflictsArr.push(conflict);
-    response.send("Conflict added!");
+    ConflictService.postConflicts(conflict)
+    .then(ret => response.send("Conflict added!"))
+    .catch(ret => response.send("Conflict not submitted."));
 })//This is a basic POST test to check if I know what I'm doing
 
 module.exports = function(conflictService) {

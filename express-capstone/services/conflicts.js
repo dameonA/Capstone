@@ -22,11 +22,12 @@ module.exports.Conflicts = class Conflicts {
         }
     }
 
-    async postConflicts () {
+    async postConflicts (conflict) {
         try {
-            return await this.db.any ('insert into conflict (conflict_type_id, start_time, stop_time, comment, schedule_id) values ($1, $2, $3, $4, $5)', [conflict.conflict_type_id, conflict.start_time, confilct.stop_time, conflict.comment, conflict.schedule_id])
+            return await this.db.any ('insert into conflict (conflict_type_id, start_time, stop_time, comment, schedule_id) values ($1, $2, $3, $4, $5)', [conflict.conflict_type_id, conflict.start_time, conflict.stop_time, conflict.comment, conflict.schedule_id])
         }
         catch(error) {
+            console.log(error);
             return undefined;
         }
     }
