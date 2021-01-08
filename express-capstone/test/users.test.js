@@ -83,6 +83,7 @@ describe('User', () => {
             successfulUsersCall.resetHistory();
             UserService.getUser = successfulUserCall;
             UserService.getUsers = successfulUsersCall;
+            UserService.getUserGroups=successfulUsergroupsCall;
             NotificationService.getNotifications = successfulNotificationCall;
            done();
         });
@@ -90,7 +91,7 @@ describe('User', () => {
     describe('/GET /UserGroups', () => {
         it('it should GET all user groups', (done) => {
             chai.request(app)
-                .get('')
+                .get('/usergroups')
                 .end((err, res) => {
                     res.should.have.status(200);
                     sinon.assert.calledOnce(UserService.getUserGroups);
@@ -98,9 +99,9 @@ describe('User', () => {
                 })
         });
         it('it should return an empty array if the service rejects', (done) => {
-            UserService.getUserGroups=failedUsersCall;
+            UserService.getUserGroups=failedUsergroupsCall;
         chai.request(app)
-            .get('')
+            .get('/usergroups')
             .end((err, res) => {
                 res.should.have.status(200);
                 res.body.should.eql([])
@@ -109,7 +110,7 @@ describe('User', () => {
         });  
         it('it should return an array of user objects in the database', (done) => {
             chai.request(app)
-                .get('/users/usergroups')
+                .get('/usergroups')
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.eql(fakeUsergroups);
