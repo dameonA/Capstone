@@ -41,9 +41,49 @@ module.exports.Users = class Users {
 
     async getUsers () {
       try {
-          return (await this.db.any(queryUsers)).json
+          return (await this.db.any(queryUsers)).map(e => e.json)
       } catch(error) {
         //console.log(error);
+        return undefined;
+      }
+    }
+
+    async getUserGroups () {
+      try {
+        return await this.db.any('SELECT * FROM usergroups')
+      } catch(error) {
+        return undefined;
+      }
+    }
+
+    async getSections () {
+      try {
+        return await this.db.any('SELECT * FROM sections')
+      } catch(error) {
+        return undefined;
+      }
+    }
+
+    async getCertifications () {
+      try {
+        return await this.db.any('SELECT * FROM certifications')
+      } catch(error) {
+        return undefined;
+      }
+    }
+
+    async getQualifications () {
+      try {
+        return await this.db.any('SELECT * FROM qualifications')
+      } catch(error) {
+        return undefined;
+      }
+    }
+
+    async getRoles () {
+      try {
+        return await this.db.any('SELECT * FROM roles')
+      } catch(error) {
         return undefined;
       }
     }

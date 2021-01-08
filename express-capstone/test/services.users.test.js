@@ -33,9 +33,15 @@ let fakeDB = {
     manyOrNone: sinon.stub().resolves([{user_id: 3}]),
     any: sinon.stub().resolves([{user_id: 1},{user_id: 2},{user_id: 3}]),
     one: sinon.stub().resolves({user_id: 3})
-
     
 }
+
+let fakeUsergroups = [{group_id: 6, group_name: 'Yellow'}, {group_id: 9, group_name: 'Purple'}]
+let fakeSections = [{section_id: 7, section_name: 'Banana'}, {section_id: 10, section_name: 'Apple'}]
+let fakeCerts = [{cert_id: 8, cert_name: 'IOU'}, {cert_id: 11, cert_name: 'Money'}]
+let fakeQuals = [{qual_id: 9, qual_name: 'Ford'}, {qual_id: 12, qual_name: 'Chevy'}]
+let fakeRoles = [{role_id: 10, role_name: 'Boeing'}, {role_id: 13, role_name: 'Airbus'}]
+
 
 describe('UserService', () => {
     beforeEach((done) => {
@@ -61,12 +67,57 @@ describe('UserService', () => {
         //assert.equal(isValid, true);
 //        expect(isValid).to.be.true;
     });
-    it('should return a mocked db array', async function(){
+    it('should return a mocked db array for all Users', async function(){
         fakeDb.any = sinon.stub().resolves(fakeUsers);
         userService = new UserService(fakeDB);
         data = await userService.getUsers();
         sinon.assert.calledOnce(fakeDB.any);
         expect(data).to.eql(fakeUsers);
+        //assert.equal(isValid, true);
+//        expect(isValid).to.be.true;
+    });
+    it('should return a mocked db array for Sections', async function(){
+        fakeDb.any = sinon.stub().resolves(fakeSections);
+        userService = new UserService(fakeDB);
+        data = await userService.getSections();
+        sinon.assert.calledOnce(fakeDB.any);
+        expect(data).to.eql(fakeSections);
+        //assert.equal(isValid, true);
+//        expect(isValid).to.be.true;
+    });
+    it('should return a mocked db array for Certifications', async function(){
+        fakeDb.any = sinon.stub().resolves(fakeCerts);
+        userService = new UserService(fakeDB);
+        data = await userService.getCertifications();
+        sinon.assert.calledOnce(fakeDB.any);
+        expect(data).to.eql(fakeCerts);
+        //assert.equal(isValid, true);
+//        expect(isValid).to.be.true;
+    });
+    it('should return a mocked db array for Usergroups', async function(){
+        fakeDb.any = sinon.stub().resolves(fakeUsergroups);
+        userService = new UserService(fakeDB);
+        data = await userService.getUserGroups();
+        sinon.assert.calledOnce(fakeDB.any);
+        expect(data).to.eql(fakeUserGroups);
+        //assert.equal(isValid, true);
+//        expect(isValid).to.be.true;
+    });
+    it('should return a mocked db array for Quals', async function(){
+        fakeDb.any = sinon.stub().resolves(fakeQuals);
+        userService = new UserService(fakeDB);
+        data = await userService.getQualifications();
+        sinon.assert.calledOnce(fakeDB.any);
+        expect(data).to.eql(fakeQuals);
+        //assert.equal(isValid, true);
+//        expect(isValid).to.be.true;
+    });
+    it('should return a mocked db array for Roles', async function(){
+        fakeDb.any = sinon.stub().resolves(fakeRoles);
+        userService = new UserService(fakeDB);
+        data = await userService.getRoles();
+        sinon.assert.calledOnce(fakeDB.any);
+        expect(data).to.eql(fakeRoles);
         //assert.equal(isValid, true);
 //        expect(isValid).to.be.true;
     });

@@ -24,8 +24,11 @@ class ModifyUser extends React.Component {
     componentDidMount = async () => { 
       let servicesUrl = 'http://localhost:3001/'
 
-      let response = await fetch(servicesUrl+'users'); //get the users
+      console.log('url: '+this.props.api)
+      let response = await fetch(this.props.api+'users').catch(err=>console.log("cannot get users: ", err)); //get the users
+      console.log(response)
       let usersArray = await response.json();
+      console.log(usersArray)
       this.setState({users: usersArray});
       this.setState({updatedUser: this.state.users[0]})
       this.setState({updatedUserId: this.state.users[0].user_id})

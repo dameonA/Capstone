@@ -11,17 +11,44 @@ router.get('', function (req, res) {
     .catch(ret=>res.send([ ]));
 })
 
-router.get('/:id', function (req, res) {
+router.get('/:id', function (req, res, next) {
   let userId = Number.parseInt(req.params.id);
   if (!isNaN(userId)) {
     var user = UserService.getUser(userId)
     .then(ret=>res.send(ret))
     .catch(ret=>res.send("{ }"));
-  }else {
-    res.send("{ }")
-  }
+  }else {next()}
 })
 
+router.get('/roles', function (req, res) {
+  var users = UserService.getRoles()
+  .then(ret=>res.send(ret))
+  .catch(ret=>res.send([ ]));
+})
+
+router.get('/usergroups', function (req, res) {
+  var users = UserService.getUserGroups()
+  .then(ret=>res.send(ret))
+  .catch(ret=>res.send([ ]));
+})
+
+router.get('/sections', function (req, res) {
+  var users = UserService.getSections()
+  .then(ret=>res.send(ret))
+  .catch(ret=>res.send([ ]));
+})
+
+router.get('/certifications', function (req, res) {
+  var users = UserService.getCertifications()
+  .then(ret=>res.send(ret))
+  .catch(ret=>res.send([ ]));
+})
+
+router.get('/qualifications', function (req, res) {
+  var users = UserService.getQualifications()
+  .then(ret=>res.send(ret))
+  .catch(ret=>res.send([ ]));
+})
 
 router.get('/:id/notifications', async function (req, res) {
   let userId = Number.parseInt(req.params.id);
