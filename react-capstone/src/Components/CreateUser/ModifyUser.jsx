@@ -5,8 +5,8 @@ class ModifyUser extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            users: {},
-            newUser: {},
+            users: [],
+            updatedUser: {},
             newUserQualifications: {},
             newUserCertifications:{},
             grades: ['E1', 'E2', 'E3', 'E4', 'E5', 'E6', 'E7', 'E8', 'E9', 'O1', 'O2', 'O3', 'O4', 'O5', 'O6' ],
@@ -16,22 +16,24 @@ class ModifyUser extends React.Component {
             qualifications: ['MCC', 'MCCT', 'RSC', 'SD', 'ST', 'AWO', 'WD', 'ASO', 'AST', 'IDT', 'TT', 'ICO', 'ICOT', 'ICT'],
             certifications: ['None','RSC', 'FO', 'EA', 'ERSA', 'TANR', 'SS'],
             levels: ['None','Training', 'Instructor', 'Evaluator'], 
-            newUserId: 1           
+            updatedUserId: 1           
         };
     }
 
-   
-
-
-
-    // initialize newUser
+    // initialize state
     componentDidMount = async () => { 
       let servicesUrl = 'http://localhost:3001/'
-      
-      let response = await fetch(servicesUrl+'users');
+
+      console.log('url: '+this.props.api)
+      let response = await fetch(this.props.api+'users').catch(err=>console.log("cannot get users: ", err)); //get the users
+      console.log(response)
       let usersArray = await response.json();
-      console.log('usersArray: ' + usersArray);
+      console.log(usersArray)
       this.setState({users: usersArray});
+      this.setState({updatedUser: this.state.users[0]})
+      this.setState({updatedUserId: this.state.users[0].user_id})
+
+
       this.ResetNewUserForm();
     }
 
@@ -59,8 +61,8 @@ class ModifyUser extends React.Component {
     SubmitUpdatedUser = () => {
         console.log(this.state.newUser);
         //when submitting a new user, you will need to return the user_id that was created. newUserId is critical to creating the qualification and certification
-        this.SubmitNewUserQualifications(this.state.newUserId);
-        this.SubmitNewUserCertifications(this.state.newUserId);
+        this.SubmitUpdatedUserQualifications(this.state.newUserId);
+        this.SubmitUpdatedUserCertifications(this.state.newUserId);
     }
 
     SubmitUpdatedUserQualifications = (userId) => {
@@ -68,15 +70,35 @@ class ModifyUser extends React.Component {
         console.log(this.state.newUserQualifications)
     }
 
-    SubmitNewUserCertifications = (userId) => {
+    SubmitUpdatedUserCertifications = (userId) => {
         this.state.newUserCertifications.user_id = userId;
         console.log(this.state.newUserCertifications);
     }
 
+    SelectUser = () => {
 
-    NewUserInputForm = () => {
+      const handleChange = (event) => {
+        this.setState({updatedUserId: event.target.value})
+        let index = this.state.users.findIndex(user => user.user_id == event.target.value)
+        console.log('index: '+index)
+        let tempUser = this.state.users[index]
+        this.setState({updatedUser: tempUser})
+      }
 
-        const handleChange = (event) => {//handles the ongoing changes for each of the inputs for creating new flight
+      return(
+        <select id="selectedUser" onChange={handleChange}>
+          {this.state.users.map(user => <option id="selectedUser" value={user.user_id}>{user.last_name}, {user.first_name} {user.grade}</option>)}  
+        </select> 
+      )
+
+    }
+
+    ModifyUserForm = () => {
+      
+      let user = this.state.updatedUser;
+
+
+      const handleChange = (event) => {//handles the ongoing changes for each of the inputs for creating new flight
           
           if (event.target.id === "grade") {
             this.setState(previousState => ({
@@ -169,60 +191,66 @@ class ModifyUser extends React.Component {
               }
             }));
           }          
-        } 
+      } 
+  
+        return(
+          <tr>
+            <td><input onChange={handleChange} type="text" id="lastName" defaultValue={user.last_name}></input></td> 
+            <td><input onChange={handleChange} type="text" id="firstName" defaultValue={user.first_name}></input></td>   
+            <td>
+              <select id="grade" onChange={handleChange}> 
+                <option value={user.grade} selected disabled hidden>{user.grade} </option>
+                {this.state.grades.map(grade => <option id="grade" value={grade} defaultValue={user.grade}> {grade} </option> )}
+              </select>
+            </td> 
+            <td>
+                <select id="role" onChange={handleChange}> 
+                    {this.state.roles.map(role => <option id="role" value={role} defaultValue={user.user_role}> {role} </option> )}
+                </select>
+            </td> 
+            <td>
+                <select id="qualification" onChange={handleChange}> 
+                    {this.state.qualifications.map(qualification => <option id="qualification" value={qualification}> {qualification} </option> )}
+                </select>
+                <select id="level" onChange={handleChange}> 
+                    {this.state.levels.map(level => <option id="level" value={level}> {level} </option> )}
+                </select>                       
+            </td>                              
+            <td>
+                <select id="certification" onChange={handleChange}> 
+                    {this.state.certifications.map(certification => <option id="certification" value={certification}> {certification} </option> )}
+                </select>
+            </td> 
 
-        return (
-            <tbody>
-                <tr>
-                    <td>
-                        <select id="grade" onChange={handleChange}> 
-                            {this.state.grades.map(grade => <option id="grade" value={grade}> {grade} </option> )}
-                        </select>
-                    </td> 
-                    <td><input onChange={handleChange} type="text" id="firstName"></input></td>    
-                    <td><input onChange={handleChange} type="text" id="lastName"></input></td>    
-                    <td>
-                        <select id="role" onChange={handleChange}> 
-                            {this.state.roles.map(role => <option id="role" value={role}> {role} </option> )}
-                        </select>
-                    </td> 
-                    <td>
-                        <select id="qualification" onChange={handleChange}> 
-                            {this.state.qualifications.map(qualification => <option id="qualification" value={qualification}> {qualification} </option> )}
-                        </select>
-                        <select id="level" onChange={handleChange}> 
-                            {this.state.levels.map(level => <option id="level" value={level}> {level} </option> )}
-                        </select>                       
-                    </td>                              
-                    <td>
-                        <select id="certification" onChange={handleChange}> 
-                            {this.state.certifications.map(certification => <option id="certification" value={certification}> {certification} </option> )}
-                        </select>
-                    </td> 
-
-                    <td>
-                        <select id="flight" onChange={handleChange}> 
-                            {this.state.flights.map(flight => <option id="flight" value={flight}> {flight} </option> )}
-                        </select>
-                    </td>  
-                    <td>
-                        <select id="crew" onChange={handleChange}> 
-                            {this.state.crews.map(crew => <option id="crew" value={crew}> {crew} </option> )}
-                        </select>
-                    </td>                                                             
-                    <td> <button onClick={this.SubmitNewUser} value="Add New User">Add New User</button>  </td>
-                </tr>   
-            </tbody>
+            <td>
+                <select id="flight" onChange={handleChange}> 
+                    {this.state.flights.map(flight => <option id="flight" value={flight}> {flight} </option> )}
+                </select>
+            </td>  
+            <td>
+                <select id="crew" onChange={handleChange}> 
+                    {this.state.crews.map(crew => <option id="crew" value={crew}> {crew} </option> )}
+                </select>
+            </td>                                                             
+            <td> <button onClick={this.SubmitNewUser} value="Update User">Update User</button>  </td>                                    
+                                                
+          </tr>
         )
     }
+
+
 
      render() {
         return (
             <div>
-                <h2>Modify User</h2>
+                <h2>Modify User <this.SelectUser /></h2>
+                
                 <table>
                     <UserTableHeader/>
-                    <this.NewUserInputForm />
+                    <tbody>
+                      <this.ModifyUserForm />
+                    </tbody>
+                    
                 </table>
             </div>
 
