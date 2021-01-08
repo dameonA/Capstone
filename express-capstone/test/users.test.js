@@ -117,27 +117,7 @@ describe('User', () => {
                 done();
             });
         });
-        it('it should return an empty object if provided invalid user id', (done) => {
-            UserService.getUser=failedUserCall;
-          chai.request(app)
-              .get('/seven')
-              .end((err, res) => {
-                  res.should.have.status(200);
-                  res.body.should.eql({})
-                  done();
-              });
-          });
-
-    //   it('it should GET another example', (done) => {
-    //     chai.request(app)
-    //         .get('/example2')
-    //         .end((err, res) => {
-    //               res.should.have.status(200);
-    //               res.text.should.eql("another example");
-    //           done();
-    //         });
-    //   });
-  });
+        
   describe('/GET /:id/notifications ', () => {
     it('it should use the Notification service to GET a sample notification', (done) => {
         chai.request(app)
@@ -180,27 +160,4 @@ describe('User', () => {
       });
   });   
 });
-  /*
-  * Test the /POST route
-  */
-//   describe('/POST book', () => {
-//       it('it should not POST a book without pages field', (done) => {
-//           let book = {
-//               title: "The Lord of the Rings",
-//               author: "J.R.R. Tolkien",
-//               year: 1954
-//           }
-//         chai.request(server)
-//             .post('/book')
-//             .send(book)
-//             .end((err, res) => {
-//                   res.should.have.status(200);
-//                   res.body.should.be.a('object');
-//                   res.body.should.have.property('errors');
-//                   res.body.errors.should.have.property('pages');
-//                   res.body.errors.pages.should.have.property('kind').eql('required');
-//               done();
-//             });
-//       });
-
-//   });
+  
