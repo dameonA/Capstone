@@ -2,7 +2,7 @@ To run,
 
 docker build -t schedule-database:latest .
 
-docker run -p 8000:3306 -d --name db schedule-database
+docker run -p 8000:5432 -d --name db schedule-database
 
 if you need to make changes:
 

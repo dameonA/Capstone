@@ -23,9 +23,15 @@ const useStyles = makeStyles(() => ({
 
 export default function LoginMenu(props){
     const classes=useStyles();
+    let loggedIn = true;
+
+    function ButtonClick () {
+        loggedIn = !loggedIn
+    }
+
     return(
         <React.Fragment>
-            <TextField
+            {/* <TextField
                 className={classes.textField}
                 required
                 id="outlined-required"
@@ -59,8 +65,18 @@ export default function LoginMenu(props){
                     ),
                     className: classes.input
                 }}
-            />
-            <Button className={classes.button} variant="contained" color="secondary" >Login</Button>
+            /> */}
+            <Button 
+                className={classes.button} 
+                variant="contained" 
+                color="secondary" 
+                onClick={ButtonClick()}
+            >
+                {loggedIn 
+                 ? <a>Logout</a>
+                 : <a>Login</a>
+                }
+            </Button>
         </React.Fragment>
     )
 }

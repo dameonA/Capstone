@@ -61,7 +61,7 @@ export default function Header(props){
     return (
         <React.Fragment>
         <ElevationScroll>
-            <AppBar>
+            <AppBar position="static">
                 <Toolbar>
                     <img src={logo} alt="logo" className={classes.logo} />
                     <Typography variant="h4">

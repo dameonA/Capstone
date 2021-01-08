@@ -1,4 +1,6 @@
 import React from 'react'
+import AddUser from './AddUser'
+import ModifyUser from './ModifyUser'
 
 class CreateUser extends React.Component {
     constructor(props) {
@@ -7,22 +9,6 @@ class CreateUser extends React.Component {
 
         };
     }
-
-    NewUser = () => {
-
-        return (
-            <a>Add New User</a>
-        )
-
-    };
-
-    ModifyUser = () => {
-
-        return (
-            <a>Modify Existing User</a>
-        )
-
-    };
 
     ArchiveUser = () => {
 
@@ -35,9 +21,9 @@ class CreateUser extends React.Component {
     render() {
         return (
             <div>
-                <h2>Users</h2>
-                <this.NewUser />
-                <this.ModifyUser />
+                <h1>Users</h1>
+                <AddUser />
+                <ModifyUser />
                 <this.ArchiveUser />
             </div>
 

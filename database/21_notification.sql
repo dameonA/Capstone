@@ -11,6 +11,6 @@ CREATE TABLE notification (
 );
 
 INSERT INTO notification (userId, role_id, type_notify, sent_tm, comment, is_read, archived) VALUES
-(1, 1, 2, '2021-01-03 04:05:06', 'You are working tomorrow', true, false),
-(2, 2, 3, '2021-01-03 04:05:06', 'Has COVID', false, false)
+(1, NULL, 2, '2021-01-03 04:05:06', 'You are working tomorrow', true, false),
+(NULL, 2, 3, '2021-01-03 04:05:06', 'Joe is on quarters', false, false)
 ;
