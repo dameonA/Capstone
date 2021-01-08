@@ -117,7 +117,7 @@ describe('User', () => {
                 done();
             });
         });
-        
+  });
   describe('/GET /:id/notifications ', () => {
     it('it should use the Notification service to GET a sample notification', (done) => {
         chai.request(app)
