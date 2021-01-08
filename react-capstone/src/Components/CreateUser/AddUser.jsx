@@ -164,13 +164,13 @@ class AddUser extends React.Component {
         return (
             <tbody>
                 <tr>
+                    <td><input onChange={handleChange} type="text" id="lastName"></input></td>    
+                    <td><input onChange={handleChange} type="text" id="firstName"></input></td>    
                     <td>
                         <select id="grade" onChange={handleChange}> 
                             {this.state.grades.map(grade => <option id="grade" value={grade}> {grade} </option> )}
                         </select>
                     </td> 
-                    <td><input onChange={handleChange} type="text" id="firstName"></input></td>    
-                    <td><input onChange={handleChange} type="text" id="lastName"></input></td>    
                     <td>
                         <select id="role" onChange={handleChange}> 
                             {this.state.roles.map(role => <option id="role" value={role}> {role} </option> )}
