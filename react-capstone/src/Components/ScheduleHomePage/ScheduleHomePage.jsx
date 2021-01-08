@@ -1,122 +1,44 @@
 import React from 'react';
 
-class ScheduleHomePage extends React.Component{
-    constructor(props){
-        super(props);
-        this.state = {
-            crewSchedules: [],
-            firstName: "",
-            lastName: "",
+import MUIDataTable from "mui-datatables";
 
-        };
-    };
-    // componentDidMount() {
-    //     helpers.getCrewSchedules().then((response) => {
-    //         if (response !== this.state.crewSchedules) {
-    //             this.setState({ crewSchedules: response.data });
-    //         }
-    //     });
-    // };
+// class ScheduleHomePage extends React.Component{
+    function ScheduleHomePage(){
+    // constructor(props){
+    //     super(props);
+    //     this.state = {
+    //         crewSchedules: [],
+    //         firstName: "",
+    //         lastName: "",
 
+    //     };
+        const columns = ["First Name", "Last Name", "Position", "Start Time", "End-Time"];
 
-    render() {
+        const data = [
+         ["Joe1", "Snuffy", "TT", "2021-01-01 06:30:00 PST", "2021-01-01 18:30:00 PST"],
+         ["Joe2", "Snuffy", "TT", "2021-01-01 06:30:00 PST", "2021-01-01 18:30:00 PST"],
+         ["Joe3", "Snuffy", "TT", "2021-01-01 06:30:00 PST", "2021-01-01 18:30:00 PST"],
+         ["Paul", "Asphalt", "MCC", "2021-01-01 06:30:00 PST'", "2021-01-01 18:30:00 PST"],
+        ];
+
+        const options = {
+            filterType: 'checkbox',
+          };
+  
+
         return ( 
             <div className="row">
                 <header> 
-                    <h1> Crew Schedule View </h1></header>
+                    <h1> Crew Schedule View </h1>
+                        </header>
                 <hr />
-                <div className="col s12">
-                    <div className="section schedule">
-                        <table className="bordered">
-                            <thead>
-                                <tr>
-                                    <th data-field="name">Name</th>
-                                    <th data-field="name">&#160;&#160;Mon</th>
-                                    <th data-field="name">Tues</th>
-                                    <th data-field="name">&#160;&#160;Wed</th>
-                                    <th data-field="name">&#160;Thurs</th>
-                                    <th data-field="name">&#160;&#160;Fri</th>
-                                    <th data-field="name">&#160;Sat</th>
-                                    <th data-field="name">Sun</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {this.state.crewSchedules.map((schedules, i) => {
-                                return (
-                                    <tr key={i}>
-                                        <td className="fullName">
-                                            {schedules.firstName} {schedules.lastName}
-                                        </td>
-                                        <td className="schedule">
-                                            {schedules.monday}
-                                        </td>
-                                        <td>
-                                            {schedules.tuesday}
-                                        </td>
-                                        <td>
-                                            {schedules.wednesday}
-                                        </td>
-                                        <td>
-                                            {schedules.thursday}
-                                        </td>
-                                        <td>
-                                            {schedules.friday}
-                                        </td>
-                                        <td>
-                                            {schedules.saturday}
-                                        </td>
-                                        <td>
-                                            {schedules.sunday}
-                                        </td>
-                                    </tr>
-                                );
-                            }, this)}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+                <MUIDataTable 
+                        data={data} 
+                        columns={columns} 
+                        options={options} 
+                    />
             </div>
         );
     }
-};
 
 export default ScheduleHomePage;
-
-// export default const ScheduleHomePage = [
-//     {
-//         title: 'View Entire Schedule',
-//         path: '/',
-//         cName: 'nav-text'
-//     },
-
-//     {
-//         title: 'Overall 56 Day View',
-//         path: '/overallview',
-//         cName: 'nav-text'
-//     },
-//     {
-//         title: 'Daily View',
-//         path: '/dailyview',
-//         cName: 'nav-text'
-//     },
-//     {
-//         title: 'Entire Shift',
-//         path: '/shift',
-//         cName: 'nav-text'
-//     },
-//     {
-//         title: 'Entire Section',
-//         path: '/section',
-//         cName: 'nav-text'
-//     },
-//     {
-//         title: 'Crew Position',
-//         path: '/crewpos',
-//         cName: 'nav-text'
-//     },
-//     {
-//         title: 'Individual Crew Member',
-//         path: '/crewmem',
-//         cName: 'nav-text'
-//     }
-// ];
