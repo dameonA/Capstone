@@ -19,20 +19,28 @@ class ModifyUser extends React.Component {
     };
   }
 
-  SubmitUpdatedUser = () => {
-    console.log(this.state.updatedUser);
-    //when submitting a new user, you will need to return the user_id that was created. newUserId is critical to creating the qualification and certification
-    this.SubmitUpdatedUserQualifications(this.state.updatedUser.user_id);
-    this.SubmitUpdatedUserCertifications(this.state.updatedUser.user_id);
+  SubmitUpdatedUser = async () => {
+    await fetch(this.props.api + 'users/update',
+      {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(this.state.updatedUser)
+      })
+      .this.SubmitUpdatedUserQualifications()
+      .this.SubmitUpdatedUserCertifications()
+      .this.setState({ updatedUser: null });
+
   }
 
-  SubmitUpdatedUserQualifications = (userId) => {
-    this.setState({ newUserQualifications: { user_id: userId } });
+  SubmitUpdatedUserQualifications = () => {
+    this.setState({ newUserQualifications: { user_id: this.state.updatedUser.user_id } });
     console.log('quals: ' + this.state.newUserQualifications)
   }
 
-  SubmitUpdatedUserCertifications = (userId) => {
-    this.setState({ newUserCertifications: { user_id: userId } });
+  SubmitUpdatedUserCertifications = () => {
+    this.setState({ newUserCertifications: { user_id: this.state.updatedUser.user_id } });
     console.log('certs: ' + this.state.newUserCertifications);
   }
 
@@ -42,11 +50,12 @@ class ModifyUser extends React.Component {
       let tempId = Number.parseInt(event.target.value);
       let index = this.props.users.findIndex(user => user.user_id === tempId)
       let tempUser = this.props.users[index]
-      this.setState({
+      this.setState(previousState => ({
+        ...previousState,
         updatedUser: tempUser,
         newUserCertifications: tempUser.certifications,
         newUserQualifications: tempUser.qualifications
-      })
+      }))
       // this.ModifyUserForm();
     }
 
