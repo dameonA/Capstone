@@ -27,64 +27,99 @@ FROM users
 `
 
 module.exports.Users = class Users {
-    constructor(database) {
-        this.db=database;
+  constructor(database) {
+    this.db = database;
+  }
+  async getUser(userId) {
+    try {
+      return (await this.db.one(queryUsers + ' where user_id = $1', userId)).json
+    } catch (error) {
+      //console.log(error);
+      return undefined;
     }
-    async getUser (userId) {
-      try {
-          return (await this.db.one(queryUsers+' where user_id = $1',userId)).json
-      } catch(error) {
-        //console.log(error);
-        return undefined;
-      }
-    }
+  }
 
-    async getUsers () {
-      try {
-          return (await this.db.any(queryUsers)).map(e => e.json)
-      } catch(error) {
-        //console.log(error);
-        return undefined;
-      }
+  async postUser(user) {
+    let firstName = user.first_name;
+    let lastName = user.last_name;
+    let grade = user.grade;
+    let userRole = user.user_role;
+    let section = user.section;
+    let userGroup = user.user_group;
+    let active = user.active;
+    try {
+      return await this.db.one(
+        'INSERT INTO users (first_name, last_name, grade, user_role, section, user_group, active) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING user_id',
+        [firstName, lastName, grade, userRole, section, userGroup, active])
+    } catch (error) {
+      return {};
     }
+  }
 
-    async getUserGroups () {
-      try {
-        return await this.db.any('SELECT * FROM usergroups')
-      } catch(error) {
-        return undefined;
-      }
+  async updateUser(user) {
+    let userId = user.user_id;
+    let firstName = user.first_name;
+    let lastName = user.last_name;
+    let grade = user.grade;
+    let userRole = user.user_role;
+    let section = user.section;
+    let userGroup = user.user_group;
+    let active = user.active;
+    try {
+      return await this.db.one(
+        'UPDATE users SET first_name=$1, last_name=$2, grade=$3, user_role=$4, section=$5, user_group=$6, active=$7 WHERE user_id=$8 RETURNING *',
+        [firstName, lastName, grade, userRole, section, userGroup, active, userId])
+    } catch (error) {
+      return {};
     }
+  }
 
-    async getSections () {
-      try {
-        return await this.db.any('SELECT * FROM sections')
-      } catch(error) {
-        return undefined;
-      }
+  async getUsers() {
+    try {
+      return (await this.db.any(queryUsers)).map(e => e.json)
+    } catch (error) {
+      //console.log(error);
+      return undefined;
     }
+  }
 
-    async getCertifications () {
-      try {
-        return await this.db.any('SELECT * FROM certifications')
-      } catch(error) {
-        return undefined;
-      }
+  async getUserGroups() {
+    try {
+      return await this.db.any('SELECT * FROM usergroups')
+    } catch (error) {
+      return undefined;
     }
+  }
 
-    async getQualifications () {
-      try {
-        return await this.db.any('SELECT * FROM qualifications')
-      } catch(error) {
-        return undefined;
-      }
+  async getSections() {
+    try {
+      return await this.db.any('SELECT * FROM sections')
+    } catch (error) {
+      return undefined;
     }
+  }
 
-    async getRoles () {
-      try {
-        return await this.db.any('SELECT * FROM roles')
-      } catch(error) {
-        return undefined;
-      }
+  async getCertifications() {
+    try {
+      return await this.db.any('SELECT * FROM certifications')
+    } catch (error) {
+      return undefined;
     }
+  }
+
+  async getQualifications() {
+    try {
+      return await this.db.any('SELECT * FROM qualifications')
+    } catch (error) {
+      return undefined;
+    }
+  }
+
+  async getRoles() {
+    try {
+      return await this.db.any('SELECT * FROM roles')
+    } catch (error) {
+      return undefined;
+    }
+  }
 }
