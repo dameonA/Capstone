@@ -26,6 +26,10 @@ class App extends React.Component {
     this.setStaticTables();
   }
 
+  componentDidUpdate = () => {
+    this.intializeUsers(); 
+  }
+
   intializeUsers = async () => {
     let response = await fetch(this.state.apiURL+'users').catch(err=>console.log("cannot get users: ", err)); //get the users
     let usersArray = await response.json();

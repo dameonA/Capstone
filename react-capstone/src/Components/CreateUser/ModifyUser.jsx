@@ -3,7 +3,7 @@ import UserTableHeader from './UserHeader'
 
 class ModifyUser extends React.Component {
   constructor(props) {
-    super(props)
+    super(props) //api <router api>, users <object of all users>, static <static tables>
     this.state = {
       // updatedUser: this.props.users[0],
       newUserQualifications: [],
@@ -28,9 +28,9 @@ class ModifyUser extends React.Component {
         },
         body: JSON.stringify(this.state.updatedUser)
       })
-      .this.SubmitUpdatedUserQualifications()
-      .this.SubmitUpdatedUserCertifications()
-      .this.setState({ updatedUser: null });
+    this.SubmitUpdatedUserQualifications();
+    this.SubmitUpdatedUserCertifications();
+    this.setState({ updatedUser: null });
 
   }
 
@@ -61,11 +61,54 @@ class ModifyUser extends React.Component {
 
     return (
       <select id="selectedUser" onChange={handleChange}>
-        <option value='Select User' selected disabled hidden>Select User</option>
+        {(!this.state.updatedUser)
+        ? <option id='selectedUser' value='Select User' selected disabled hidden>Select User</option>
+        : <option id='selectedUser' value='Select User'>{this.state.updatedUser.last_name}, {this.state.updatedUser.first_name} {this.state.updatedUser.grade}</option> 
+        }
+        
         {this.props.users.map(user => <option id="selectedUser" value={user.user_id}>{user.last_name}, {user.first_name} {user.grade}</option>)}
       </select>
     )
 
+  }
+
+  SelectActiveUsers = () =>{
+
+    const handleChange = () => {
+
+    }
+
+    return (
+      <form>
+        <label>
+          <input
+            type='radio'
+            value='all'
+            checked={this.state.activeUserSelection === 'all'}
+            onChange={handleChange()}
+            />
+            All
+          </label>
+        <label>
+          <input
+            type='radio'
+            value='active'
+            checked={this.state.activeUserSelection === 'active'}
+            onChange={handleChange()}
+          />
+            Active
+        </label>
+        <label>
+          <input
+            type='radio'
+            value='archived'
+            checked={this.state.activeUserSelection === 'archived'}
+            onChange={handleChange()}
+          />
+            Active
+        </label>
+      </form>
+    )
   }
 
   ModifyUserForm = () => {
@@ -278,7 +321,7 @@ class ModifyUser extends React.Component {
   render() {
     return (
       <div>
-        <h2>Modify User <this.SelectUser /></h2>
+        <h2>Modify User <this.SelectUser /><this.SelectActiveUsers /></h2>
         {(this.state.updatedUser)
           ? <table>
             <UserTableHeader />
