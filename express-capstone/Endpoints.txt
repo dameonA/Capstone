@@ -1,11 +1,36 @@
 GET /initdb
     - rebuild the database from the sql files provided
 
-GET /user/:userId
+GET /users
+    - Provides an array of all users to include arrays of each user's certs and quals
+    - If no user is found or userid is not a number, provides an empty array
+
+POST /users/new
+    - INSERTS a new user and returns an obj {"user_id": <num>} so that the new user_id is known
+
+POST /users/update
+    - UPDATES an existing user record and returns the updated user object
+
+GET /users/usergroups
+    - Provides an array of static usergroups
+
+GET /users/certifications
+    - Provides an array of static certifications
+
+GET /users/qualifications
+    - Provides an array of static qualifications
+
+GET /users/roles
+    - Provides an array of static user roles that can be used to set the access level for certain functions in the application
+
+GET /users/sections
+    - Provides an array of static sections aka flights that a user belongs to
+
+GET /users/:userId
     - Provides a user object based on id provided.
     - If no user is found or userid is not a number, provides an empty object
 
-GET /user/:userId/notifications
+GET /users/:userId/notifications
     - provides an array of notification objects filtered on the userId provided and the user's role
 
 POST /notifications/:id/read
@@ -13,3 +38,4 @@ POST /notifications/:id/read
 
 POST /notifications/:id/archive
     - marks any notifications with the given id (should be unique) as archived and returns an array of them
+

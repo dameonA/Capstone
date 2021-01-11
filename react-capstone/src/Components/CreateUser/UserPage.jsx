@@ -10,21 +10,12 @@ class UserPage extends React.Component {
         };
     }
 
-    ArchiveUser = () => {
-
-        return (
-            <a>Archive User</a>
-        )
-
-    };
-
     render() {
         return (
             <div>
                 <h1>Users</h1>
-                <AddUser />
-                <ModifyUser api={this.props.api}/>
-                <this.ArchiveUser />
+                <AddUser api={this.props.api} static={this.props.static}/>
+                <ModifyUser api={this.props.api} static={this.props.static}/>
             </div>
 
         )
