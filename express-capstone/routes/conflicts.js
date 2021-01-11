@@ -13,7 +13,7 @@ router.get('', function (req, response) {
 router.get('/:id', function(req, response, next) {
     let conflictTypeId = Number.parseInt(req.params.id);
     if(!isNaN(conflictTypeId)) {
-        var conflicts = ConflictService.getConflicts(conflictTypeId)
+        var conflicts = ConflictService.getConflict(conflictTypeId)
         .then(ret => response.send(ret))
         .catch(ret => response.send("{ }"));
     }

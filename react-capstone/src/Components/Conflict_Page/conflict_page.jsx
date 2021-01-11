@@ -21,10 +21,6 @@ class ConflictPage extends React.Component {
         
     };//end of constructor   
     
-    // handleDateChange = (date) => {
-    //         this.setState({selectedDate: date});
-    // }
-
     handleStartDateChange = (date) => {
         this.setState({selectedStartDate: date})
     }

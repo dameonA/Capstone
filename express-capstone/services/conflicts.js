@@ -22,7 +22,7 @@ module.exports.Conflicts = class Conflicts {
         }
     }
 
-    async getConflicts (conflictTypeId) {
+    async getConflict (conflictTypeId) {
         try {
             return await this.db.any('select * from conflict where conflict_type_id = $1', conflictTypeId)
         }
