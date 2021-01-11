@@ -6,8 +6,8 @@ class ModifyUser extends React.Component {
     super(props) //api <router api>, users <object of all users>, static <static tables>
     this.state = {
       users: [],
-      newUserQualifications: [],
-      newUserCertifications: [],
+      newUserQualifications: {},
+      newUserCertifications: {},
       levels: ['None', 'Training', 'Instructor', 'Evaluator'],
       activeUserSelection: 'all'
     

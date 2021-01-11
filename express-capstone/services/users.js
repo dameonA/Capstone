@@ -138,9 +138,8 @@ module.exports.Users = class Users {
     }
   }
 
-  async postQualification(quals) {//expects an array of qual objects
+  async postQualification(userId, quals) {//expects an array of qual objects
     quals.forEach(async (qual) => {
-      let userId = qual.user_id;
       let qualId = qual.qual_id;
       let inTraining = qual.in_training;
       let isInstructor = qual.is_instructor;

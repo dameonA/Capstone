@@ -22,8 +22,8 @@ router.post('/new', async function (req, res) {
 })
 
 router.post('/new/userqualification', async function (req, res) {
-  console.log("req.body" + req.body[0].user_id)
-  UserService.postQualification(req.body)
+  console.log("req.body: " + req.body.user_id)
+  UserService.postQualification(req.body.user_id, req.body.quals)
     .then(obj => {
       res.send(obj);
     })
