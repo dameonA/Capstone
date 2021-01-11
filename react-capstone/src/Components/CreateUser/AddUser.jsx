@@ -9,7 +9,7 @@ class AddUser extends React.Component {
             newUserQualifications: {},
             newUserCertifications:{},
             levels: ['None', 'Training', 'Instructor', 'Evaluator'],
-            newUserId: 1           
+            newUserId: -1           
         };
     }
 
@@ -24,17 +24,21 @@ class AddUser extends React.Component {
             grade: this.props.static.grades[0],
             first_name: '',
             last_name: '',
-            user_role: this.props.static.roles[0],
-            section: this.props.static.sections[0],
-            user_group: this.props.static.usergroups[0],
+            user_role: this.props.static.roles[0].role_id,
+            section: this.props.static.sections[0].section_id,
+            user_group: this.props.static.usergroups[0].group_id,
             active: true
         }})
         
         this.setState({newUserQualifications: {
-            qual_id: this.props.static.qualifications[0].qual_id, //this will need to be modified when the data base is connected
+            qual_id: -1, //this will need to be modified when the data base is connected
             in_training: false,
             is_instructor: false,
             is_evaluator: false
+        }})
+
+        this.setState({newUserCertifications: {
+          cert_id: -1
         }})
       }
 
