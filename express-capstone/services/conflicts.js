@@ -22,6 +22,15 @@ module.exports.Conflicts = class Conflicts {
         }
     }
 
+    async getConflicts (conflictTypeId) {
+        try {
+            return await this.db.any('select * from conflict where conflict_type_id = $1', conflictTypeId)
+        }
+        catch(error) {
+            return undefined;
+        }
+    }
+
     async postConflicts (conflict) {
         try {
             return await this.db.any ('insert into conflict (conflict_type_id, start_time, stop_time, comment, schedule_id) values ($1, $2, $3, $4, $5)', [conflict.conflict_type_id, conflict.start_time, conflict.stop_time, conflict.comment, conflict.schedule_id])
