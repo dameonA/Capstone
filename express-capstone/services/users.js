@@ -23,7 +23,7 @@ SELECT json_build_object(
        FROM user_certifications WHERE users.user_id = user_certifications.user_id)
       
 ) json
-FROM users ORDER BY last_name ASC
+FROM users ORDER BY last_name 
 `
 
 module.exports.Users = class Users {

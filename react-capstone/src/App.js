@@ -26,9 +26,9 @@ class App extends React.Component {
     this.setStaticTables();
   }
 
-  componentDidUpdate = () => {
-    this.intializeUsers(); 
-  }
+  // componentDidUpdate = () => {
+  //   this.intializeUsers(); 
+  // }
 
   intializeUsers = async () => {
     let response = await fetch(this.state.apiURL+'users').catch(err=>console.log("cannot get users: ", err)); //get the users
@@ -79,7 +79,7 @@ class App extends React.Component {
     );
   }
 
-  }
+}
 
 
 export default App;

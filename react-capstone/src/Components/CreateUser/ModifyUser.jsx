@@ -5,18 +5,24 @@ class ModifyUser extends React.Component {
   constructor(props) {
     super(props) //api <router api>, users <object of all users>, static <static tables>
     this.state = {
-      // updatedUser: this.props.users[0],
+      users: [],
       newUserQualifications: [],
       newUserCertifications: [],
-      // grades: [],
-      // crews: [],
-      // flights: [],
-      // roles: [],
-      // qualifications: [],
-      // certifications: [],
       levels: ['None', 'Training', 'Instructor', 'Evaluator'],
-      // updatedUserId: 1           
+      activeUserSelection: 'all'
+    
     };
+  }
+
+  componentDidMount = async () => {
+    this.intializeUsers();
+
+  }
+
+  intializeUsers = async () => {
+    let response = await fetch(this.props.api+'users').catch(err=>console.log("cannot get users: ", err)); //get the users
+    let usersArray = await response.json();
+    this.setState({users: usersArray});
   }
 
   SubmitUpdatedUser = async () => {
@@ -30,8 +36,9 @@ class ModifyUser extends React.Component {
       })
     this.SubmitUpdatedUserQualifications();
     this.SubmitUpdatedUserCertifications();
-    this.setState({ updatedUser: null });
-
+    this.setState({ updatedUser: null }); //reset the updatedUser to null to remove the inputs for the user modification
+    this.intializeUsers(); //reset the state to the database to bring in the new updates of the user
+    
   }
 
   SubmitUpdatedUserQualifications = () => {
@@ -48,8 +55,8 @@ class ModifyUser extends React.Component {
 
     const handleChange = (event) => {
       let tempId = Number.parseInt(event.target.value);
-      let index = this.props.users.findIndex(user => user.user_id === tempId)
-      let tempUser = this.props.users[index]
+      let index = this.state.users.findIndex(user => user.user_id === tempId)
+      let tempUser = this.state.users[index]
       this.setState(previousState => ({
         ...previousState,
         updatedUser: tempUser,
@@ -66,7 +73,7 @@ class ModifyUser extends React.Component {
         : <option id='selectedUser' value='Select User'>{this.state.updatedUser.last_name}, {this.state.updatedUser.first_name} {this.state.updatedUser.grade}</option> 
         }
         
-        {this.props.users.map(user => <option id="selectedUser" value={user.user_id}>{user.last_name}, {user.first_name} {user.grade}</option>)}
+        {this.state.users.map(user => <option id="selectedUser" value={user.user_id}>{user.last_name}, {user.first_name} {user.grade}</option>)}
       </select>
     )
 
@@ -74,18 +81,19 @@ class ModifyUser extends React.Component {
 
   SelectActiveUsers = () =>{
 
-    const handleChange = () => {
-
+    const handleChange = (event) => {
+      this.setState({activeUserSelection: event.target.value})
+      console.log(this.state.activeUserSelection)
     }
 
     return (
-      <form>
+      <td>
         <label>
           <input
             type='radio'
             value='all'
             checked={this.state.activeUserSelection === 'all'}
-            onChange={handleChange()}
+            onChange={handleChange}
             />
             All
           </label>
@@ -94,7 +102,7 @@ class ModifyUser extends React.Component {
             type='radio'
             value='active'
             checked={this.state.activeUserSelection === 'active'}
-            onChange={handleChange()}
+            onChange={handleChange}
           />
             Active
         </label>
@@ -103,11 +111,11 @@ class ModifyUser extends React.Component {
             type='radio'
             value='archived'
             checked={this.state.activeUserSelection === 'archived'}
-            onChange={handleChange()}
+            onChange={handleChange}
           />
-            Active
+            Archived
         </label>
-      </form>
+      </td>
     )
   }
 
@@ -321,7 +329,10 @@ class ModifyUser extends React.Component {
   render() {
     return (
       <div>
-        <h2>Modify User <this.SelectUser /><this.SelectActiveUsers /></h2>
+        <h2>Modify User </h2>
+        <this.SelectActiveUsers />
+        <this.SelectUser />
+
         {(this.state.updatedUser)
           ? <table>
             <UserTableHeader />

@@ -14,8 +14,8 @@ class UserPage extends React.Component {
         return (
             <div>
                 <h1>Users</h1>
-                <AddUser api={this.props.api} users={this.props.users} static={this.props.static}/>
-                <ModifyUser api={this.props.api} users={this.props.users} static={this.props.static}/>
+                <AddUser api={this.props.api} static={this.props.static}/>
+                <ModifyUser api={this.props.api} static={this.props.static}/>
             </div>
 
         )
