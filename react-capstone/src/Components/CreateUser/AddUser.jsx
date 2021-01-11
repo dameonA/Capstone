@@ -3,56 +3,57 @@ import UserTableHeader from './UserHeader'
 
 class AddUser extends React.Component {
     constructor(props) {
-        super(props)
+        super(props) //api <router api>, static <static tables>
         this.state = {
             newUser: {},
             newUserQualifications: {},
             newUserCertifications:{},
-            grades: ['E1', 'E2', 'E3', 'E4', 'E5', 'E6', 'E7', 'E8', 'E9', 'O1', 'O2', 'O3', 'O4', 'O5', 'O6' ],
-            crews: ['Blue', 'Green', 'Day Staff', 'DSG'],
-            flights: ['C2', 'Weapons','APM', 'JICC', 'Battle Staff'],
-            roles: ['Admin', 'Scheduler', 'Supervisor', 'Crew'],
-            qualifications: ['MCC', 'MCCT', 'RSC', 'SD', 'ST', 'AWO', 'WD', 'ASO', 'AST', 'IDT', 'TT', 'ICO', 'ICOT', 'ICT'],
-            certifications: ['None','RSC', 'FO', 'EA', 'ERSA', 'TANR', 'SS'],
-            levels: ['None','Training', 'Instructor', 'Evaluator'], 
+            levels: ['None', 'Training', 'Instructor', 'Evaluator'],
             newUserId: 1           
         };
     }
 
-
-
     // initialize newUser
     componentDidMount = () => {
         this.ResetNewUserForm();
+        console.log(this.props.static.roles)
     }
 
     ResetNewUserForm = () => {
-        this.state.newUser = {
-            grade: this.state.grades[0],
+        this.setState({newUser: {
+            grade: this.props.static.grades[0],
             first_name: '',
             last_name: '',
-            user_role: this.state.roles[0],
-            section: this.state.flights[0],
-            user_group: this.state.crews[0],
+            user_role: this.props.static.roles[0],
+            section: this.props.static.sections[0],
+            user_group: this.props.static.usergroups[0],
             active: true
-        }
-        this.state.newUserCertifications = {
-            cert_id: this.state.certifications.indexOf(this.state.certifications[0]) //this will need to be modified when the data base is connected
-        }
-        this.state.newUserQualifications = {
-            qual_id: this.state.qualifications.indexOf(this.state.qualifications[0]), //this will need to be modified when the data base is connected
+        }})
+        
+        this.setState({newUserQualifications: {
+            qual_id: this.props.static.qualifications[0].qual_id, //this will need to be modified when the data base is connected
             in_training: false,
             is_instructor: false,
             is_evaluator: false
-        }
-    }
+        }})
+      }
 
-    SubmitNewUser = () => {
+    SubmitNewUser = async () => {
         console.log(this.state.newUser);
-        //when submitting a new user, you will need to return the user_id that was created. newUserId is critical to creating the qualification and certification
-        this.SubmitNewUserQualifications(this.state.newUserId);
-        this.SubmitNewUserCertifications(this.state.newUserId);
-    }
+        await fetch(this.props.api + 'users/new',
+        {
+          method: "POST",
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(this.state.newUser)
+        }).then(userId => {
+           this.SubmitNewUserQualifications(userId.user_id);
+           this.SubmitNewUserCertifications(userId.user_id);
+           this.ResetNewUserForm();
+        })
+ 
+     }
 
     SubmitNewUserQualifications = (userId) => {
         this.state.newUserQualifications.user_id = userId;
@@ -104,7 +105,7 @@ class AddUser extends React.Component {
             this.setState(previousState => ({
                 newUserQualifications: {
                   ...previousState.newUserQualifications, 
-                  qual_id: this.state.qualifications.indexOf(event.target.value)
+                  qual_id: this.props.static.qualifications.indexOf(event.target.value)
                 }
               }));
           }
@@ -138,7 +139,7 @@ class AddUser extends React.Component {
             this.setState(previousState => ({
                 newUserCertifications: {
                   ...previousState.newUserCertifications, 
-                  cert_id: this.state.certifications.indexOf(event.target.value) 
+                  cert_id: this.props.static.certifications.indexOf(event.target.value) 
                 }
               }));
           }
@@ -146,7 +147,7 @@ class AddUser extends React.Component {
             this.setState(previousState => ({
               newUser: {
                 ...previousState.newUser, 
-                flight: event.target.value
+                section: event.target.value
               }
             }));
           }
@@ -155,54 +156,75 @@ class AddUser extends React.Component {
             this.setState(previousState => ({
               newUser: {
                 ...previousState.newUser, 
-                crew: event.target.value
+                user_group: event.target.value
               }
             }));
-          }          
+          }   
+          
+          if (event.target.id === "active") {
+            let active = true;
+            if (event.target.value === 'false') {
+              active = false;
+            }
+            this.setState(previousState => ({
+              newUser: {
+                ...previousState.newUser,
+                active: active
+              }
+            }));
+          }
         } 
 
         return (
-            <tbody>
-                <tr>
-                    <td>
-                        <select id="grade" onChange={handleChange}> 
-                            {this.state.grades.map(grade => <option id="grade" value={grade}> {grade} </option> )}
-                        </select>
-                    </td> 
-                    <td><input onChange={handleChange} type="text" id="firstName"></input></td>    
-                    <td><input onChange={handleChange} type="text" id="lastName"></input></td>    
-                    <td>
-                        <select id="role" onChange={handleChange}> 
-                            {this.state.roles.map(role => <option id="role" value={role}> {role} </option> )}
-                        </select>
-                    </td> 
-                    <td>
-                        <select id="qualification" onChange={handleChange}> 
-                            {this.state.qualifications.map(qualification => <option id="qualification" value={qualification}> {qualification} </option> )}
-                        </select>
-                        <select id="level" onChange={handleChange}> 
-                            {this.state.levels.map(level => <option id="level" value={level}> {level} </option> )}
-                        </select>                       
-                    </td>                              
-                    <td>
-                        <select id="certification" onChange={handleChange}> 
-                            {this.state.certifications.map(certification => <option id="certification" value={certification}> {certification} </option> )}
-                        </select>
-                    </td> 
 
-                    <td>
-                        <select id="flight" onChange={handleChange}> 
-                            {this.state.flights.map(flight => <option id="flight" value={flight}> {flight} </option> )}
-                        </select>
-                    </td>  
-                    <td>
-                        <select id="crew" onChange={handleChange}> 
-                            {this.state.crews.map(crew => <option id="crew" value={crew}> {crew} </option> )}
-                        </select>
-                    </td>                                                             
-                    <td> <button onClick={this.SubmitNewUser} value="Add New User">Add New User</button>  </td>
-                </tr>   
-            </tbody>
+          <tr>
+              <td><input required onChange={handleChange} type="text" id="lastName" placeholder='Last Name'></input></td>    
+              <td><input required onChange={handleChange} type="text" id="firstName" placeholder='First Name'></input></td>    
+              <td>
+                  <select id="grade" onChange={handleChange}> 
+                      {this.props.static.grades.map(grade => <option id="grade" value={grade}> {grade} </option> )}
+                  </select>
+              </td> 
+              <td>
+                  <select id="role" onChange={handleChange}> 
+                      {this.props.static.roles.map(role => <option id="role" value={role.role_id}> {role.role_name} </option> )}
+                  </select>
+              </td> 
+              <td>
+                  <select id="qualification" onChange={handleChange}> 
+                      <option id="qualification" value='None' >None</option>
+                      {this.props.static.qualifications.map(qualification => <option id="qualification" value={qualification.qual_id}> {qualification.qual_name} </option> )}
+                  </select>
+                  <select id="level" onChange={handleChange}> 
+                      {this.state.levels.map(level => <option id="level" value={level}> {level} </option> )}
+                  </select>                       
+              </td>                              
+              <td>
+                  <select id="certification" onChange={handleChange}> 
+                      <option id="certification" value='None' >None</option>
+                      {this.props.static.certifications.map(certification => <option id="certification" value={certification.cert_id}> {certification.cert_name} </option> )}
+                  </select>
+              </td> 
+
+              <td>
+                  <select id="flight" onChange={handleChange}> 
+                      {this.props.static.sections.map(flight => <option id="flight" value={flight.section_id}> {flight.section_name} </option> )}
+                  </select>
+              </td>  
+              <td>
+                  <select id="crew" onChange={handleChange}> 
+                      {this.props.static.usergroups.map(crew => <option id="crew" value={crew.group_id}> {crew.group_name} </option> )}
+                  </select>
+              </td>               
+              <td>
+                <select id="active" onChange={handleChange}>
+                  <option id='active' value={true}>Active</option>
+                  <option id='active' value={false}>Archived</option>
+                </select>
+              </td>                                              
+              <td> <button onClick={this.SubmitNewUser} value="Add New User">Add New User</button>  </td>
+          </tr>   
+
         )
     }
 
@@ -212,7 +234,9 @@ class AddUser extends React.Component {
                 <h2>Add New User</h2>
                 <table>
                     <UserTableHeader/>
+                    <tbody>
                     <this.NewUserInputForm />
+                    </tbody>
                 </table>
             </div>
 

@@ -1,122 +1,137 @@
 import React from 'react';
+import * as FaIcons from 'react-icons/fa';
+import * as AiIcons from 'react-icons/ai';
+import * as IoIcons from 'react-icons/io';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
-class ScheduleHomePage extends React.Component{
-    constructor(props){
-        super(props);
-        this.state = {
-            crewSchedules: [],
-            firstName: "",
-            lastName: "",
+import MUIDataTable from "mui-datatables";
 
-        };
-    };
-    // componentDidMount() {
-    //     helpers.getCrewSchedules().then((response) => {
-    //         if (response !== this.state.crewSchedules) {
-    //             this.setState({ crewSchedules: response.data });
-    //         }
-    //     });
-    // };
+// class ScheduleHomePage extends React.Component{
+    function ScheduleHomePage(){
+          
+    // constructor(props){
+    //     super(props);
+    //     this.state = {
+    //         crewSchedules: [],
+    //         firstName: "",
+    //         lastName: "",
 
+    //     };
+        const columns = ["First Name", "Last Name", "Position", "Start Time", "End-Time"];
 
-    render() {
+        const data = [
+         ["Joe1", "Snuffy", "TT", "2021-01-01 06:30:00 PST", "2021-01-01 18:30:00 PST"],
+         ["Joe2", "Snuffy", "TT", "2021-01-01 06:30:00 PST", "2021-01-01 18:30:00 PST"],
+         ["Joe3", "Snuffy", "TT", "2021-01-01 06:30:00 PST", "2021-01-01 18:30:00 PST"],
+         ["Paul", "Asphalt", "MCC", "2021-01-01 06:30:00 PST'", "2021-01-01 18:30:00 PST"],
+        ];
+
+        const options = {
+            filterType: 'checkbox',
+          };
+  
+
         return ( 
             <div className="row">
                 <header> 
-                    <h1> Crew Schedule View </h1></header>
+                    <h1> Crew Schedule View </h1>
+                        </header>
                 <hr />
-                <div className="col s12">
-                    <div className="section schedule">
-                        <table className="bordered">
-                            <thead>
-                                <tr>
-                                    <th data-field="name">Name</th>
-                                    <th data-field="name">&#160;&#160;Mon</th>
-                                    <th data-field="name">Tues</th>
-                                    <th data-field="name">&#160;&#160;Wed</th>
-                                    <th data-field="name">&#160;Thurs</th>
-                                    <th data-field="name">&#160;&#160;Fri</th>
-                                    <th data-field="name">&#160;Sat</th>
-                                    <th data-field="name">Sun</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {this.state.crewSchedules.map((schedules, i) => {
-                                return (
-                                    <tr key={i}>
-                                        <td className="fullName">
-                                            {schedules.firstName} {schedules.lastName}
-                                        </td>
-                                        <td className="schedule">
-                                            {schedules.monday}
-                                        </td>
-                                        <td>
-                                            {schedules.tuesday}
-                                        </td>
-                                        <td>
-                                            {schedules.wednesday}
-                                        </td>
-                                        <td>
-                                            {schedules.thursday}
-                                        </td>
-                                        <td>
-                                            {schedules.friday}
-                                        </td>
-                                        <td>
-                                            {schedules.saturday}
-                                        </td>
-                                        <td>
-                                            {schedules.sunday}
-                                        </td>
-                                    </tr>
-                                );
-                            }, this)}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+                <MUIDataTable 
+                        data={data} 
+                        columns={columns} 
+                        options={options} 
+                    />
             </div>
         );
     }
-};
 
 export default ScheduleHomePage;
 
-// export default const ScheduleHomePage = [
-//     {
-//         title: 'View Entire Schedule',
-//         path: '/',
-//         cName: 'nav-text'
-//     },
 
-//     {
-//         title: 'Overall 56 Day View',
-//         path: '/overallview',
-//         cName: 'nav-text'
-//     },
-//     {
-//         title: 'Daily View',
-//         path: '/dailyview',
-//         cName: 'nav-text'
-//     },
-//     {
-//         title: 'Entire Shift',
-//         path: '/shift',
-//         cName: 'nav-text'
-//     },
-//     {
-//         title: 'Entire Section',
-//         path: '/section',
-//         cName: 'nav-text'
-//     },
-//     {
-//         title: 'Crew Position',
-//         path: '/crewpos',
-//         cName: 'nav-text'
-//     },
-//     {
-//         title: 'Individual Crew Member',
-//         path: '/crewmem',
-//         cName: 'nav-text'
+// import React from 'react';
+// import clsx from 'clsx';
+// import { makeStyles } from '@material-ui/core/styles';
+// import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
+// import Button from '@material-ui/core/Button';
+// import List from '@material-ui/core/List';
+// import Divider from '@material-ui/core/Divider';
+// import ListItem from '@material-ui/core/ListItem';
+// import ListItemIcon from '@material-ui/core/ListItemIcon';
+// import ListItemText from '@material-ui/core/ListItemText';
+// import InboxIcon from '@material-ui/icons/MoveToInbox';
+// import MailIcon from '@material-ui/icons/Mail';
+
+// const useStyles = makeStyles({
+//   list: {
+//     width: 250,
+//   },
+//   fullList: {
+//     width: 'auto',
+//   },
+// });
+
+// export default function SwipeableTemporaryDrawer() {
+//   const classes = useStyles();
+//   const [state, setState] = React.useState({
+//     top: false,
+//     left: false,
+//     bottom: false,
+//     right: false,
+//   });
+
+//   const toggleDrawer = (anchor, open) => (event) => {
+//     if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+//       return;
 //     }
-// ];
+
+//     setState({ ...state, [anchor]: open });
+//   };
+
+//   const list = (anchor) => (
+//     <div
+//       className={clsx(classes.list, {
+//         [classes.fullList]: anchor === 'top' || anchor === 'bottom',
+//       })}
+//       role="presentation"
+//       onClick={toggleDrawer(anchor, false)}
+//       onKeyDown={toggleDrawer(anchor, false)}
+//     >
+//       <List>
+//         {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+//           <ListItem button key={text}>
+//             <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+//             <ListItemText primary={text} />
+//           </ListItem>
+//         ))}
+//       </List>
+//       <Divider />
+//       <List>
+//         {['All mail', 'Trash', 'Spam'].map((text, index) => (
+//           <ListItem button key={text}>
+//             <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+//             <ListItemText primary={text} />
+//           </ListItem>
+//         ))}
+//       </List>
+//     </div>
+//   );
+
+//   return (
+//     <div>
+//       {['left', 'right', 'top', 'bottom'].map((anchor) => (
+//         <React.Fragment key={anchor}>
+//           <Button onClick={toggleDrawer(anchor, true)}>{anchor}</Button>
+//           <SwipeableDrawer
+//             anchor={anchor}
+//             open={state[anchor]}
+//             onClose={toggleDrawer(anchor, false)}
+//             onOpen={toggleDrawer(anchor, true)}
+//           >
+//             {list(anchor)}
+//           </SwipeableDrawer>
+//         </React.Fragment>
+//       ))}
+//     </div>
+//   );
+// }

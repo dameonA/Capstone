@@ -2,7 +2,7 @@ import React from 'react'
 import AddUser from './AddUser'
 import ModifyUser from './ModifyUser'
 
-class CreateUser extends React.Component {
+class UserPage extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -10,24 +10,15 @@ class CreateUser extends React.Component {
         };
     }
 
-    ArchiveUser = () => {
-
-        return (
-            <a>Archive User</a>
-        )
-
-    };
-
     render() {
         return (
             <div>
                 <h1>Users</h1>
-                <AddUser />
-                <ModifyUser />
-                <this.ArchiveUser />
+                <AddUser api={this.props.api} static={this.props.static}/>
+                <ModifyUser api={this.props.api} static={this.props.static}/>
             </div>
 
         )
     }
 }
-export default CreateUser;
+export default UserPage;

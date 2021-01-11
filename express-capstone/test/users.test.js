@@ -30,6 +30,11 @@ let fakeUser2 = {
 }
 
 let fakeUsers = [fakeUser, fakeUser2];
+let fakeUsergroups = [{group_id: 6, group_name: 'Yellow'}, {group_id: 9, group_name: 'Purple'}]
+let fakeSections = [{section_id: 7, section_name: 'Banana'}, {section_id: 10, section_name: 'Apple'}]
+let fakeCerts = [{cert_id: 8, cert_name: 'IOU'}, {cert_id: 11, cert_name: 'Money'}]
+let fakeQuals = [{qual_id: 9, qual_name: 'Ford'}, {qual_id: 12, qual_name: 'Chevy'}]
+let fakeRoles = [{role_id: 10, role_name: 'Boeing'}, {role_id: 13, role_name: 'Airbus'}]
 
 let fakeNotifications=[
  
@@ -41,11 +46,27 @@ let failedUserCall = sinon.stub().resolves(1).rejects();
 let failedUsersCall = sinon.stub().rejects();
 let successfulNotificationCall = sinon.stub().resolves(fakeNotifications);
 let failedNotificationCall = sinon.stub().resolves(1).rejects();
+let successfulUsergroupsCall = sinon.stub().resolves(fakeUsergroups);
+let failedUsergroupsCall = sinon.stub().resolves(1).rejects();
+let successfulSectionsCall = sinon.stub().resolves(fakeSections);
+let failedSectionsCall = sinon.stub().resolves(1).rejects();
+let successfulCertsCall = sinon.stub().resolves(fakeCerts);
+let failedCertsCall = sinon.stub().resolves(1).rejects();
+let successfulQualsCall = sinon.stub().resolves(fakeQuals);
+let failedQualsCall = sinon.stub().resolves(1).rejects();
+let successfulRolesCall = sinon.stub().resolves(fakeRoles);
+let failedRolesCall = sinon.stub().resolves(1).rejects();
 
 let UserService={
     getUser: successfulUserCall,
-    getUsers: successfulUsersCall
+    getUsers: successfulUsersCall,
+    getUserGroups: successfulUsergroupsCall,
+    getSections: successfulSectionsCall,
+    getCertifications: successfulCertsCall,
+    getQualifications: successfulQualsCall,
+    getRoles: successfulRolesCall
 }
+
 let NotificationService={
     getNotifications: successfulNotificationCall
 }
@@ -62,9 +83,41 @@ describe('User', () => {
             successfulUsersCall.resetHistory();
             UserService.getUser = successfulUserCall;
             UserService.getUsers = successfulUsersCall;
+            UserService.getUserGroups=successfulUsergroupsCall;
             NotificationService.getNotifications = successfulNotificationCall;
            done();
         });
+
+    describe('/GET /UserGroups', () => {
+        it('it should GET all user groups', (done) => {
+            chai.request(app)
+                .get('/usergroups')
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    sinon.assert.calledOnce(UserService.getUserGroups);
+                    done();
+                })
+        });
+        it('it should return an empty array if the service rejects', (done) => {
+            UserService.getUserGroups=failedUsergroupsCall;
+        chai.request(app)
+            .get('/usergroups')
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.body.should.eql([])
+                done();
+            });
+        });  
+        it('it should return an array of user objects in the database', (done) => {
+            chai.request(app)
+                .get('/usergroups')
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    res.body.should.eql(fakeUsergroups);
+                    done();
+                })
+        })
+    }) 
 
   describe('/GET /users', () => {
       it('it should GET all users', (done) => {
@@ -117,26 +170,6 @@ describe('User', () => {
                 done();
             });
         });
-        it('it should return an empty object if provided invalid user id', (done) => {
-            UserService.getUser=failedUserCall;
-          chai.request(app)
-              .get('/seven')
-              .end((err, res) => {
-                  res.should.have.status(200);
-                  res.body.should.eql({})
-                  done();
-              });
-          });
-
-    //   it('it should GET another example', (done) => {
-    //     chai.request(app)
-    //         .get('/example2')
-    //         .end((err, res) => {
-    //               res.should.have.status(200);
-    //               res.text.should.eql("another example");
-    //           done();
-    //         });
-    //   });
   });
   describe('/GET /:id/notifications ', () => {
     it('it should use the Notification service to GET a sample notification', (done) => {
@@ -180,27 +213,4 @@ describe('User', () => {
       });
   });   
 });
-  /*
-  * Test the /POST route
-  */
-//   describe('/POST book', () => {
-//       it('it should not POST a book without pages field', (done) => {
-//           let book = {
-//               title: "The Lord of the Rings",
-//               author: "J.R.R. Tolkien",
-//               year: 1954
-//           }
-//         chai.request(server)
-//             .post('/book')
-//             .send(book)
-//             .end((err, res) => {
-//                   res.should.have.status(200);
-//                   res.body.should.be.a('object');
-//                   res.body.should.have.property('errors');
-//                   res.body.errors.should.have.property('pages');
-//                   res.body.errors.pages.should.have.property('kind').eql('required');
-//               done();
-//             });
-//       });
-
-//   });
+  
