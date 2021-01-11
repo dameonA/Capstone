@@ -43,7 +43,7 @@ class AddUser extends React.Component {
       }
 
     SubmitNewUser = async () => {
-        console.log(this.state.newUser);
+        console.log(this.state.newUser);{}
         await fetch(this.props.api + 'users/new',
         {
           method: "POST",
@@ -52,12 +52,16 @@ class AddUser extends React.Component {
           },
           body: JSON.stringify(this.state.newUser)
         }).then(userId => {
-           this.SubmitNewUserQualifications(userId.user_id);
-           this.SubmitNewUserCertifications(userId.user_id);
-           this.ResetNewUserForm();
-        })
- 
-     }
+            if (this.state.newUserQualifications.qual_id !== -1) {
+              this.SubmitNewUserQualifications(userId.user_id);
+            }
+            if (this.state.newUserCertifications.cert_id !== -1) {
+              this.SubmitNewUserCertifications(userId.user_id);
+            }
+            alert(`New User Created! \n Name: ${this.state.newUser.last_name}, ${this.state.newUser.first_name} ${this.state.newUser.grade}`);
+        }).this.ResetNewUserForm();
+
+      }
 
     SubmitNewUserQualifications = (userId) => {
         this.state.newUserQualifications.user_id = userId;
@@ -72,7 +76,7 @@ class AddUser extends React.Component {
     NewUserInputForm = () => {
 
         const handleChange = (event) => {//handles the ongoing changes for each of the inputs for creating new flight
-          
+          event.preventDefault();
           if (event.target.id === "grade") {
             this.setState(previousState => ({
               newUser: {
@@ -101,7 +105,7 @@ class AddUser extends React.Component {
             this.setState(previousState => ({
               newUser: {
                 ...previousState.newUser, 
-                role: event.target.value
+                user_role: Number.parseInt(event.target.value)
               }
             }));
           }
@@ -109,7 +113,7 @@ class AddUser extends React.Component {
             this.setState(previousState => ({
                 newUserQualifications: {
                   ...previousState.newUserQualifications, 
-                  qual_id: this.props.static.qualifications.indexOf(event.target.value)
+                  qual_id: Number.parseInt(event.target.value)
                 }
               }));
           }
@@ -143,7 +147,7 @@ class AddUser extends React.Component {
             this.setState(previousState => ({
                 newUserCertifications: {
                   ...previousState.newUserCertifications, 
-                  cert_id: this.props.static.certifications.indexOf(event.target.value) 
+                  cert_id: Number.parseInt(event.target.value) 
                 }
               }));
           }
@@ -151,7 +155,7 @@ class AddUser extends React.Component {
             this.setState(previousState => ({
               newUser: {
                 ...previousState.newUser, 
-                section: event.target.value
+                section: Number.parseInt(event.target.value)
               }
             }));
           }
@@ -160,7 +164,7 @@ class AddUser extends React.Component {
             this.setState(previousState => ({
               newUser: {
                 ...previousState.newUser, 
-                user_group: event.target.value
+                user_group: Number.parseInt(event.target.value)
               }
             }));
           }   

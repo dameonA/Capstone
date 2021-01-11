@@ -122,7 +122,7 @@ class ModifyUser extends React.Component {
   ModifyUserForm = () => {
 
     // let user = this.state.updatedUser;
-    let roleIndex = this.props.static.roles.findIndex(role => this.state.updatedUser.role === role.role_id);
+    let roleIndex = this.props.static.roles.findIndex(role => this.state.updatedUser.user_role === role.role_id);
     let role = this.props.static.roles[roleIndex].role_name;
     let qual = 'None';
     let level = 'None';
@@ -187,7 +187,7 @@ class ModifyUser extends React.Component {
         this.setState(previousState => ({
           updatedUser: {
             ...previousState.updatedUser,
-            role: Number.parseInt(event.target.value)
+            user_role: Number.parseInt(event.target.value)
           }
         }));
       }

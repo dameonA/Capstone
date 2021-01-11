@@ -21,10 +21,41 @@ router.post('/new', async function (req, res) {
     })
 })
 
+router.post('/new/userqualification', async function (req, res) {
+  UserService.postQualification(req.body.user_id, req.body.quals)
+    .then(obj => {
+      res.send(obj);
+    })
+    .catch(err => {
+      res.send([])
+    })
+})
+
+router.post('/new/usercertification', async function (req, res) {
+  console.log('req.body: ' + Number.parseInt(req.body.user_id), req.body.certs)
+  UserService.postCertification(Number.parseInt(req.body.user_id), req.body.certs)
+    .then(obj => {
+      res.send(obj);
+    })
+    .catch(err => {
+      res.send([])
+    })
+})
+
 router.post('/update', async function (req, res) {
   UserService.updateUser(req.body)
     .then(ret => res.send(ret))
     .catch(ret => res.send(ret));
+})
+
+router.post('/update/usercertifications', async function (req, res) {
+  UserService.updateCertifications(Number.parseInt(req.body.user_id), req.body.certs)
+    .then(obj => {
+      res.send(obj);
+    })
+    .catch(err => {
+      res.send([])
+    })
 })
 
 router.get('/:id', function (req, res, next) {
