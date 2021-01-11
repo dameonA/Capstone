@@ -2,259 +2,351 @@ import React from 'react'
 import UserTableHeader from './UserHeader'
 
 class ModifyUser extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            users: [],
-            updatedUser: {},
-            newUserQualifications: {},
-            newUserCertifications:{},
-            grades: ['E1', 'E2', 'E3', 'E4', 'E5', 'E6', 'E7', 'E8', 'E9', 'O1', 'O2', 'O3', 'O4', 'O5', 'O6' ],
-            crews: ['Blue', 'Green', 'Day Staff', 'DSG'],
-            flights: ['C2', 'Weapons','APM', 'JICC', 'Battle Staff'],
-            roles: ['Admin', 'Scheduler', 'Supervisor', 'Crew'],
-            qualifications: ['MCC', 'MCCT', 'RSC', 'SD', 'ST', 'AWO', 'WD', 'ASO', 'AST', 'IDT', 'TT', 'ICO', 'ICOT', 'ICT'],
-            certifications: ['None','RSC', 'FO', 'EA', 'ERSA', 'TANR', 'SS'],
-            levels: ['None','Training', 'Instructor', 'Evaluator'], 
-            updatedUserId: 1           
-        };
+  constructor(props) {
+    super(props) //api <router api>, users <object of all users>, static <static tables>
+    this.state = {
+      users: [],
+      newUserQualifications: [],
+      newUserCertifications: [],
+      levels: ['None', 'Training', 'Instructor', 'Evaluator'],
+      activeUserSelection: 'all'
+    
+    };
+  }
+
+  componentDidMount = async () => {
+    this.intializeUsers();
+
+  }
+
+  intializeUsers = async () => {
+    let response = await fetch(this.props.api+'users').catch(err=>console.log("cannot get users: ", err)); //get the users
+    let usersArray = await response.json();
+    this.setState({users: usersArray});
+  }
+
+  SubmitUpdatedUser = async () => {
+    await fetch(this.props.api + 'users/update',
+      {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(this.state.updatedUser)
+      })
+    this.SubmitUpdatedUserQualifications();
+    this.SubmitUpdatedUserCertifications();
+    this.setState({ updatedUser: null }); //reset the updatedUser to null to remove the inputs for the user modification
+    this.intializeUsers(); //reset the state to the database to bring in the new updates of the user
+    
+  }
+
+  SubmitUpdatedUserQualifications = () => {
+    this.setState({ newUserQualifications: { user_id: this.state.updatedUser.user_id } });
+    console.log('quals: ' + this.state.newUserQualifications)
+  }
+
+  SubmitUpdatedUserCertifications = () => {
+    this.setState({ newUserCertifications: { user_id: this.state.updatedUser.user_id } });
+    console.log('certs: ' + this.state.newUserCertifications);
+  }
+
+  SelectUser = () => {
+
+    const handleChange = (event) => {
+      let tempId = Number.parseInt(event.target.value);
+      let index = this.state.users.findIndex(user => user.user_id === tempId)
+      let tempUser = this.state.users[index]
+      this.setState(previousState => ({
+        ...previousState,
+        updatedUser: tempUser,
+        newUserCertifications: tempUser.certifications,
+        newUserQualifications: tempUser.qualifications
+      }))
+      // this.ModifyUserForm();
     }
 
-    // initialize state
-    componentDidMount = async () => { 
-      let servicesUrl = 'http://localhost:3001/'
-
-      console.log('url: '+this.props.api)
-      let response = await fetch(this.props.api+'users').catch(err=>console.log("cannot get users: ", err)); //get the users
-      console.log(response)
-      let usersArray = await response.json();
-      console.log(usersArray)
-      this.setState({users: usersArray});
-      this.setState({updatedUser: this.state.users[0]})
-      this.setState({updatedUserId: this.state.users[0].user_id})
-
-
-      this.ResetNewUserForm();
-    }
-
-    ResetNewUserForm = () => {
-        this.state.newUser = {
-            grade: this.state.grades[0],
-            first_name: '',
-            last_name: '',
-            user_role: this.state.roles[0],
-            section: this.state.flights[0],
-            user_group: this.state.crews[0],
-            active: true
+    return (
+      <select id="selectedUser" onChange={handleChange}>
+        {(!this.state.updatedUser)
+        ? <option id='selectedUser' value='Select User' selected disabled hidden>Select User</option>
+        : <option id='selectedUser' value='Select User'>{this.state.updatedUser.last_name}, {this.state.updatedUser.first_name} {this.state.updatedUser.grade}</option> 
         }
-        this.state.newUserCertifications = {
-            cert_id: this.state.certifications.indexOf(this.state.certifications[0]) //this will need to be modified when the data base is connected
-        }
-        this.state.newUserQualifications = {
-            qual_id: this.state.qualifications.indexOf(this.state.qualifications[0]), //this will need to be modified when the data base is connected
-            in_training: false,
-            is_instructor: false,
-            is_evaluator: false
-        }
+        
+        {this.state.users.map(user => <option id="selectedUser" value={user.user_id}>{user.last_name}, {user.first_name} {user.grade}</option>)}
+      </select>
+    )
+
+  }
+
+  SelectActiveUsers = () =>{
+
+    const handleChange = (event) => {
+      this.setState({activeUserSelection: event.target.value})
+      console.log(this.state.activeUserSelection)
     }
 
-    SubmitUpdatedUser = () => {
-        console.log(this.state.newUser);
-        //when submitting a new user, you will need to return the user_id that was created. newUserId is critical to creating the qualification and certification
-        this.SubmitUpdatedUserQualifications(this.state.newUserId);
-        this.SubmitUpdatedUserCertifications(this.state.newUserId);
+    return (
+      <td>
+        <label>
+          <input
+            type='radio'
+            value='all'
+            checked={this.state.activeUserSelection === 'all'}
+            onChange={handleChange}
+            />
+            All
+          </label>
+        <label>
+          <input
+            type='radio'
+            value='active'
+            checked={this.state.activeUserSelection === 'active'}
+            onChange={handleChange}
+          />
+            Active
+        </label>
+        <label>
+          <input
+            type='radio'
+            value='archived'
+            checked={this.state.activeUserSelection === 'archived'}
+            onChange={handleChange}
+          />
+            Archived
+        </label>
+      </td>
+    )
+  }
+
+  ModifyUserForm = () => {
+
+    // let user = this.state.updatedUser;
+    let roleIndex = this.props.static.roles.findIndex(role => this.state.updatedUser.role === role.role_id);
+    let role = this.props.static.roles[roleIndex].role_name;
+    let qual = 'None';
+    let level = 'None';
+    if (Array.isArray(this.state.updatedUser.qualifications) && this.state.updatedUser.qualifications.length > 0) {
+      let qualIndex = this.props.static.qualifications.findIndex(qual => qual.qual_id === this.state.updatedUser.qualifications[0].qual_id);
+      if (qualIndex >= 0) {
+        qual = this.props.static.qualifications[qualIndex].qual_name;
+        if (this.state.updatedUser.qualifications.in_training) { level = 'Training' }
+        if (this.state.updatedUser.qualifications.is_evaluator) { level = 'Evaluator' }
+        if (this.state.updatedUser.qualifications.is_instructor) { level = 'Instructor' }
+      }
     }
-
-    SubmitUpdatedUserQualifications = (userId) => {
-        this.state.newUserQualifications.user_id = userId;
-        console.log(this.state.newUserQualifications)
+    let cert = 'None';
+    if (Array.isArray(this.state.updatedUser.certifications) && this.state.updatedUser.certifications.length > 0) {
+      let certIndex = this.props.static.certifications.findIndex(cert => cert.cert_id === this.state.updatedUser.certifications[0].cert_id);
+      if (certIndex >= 0) {
+        cert = this.props.static.certifications[certIndex].cert_name
+      };
     }
+    let flight = 'None';
+    let flightIndex = this.props.static.sections.findIndex(section => section.section_id === this.state.updatedUser.section);
+    if (flightIndex >= 0) {
+      flight = this.props.static.sections[flightIndex].section_name
+    };
+    let crew = 'None';
+    let crewIndex = this.props.static.usergroups.findIndex(group => group.group_id === this.state.updatedUser.user_group);
+    if (crewIndex >= 0) {
+      crew = this.props.static.usergroups[crewIndex].group_name
+    };
 
-    SubmitUpdatedUserCertifications = (userId) => {
-        this.state.newUserCertifications.user_id = userId;
-        console.log(this.state.newUserCertifications);
-    }
+    let active = 'Active';
+    if (this.state.updatedUser.active === false) { active = 'Archived' }
 
-    SelectUser = () => {
 
-      const handleChange = (event) => {
-        this.setState({updatedUserId: event.target.value})
-        let index = this.state.users.findIndex(user => user.user_id == event.target.value)
-        console.log('index: '+index)
-        let tempUser = this.state.users[index]
-        this.setState({updatedUser: tempUser})
+    const handleChange = (event) => {//handles the ongoing changes for each of the inputs for creating new flight
+
+      if (event.target.id === "grade") {
+        this.setState(previousState => ({
+          updatedUser: {
+            ...previousState.updatedUser,
+            grade: event.target.value
+          }
+        }));
+      }
+      if (event.target.id === "firstName") {
+        this.setState(previousState => ({
+          updatedUser: {
+            ...previousState.updatedUser,
+            first_name: event.target.value
+          }
+        }));
+      }
+      if (event.target.id === "lastName") {
+        this.setState(previousState => ({
+          updatedUser: {
+            ...previousState.updatedUser,
+            last_name: event.target.value
+          }
+        }));
+      }
+      if (event.target.id === "role") {
+        this.setState(previousState => ({
+          updatedUser: {
+            ...previousState.updatedUser,
+            role: Number.parseInt(event.target.value)
+          }
+        }));
+      }
+      if (event.target.id === "qualification") {
+        this.setState(previousState => ({
+          newUserQualifications: {
+            ...previousState.newUserQualifications,
+            qual_id: Number.parseInt(event.target.value)
+          }
+        }));
       }
 
-      return(
-        <select id="selectedUser" onChange={handleChange}>
-          {this.state.users.map(user => <option id="selectedUser" value={user.user_id}>{user.last_name}, {user.first_name} {user.grade}</option>)}  
-        </select> 
-      )
+      if (event.target.id === "level") {
+        let training = false;
+        let evaluator = false;
+        let instructor = false;
 
+        if (event.target.value === 'Training') {
+          training = true;
+        }
+        if (event.target.value === 'Instructor') {
+          instructor = true;
+        }
+        if (event.target.value === 'Evaluator') {
+          evaluator = true;
+        }
+
+        this.setState(previousState => ({
+          newUserQualifications: {
+            ...previousState.newUserQualifications,
+            in_training: training,
+            is_instructor: instructor,
+            is_evaluator: evaluator
+          }
+        }));
+      }
+
+      if (event.target.id === "certification") {
+        this.setState(previousState => ({
+          newUserCertifications: {
+            ...previousState.newUserCertifications,
+            cert_id: Number.parseInt(event.target.value)
+          }
+        }));
+      }
+      if (event.target.id === "flight") {
+        this.setState(previousState => ({
+          updatedUser: {
+            ...previousState.updatedUser,
+            section: Number.parseInt(event.target.value)
+          }
+        }));
+      }
+
+      if (event.target.id === "crew") {
+        this.setState(previousState => ({
+          updatedUser: {
+            ...previousState.updatedUser,
+            user_group: Number.parseInt(event.target.value)
+          }
+        }));
+      }
+
+      if (event.target.id === "active") {
+        console.log('active target value: ' + event.target.value)
+        let active = true;
+        console.log('active: ' + active)
+        if (event.target.value === 'false') {
+          active = false;
+        }
+        this.setState(previousState => ({
+          updatedUser: {
+            ...previousState.updatedUser,
+            active: active
+          }
+        }));
+      }
     }
 
-    ModifyUserForm = () => {
-      
-      let user = this.state.updatedUser;
+    return (
+      <tr>
+        <td><input onChange={handleChange} type="text" id="lastName" value={this.state.updatedUser.last_name}></input></td>
+        <td><input onChange={handleChange} type="text" id="firstName" value={this.state.updatedUser.first_name}></input></td>
+        <td>
+          <select id="grade" onChange={handleChange}>
+            <option value={this.state.updatedUser.grade} selected disabled hidden>{this.state.updatedUser.grade} </option>
+            {this.props.static.grades.map(grade => <option id="grade" value={grade} > {grade} </option>)}
+          </select>
+        </td>
+        <td>
+          <select id="role" onChange={handleChange}>
+            <option value={role} selected disabled hidden>{role}</option>
+            {this.props.static.roles.map(role => <option id="role" value={role.role_id} > {role.role_name} </option>)}
+          </select>
+        </td>
+        <td>
+          <select id="qualification" onChange={handleChange}>
+            <option value={qual} selected disabled hidden>{qual}</option>
+            {this.props.static.qualifications.map(qualification => <option id="qualification" value={qualification.qual_id}> {qualification.qual_name} </option>)}
+          </select>
+          <select id="level" onChange={handleChange}>
+            {this.state.levels.map(level => <option id="level" value={level}> {level} </option>)}
+          </select>
+        </td>
+        <td>
+          <select id="certification" onChange={handleChange}>
+            <option value={cert} selected disabled hidden>{cert}</option>
+            {this.props.static.certifications.map(certification => <option id="certification" value={certification.cert_id}> {certification.cert_name} </option>)}
+          </select>
+        </td>
 
+        <td>
+          <select id="flight" onChange={handleChange}>
+            <option value={flight} selected disabled hidden>{flight}</option>
+            {this.props.static.sections.map(flight => <option id="flight" value={flight.section_id}> {flight.section_name} </option>)}
+          </select>
+        </td>
+        <td>
+          <select id="crew" onChange={handleChange}>
+            <option value={crew} selected disabled hidden>{crew}</option>
+            {this.props.static.usergroups.map(crew => <option id="crew" value={crew.group_id}> {crew.group_name} </option>)}
+          </select>
+        </td>
+        <td>
+          <select id="active" onChange={handleChange}>
+            <option value={active} selected disabled hidden>{active}</option>
+            <option id='active' value={true}>Active</option>
+            <option id='active' value={false}>Archived</option>
+          </select>
+        </td>
+        <td> <button onClick={this.SubmitUpdatedUser} value="Update User">Update User</button>  </td>
 
-      const handleChange = (event) => {//handles the ongoing changes for each of the inputs for creating new flight
-          
-          if (event.target.id === "grade") {
-            this.setState(previousState => ({
-              newUser: {
-                ...previousState.newUser, 
-                grade: event.target.value
-              }
-            }));
-          }
-          if (event.target.id === "firstName") {
-            this.setState(previousState => ({
-              newUser: {
-                ...previousState.newUser, 
-                first_name: event.target.value
-              }
-            }));
-          }
-          if (event.target.id === "lastName") {
-            this.setState(previousState => ({
-              newUser: {
-                ...previousState.newUser, 
-                last_name: event.target.value
-              }
-            }));
-          }
-          if (event.target.id === "role") {
-            this.setState(previousState => ({
-              newUser: {
-                ...previousState.newUser, 
-                role: event.target.value
-              }
-            }));
-          }
-          if (event.target.id === "qualification") {
-            this.setState(previousState => ({
-                newUserQualifications: {
-                  ...previousState.newUserQualifications, 
-                  qual_id: this.state.qualifications.indexOf(event.target.value)
-                }
-              }));
-          }
-
-          if (event.target.id === "level") {
-            let training = false;
-            let evaluator = false;
-            let instructor = false;
-
-            if (event.target.value === 'Training')  {
-                training = true;
-            }
-            if (event.target.value === 'Instructor')  {
-                instructor = true;
-            }
-            if (event.target.value === 'Evaluator')  {
-                evaluator = true;
-            }   
-
-            this.setState(previousState => ({
-              newUserQualifications: {
-                ...previousState.newUserQualifications, 
-                in_training: training,
-                is_instructor: instructor,
-                is_evaluator: evaluator
-              }
-            }));
-          }
-
-          if (event.target.id === "certification") {
-            this.setState(previousState => ({
-                newUserCertifications: {
-                  ...previousState.newUserCertifications, 
-                  cert_id: this.state.certifications.indexOf(event.target.value) 
-                }
-              }));
-          }
-          if (event.target.id === "flight") {
-            this.setState(previousState => ({
-              newUser: {
-                ...previousState.newUser, 
-                flight: event.target.value
-              }
-            }));
-          }
-
-          if (event.target.id === "crew") {
-            this.setState(previousState => ({
-              newUser: {
-                ...previousState.newUser, 
-                crew: event.target.value
-              }
-            }));
-          }          
-      } 
-  
-        return(
-          <tr>
-            <td><input onChange={handleChange} type="text" id="lastName" defaultValue={user.last_name}></input></td> 
-            <td><input onChange={handleChange} type="text" id="firstName" defaultValue={user.first_name}></input></td>   
-            <td>
-              <select id="grade" onChange={handleChange}> 
-                <option value={user.grade} selected disabled hidden>{user.grade} </option>
-                {this.state.grades.map(grade => <option id="grade" value={grade} defaultValue={user.grade}> {grade} </option> )}
-              </select>
-            </td> 
-            <td>
-                <select id="role" onChange={handleChange}> 
-                    {this.state.roles.map(role => <option id="role" value={role} defaultValue={user.user_role}> {role} </option> )}
-                </select>
-            </td> 
-            <td>
-                <select id="qualification" onChange={handleChange}> 
-                    {this.state.qualifications.map(qualification => <option id="qualification" value={qualification}> {qualification} </option> )}
-                </select>
-                <select id="level" onChange={handleChange}> 
-                    {this.state.levels.map(level => <option id="level" value={level}> {level} </option> )}
-                </select>                       
-            </td>                              
-            <td>
-                <select id="certification" onChange={handleChange}> 
-                    {this.state.certifications.map(certification => <option id="certification" value={certification}> {certification} </option> )}
-                </select>
-            </td> 
-
-            <td>
-                <select id="flight" onChange={handleChange}> 
-                    {this.state.flights.map(flight => <option id="flight" value={flight}> {flight} </option> )}
-                </select>
-            </td>  
-            <td>
-                <select id="crew" onChange={handleChange}> 
-                    {this.state.crews.map(crew => <option id="crew" value={crew}> {crew} </option> )}
-                </select>
-            </td>                                                             
-            <td> <button onClick={this.SubmitNewUser} value="Update User">Update User</button>  </td>                                    
-                                                
-          </tr>
-        )
-    }
+      </tr>
+    )
+  }
 
 
 
-     render() {
-        return (
-            <div>
-                <h2>Modify User <this.SelectUser /></h2>
-                
-                <table>
-                    <UserTableHeader/>
-                    <tbody>
-                      <this.ModifyUserForm />
-                    </tbody>
-                    
-                </table>
-            </div>
+  render() {
+    return (
+      <div>
+        <h2>Modify User </h2>
+        <this.SelectActiveUsers />
+        <this.SelectUser />
 
-        )
-    }
+        {(this.state.updatedUser)
+          ? <table>
+            <UserTableHeader />
+            <tbody>
+              <this.ModifyUserForm />
+            </tbody>
+
+          </table>
+          : ""
+        }
+
+      </div>
+
+    )
+  }
 }
 export default ModifyUser;
