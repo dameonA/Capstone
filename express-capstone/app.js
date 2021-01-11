@@ -14,7 +14,7 @@ const NotificationService = new (require('./services/notifications').Notificatio
 const UserService = new (require('./services/users').Users)(db.db);
 const ConflictService = new (require('./services/conflicts').Conflicts)(db.db);
 const ScheduleService = new (require('./services/schedules').Schedule)(db.db);
-
+const AutoScheduleService = new (require('./services/autoschedule').AutoSchedule)(db.db);
 
 //setup for cors
 app.use(cors());
@@ -43,6 +43,11 @@ app.use('/schedule', scheduleRouter)
 app.get('/initdb',async(req,res)=>{
   db.initDB("../database/").then(()=>res.send("success")).catch((err)=>res.sendStatus(500).send());
 })
+
+app.get('/autoschedule',async(req,res)=>{
+  AutoScheduleService.autoschedule2week(new Date("2021-01-21 20:00:00+00"))
+})
+
 
 app.listen(listen_port, function () {
   console.log('App listening on port '+listen_port+"!")
