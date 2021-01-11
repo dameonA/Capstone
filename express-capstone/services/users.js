@@ -140,15 +140,16 @@ module.exports.Users = class Users {
 
   async postQualification(quals) {//expects an array of qual objects
     quals.forEach(async (qual) => {
-      userId = qual.user_id;
-      qualId = qual.qual_id;
-      inTraining = qual.in_training;
-      isInstructor = qual.is_instructor;
-      isEvaluator = qual.is_evaluator;
+      let userId = qual.user_id;
+      let qualId = qual.qual_id;
+      let inTraining = qual.in_training;
+      let isInstructor = qual.is_instructor;
+      let isEvaluator = qual.is_evaluator;
 
       try {
-        return await this.db.any('INSERT INTO user_qualifications (user_id, qual_id, in_training, is_instructor, is_evaluator) VALUES ($1, $2, $3, $4, $5)', [userId, certId, inTraining, isInstructor, isEvaluator])
+        await this.db.any('INSERT INTO user_qualifications (user_id, qual_id, in_training, is_instructor, is_evaluator) VALUES ($1, $2, $3, $4, $5)', [userId, qualId, inTraining, isInstructor, isEvaluator])
       } catch (error) {
+        console.log(error)
         return {};
       }
     });
