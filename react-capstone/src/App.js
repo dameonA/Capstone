@@ -29,7 +29,7 @@ class App extends React.Component {
           <Switch>
               <Route exact path='/'><Home/></Route>
               <Route exact path='/Users'><UserPage api={this.state.apiURL}/></Route>
-              <Route exact path='/Conflicts'><ConflictPage/></Route>    
+              <Route exact path='/Conflicts'><ConflictPage api={this.state.apiURL}/></Route>    
               <Route exact path='/Notifications'><NotificationPage/></Route>
               <Route exact path='/Schedule'><ScheduleHomePage/></Route>                
           </Switch>

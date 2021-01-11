@@ -22,15 +22,17 @@ class ConflictPage extends React.Component {
     };//end of constructor
 
     submitConflict = async () => {
-        await fetch('http://localhost:3001/conflicts', {
+        await fetch(this.props.api + '/conflicts', {
             method: "POST",
             headers: {
+                "Accept": "application/json, text/plain, */*",
                 "Content-Type": "application/json"
             },
             body: {"conflict_type_id": this.state.conflict, 
                 "start_time": this.state.selectedStartDate, 
                 "stop_time": this.state.selectedEndDate, 
-                "comment": this.state.comment}
+                "comment": this.state.comment,
+                "schedule_id": this.state.schedule}
         })
         console.log('?!?!?!?!?!?!?!')//testing to see if function is firing
     }
@@ -57,6 +59,10 @@ class ConflictPage extends React.Component {
 
     handleCommentChange= (event) => {
         this.setState({comment: event.target.value})
+    }
+
+    handleSchedule = (event) => {
+        this.setState({schedule: event.target.value})
     }
 
     handleSubmit(event) {
@@ -139,7 +145,14 @@ class ConflictPage extends React.Component {
                     </label>
                     <br />
                     <br />
+                    <label>
+                        Schedule ID:
+                        <input type="text" value={this.state.schedule} onChange={this.handleSchedule}/>
+                    </label>
+                    <br />
+                    <br />
                     <input type="submit" value="Submit" onClick={this.submitConflict}/>
+                    
                 </form>
 
             </div>
