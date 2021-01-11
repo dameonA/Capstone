@@ -19,7 +19,21 @@ class ConflictPage extends React.Component {
         // this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         
-    };//end of constructor   
+    };//end of constructor
+
+    submitConflict = async () => {
+        await fetch('http://localhost:3001/conflicts', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: {"conflict_type_id": this.state.conflict, 
+                "start_time": this.state.selectedStartDate, 
+                "stop_time": this.state.selectedEndDate, 
+                "comment": this.state.comment}
+        })
+        console.log('?!?!?!?!?!?!?!')//testing to see if function is firing
+    }
     
     handleStartDateChange = (date) => {
         this.setState({selectedStartDate: date})
@@ -125,7 +139,7 @@ class ConflictPage extends React.Component {
                     </label>
                     <br />
                     <br />
-                    <input type="submit" value="Submit"/>
+                    <input type="submit" value="Submit" onClick={this.submitConflict}/>
                 </form>
 
             </div>
