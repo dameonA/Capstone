@@ -33,9 +33,25 @@ GET /users/:userId
 GET /users/:userId/notifications
     - provides an array of notification objects filtered on the userId provided and the user's role
 
+POST /users/new/userqualifications
+    - used when creating a new user. takes in an object {user_id: <id>, quals: [{arrayOfQual Objects}]}
+
+POST /users/new/usercertifications
+    - used when creating a new user. takes in an object {user_id: <id>, certs: [arrayOfCerts]}
+
+POST /users/update/usercertifications
+    - used to update certifications
+
+
+
 POST /notifications/:id/read
     - marks any notifications with the given id (should be unique) as read and returns an array of them
 
 POST /notifications/:id/archive
     - marks any notifications with the given id (should be unique) as archived and returns an array of them
 
+GET /schedule
+    - returns an array of all the unique schedule elements
+
+GET /schedule/positions
+    - returns static array of the positions table
