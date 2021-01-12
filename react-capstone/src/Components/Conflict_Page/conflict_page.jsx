@@ -87,12 +87,12 @@ class ConflictPage extends React.Component {
                     <label>
                         Select Conflict Type:
                         <select value={this.state.conflict} onChange={this.handleConflictChange}>
-                            <option value="leave-approved">1 Leave Approved</option>
-                            <option value="leave-requested">2 Leave Requested</option>
-                            <option value="tdy">3 TDY</option>
-                            <option value="dnic">4 DNIC</option>
-                            <option value="appointment">5 Appointment</option>
-                            <option value="other">6 Other</option>
+                            <option value="Leave Approved">1 Leave Approved</option>
+                            <option value="Leave Requested">2 Leave Requested</option>
+                            <option value="TDY">3 TDY</option>
+                            <option value="DNIC">4 DNIC</option>
+                            <option value="Appointment">5 Appointment</option>
+                            <option value="Other">6 Other</option>
                         </select>
                     </label>
                     <br />
