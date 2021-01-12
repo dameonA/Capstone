@@ -22,7 +22,7 @@ const useStyles = makeStyles({
 });  
 
 
-export default function SchedulePageTable() { 
+export default function SchedulePageTable(props) { 
       const classes = useStyles();  
       const [page, setPage] = React.useState(0);  
       const [data, setData] = useState([]);   
