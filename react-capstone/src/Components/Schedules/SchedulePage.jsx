@@ -10,8 +10,8 @@ import axios from 'axios';
 
 
 
-class ScheduleHomePage extends React.Component {
-    constructor(props){
+class SchedulePage extends React.Component {
+    constructor(props){//api, users, static(contains grades, usergroups, sections, qualifications, certifications)
         super(props)
         this.state={
             ProductData: []
@@ -19,16 +19,18 @@ class ScheduleHomePage extends React.Component {
     }
     
       componentDidMount() {  
-        axios.get('http://localhost:3001/schedule').then(response => {  
-          console.log(response.data);  
+        axios.get(this.props.api+'schedule').then(response => {   
           this.setState({  
             ProductData: response.data  
           });  
         });  
       }  
 
+      // let tempId = Number.parseInt(event.target.value);
+      // let index = this.props.users.findIndex(user => user.user_id === p.user_id)
+      // let tempUser = this.props.users[this.props.users.findIndex(user => user.user_id === p.user_id)].last_name;
+
       render() {  
-        console.log(this.state.ProductData);  
         return (  
           <TableContainer component={Paper}>  
             <Table stickyHeader  aria-label="sticky table">  
@@ -36,11 +38,10 @@ class ScheduleHomePage extends React.Component {
                 <TableRow>  
                 <TableCell>Last Name</TableCell>  
                   <TableCell align="right">First Name</TableCell>
-                  <TableCell align="right">Schedule ID</TableCell>  
                   <TableCell align="right">Start Time</TableCell>  
                   <TableCell align="right">Stop Time</TableCell>     
-                  <TableCell align="right">Position ID</TableCell>   
-                  <TableCell style={{paddingRight:"60px"}} align="right" >User ID</TableCell>  
+                  <TableCell style={{paddingRight:"60px"}}align="right">Position ID</TableCell>   
+
                 </TableRow>  
               </TableHead>   
               <TableBody>      
@@ -48,13 +49,11 @@ class ScheduleHomePage extends React.Component {
    
                   this.state.ProductData.map((p, index) => {  
                     return <TableRow key={index}>  
-                     <TableCell component="th" scope="row"> {p.lastName} </TableCell> 
-                     <TableCell align="right">{p.firstName}</TableCell> 
-                      <TableCell align="right">{p.schedule_id}</TableCell>  
+                     <TableCell component="th" scope="row"> {this.props.users[this.props.users.findIndex(user => user.user_id === p.user_id)].last_name} </TableCell> 
+                     <TableCell align="right">{this.props.users[this.props.users.findIndex(user => user.user_id === p.user_id)].first_name}</TableCell> 
                       <TableCell align="right">{p.start_time}</TableCell>   
                       <TableCell align="right">{p.stop_time}</TableCell>   
-                      <TableCell align="right">{p.position_id}</TableCell>       
-                      <TableCell style={{paddingRight:"114px"}} align="right">{p.user_id}</TableCell>
+                      <TableCell style={{paddingRight:"114px"}}  align="right">{p.position_id}</TableCell>       
                      </TableRow>   
                   })   
                 }  
@@ -65,7 +64,7 @@ class ScheduleHomePage extends React.Component {
       }   
     }  
   
-    export default ScheduleHomePage
+    export default SchedulePage
  
 
 
