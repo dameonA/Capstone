@@ -10,6 +10,12 @@ router.get('', function (req, response) {
     .catch(ret => response.send([ ]));
 });
 
+router.get('/types', function(req, response) {
+    var conflict = ConflictService.getConflictTypes()
+    .then(ret => response.send(ret))
+    .catch(ret => response.send([ ])); 
+})
+
 router.get('/:id', function(req, response, next) {
     let conflictTypeId = Number.parseInt(req.params.id);
     if(!isNaN(conflictTypeId)) {
@@ -21,6 +27,7 @@ router.get('/:id', function(req, response, next) {
         next()
     }
 })
+
 
 router.post('', function (req, response) {
     var conflict = req.body;

@@ -7,13 +7,17 @@ import {
     KeyboardTimePicker,
     KeyboardDatePicker,
 } from '@material-ui/pickers';
+import { date } from 'date-fns/locale/af';
 
 class ConflictPage extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
             value: [],
-            selectedDate: new Date('2020-08-18T21:11:54')
+            //selectedDate: new Date('2020-08-18T21:11:54'),
+            getConflictTypes: [],
+            selectedStartDate: Date.now(),
+            selectedEndDate: Date.now()
         };
 
         // this.handleChange = this.handleChange.bind(this);
@@ -21,20 +25,27 @@ class ConflictPage extends React.Component {
         
     };//end of constructor
 
+    componentDidMount = () => {
+        fetch(this.props.api + 'conflicts/types')
+        .then(ret => ret.json())
+        .then(json => this.setState({getConflictTypes: json}))
+        //.catch(ret => response.send([ ]));
+    }
+
     submitConflict = async () => {
-        await fetch(this.props.api + '/conflicts', {
+        await fetch(this.props.api + 'conflicts', {
             method: "POST",
             headers: {
                 "Accept": "application/json, text/plain, */*",
                 "Content-Type": "application/json"
             },
-            body: {"conflict_type_id": this.state.conflict, 
+            body: JSON.stringify({"conflict_type_id": this.state.conflict, 
                 "start_time": this.state.selectedStartDate, 
                 "stop_time": this.state.selectedEndDate, 
                 "comment": this.state.comment,
-                "schedule_id": this.state.schedule}
+                "schedule_id": this.state.schedule})
         })
-        console.log('?!?!?!?!?!?!?!')//testing to see if function is firing
+        //console.log('?!?!?!?!?!?!?!')//testing to see if function is firing
     }
     
     handleStartDateChange = (date) => {
@@ -87,12 +98,13 @@ class ConflictPage extends React.Component {
                     <label>
                         Select Conflict Type:
                         <select value={this.state.conflict} onChange={this.handleConflictChange}>
-                            <option value="Leave Approved">1 Leave Approved</option>
+                            {this.state.getConflictTypes.map(typeID => <option value={typeID.conflict_type_id}>{typeID.conflict_type_name}</option>)}
+                            {/* <option value="Leave Approved">1 Leave Approved</option>
                             <option value="Leave Requested">2 Leave Requested</option>
                             <option value="TDY">3 TDY</option>
                             <option value="DNIC">4 DNIC</option>
                             <option value="Appointment">5 Appointment</option>
-                            <option value="Other">6 Other</option>
+                            <option value="Other">6 Other</option> */}
                         </select>
                     </label>
                     <br />

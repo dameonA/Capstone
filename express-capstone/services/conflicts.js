@@ -21,6 +21,15 @@ module.exports.Conflicts = class Conflicts {
         }
     }
 
+    async getConflictTypes () {
+        try {
+            return await this.db.any('select * from conflict_type')
+        }
+        catch(error) {
+            return undefined;
+        }
+    }
+
     async postConflicts (conflict) {
         let conflictTypeId = conflict.conflict_type_id;
         let startTime = conflict.start_time;
