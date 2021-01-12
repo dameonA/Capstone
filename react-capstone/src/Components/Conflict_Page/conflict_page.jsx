@@ -39,7 +39,7 @@ class ConflictPage extends React.Component {
                 "start_time": this.state.selectedStartDate, 
                 "stop_time": this.state.selectedEndDate, 
                 "comment": this.state.comment,
-                "user_id": this.state.userId})
+                "user_id": this.state.updatedUser.user_id})
         })
     }
     
