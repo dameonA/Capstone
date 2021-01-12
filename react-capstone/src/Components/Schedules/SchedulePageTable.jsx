@@ -33,8 +33,7 @@ export default function SchedulePageTable() {
               const result = await axios('http://localhost:3001/schedule');    
               setData(result.data);    
             }  
-            GetData();    
-            console.log(data);  
+            GetData();      
     }, []);   
       const handleChangePage = (event, newPage) => {  
         setPage(newPage);  
