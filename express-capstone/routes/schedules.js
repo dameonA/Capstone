@@ -8,6 +8,12 @@ router.get('', function (req, res) {
     .catch(ret=>res.send([ ]));
 })
 
+router.get('/positions', function (req, res) {
+  var positions = ScheduleService.getPositions()
+  .then(ret=>res.send(ret))
+  .catch(ret=>res.send([]));
+})
+
 
 module.exports = function(scheduleService){
   ScheduleService=scheduleService;
