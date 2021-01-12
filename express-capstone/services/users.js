@@ -49,7 +49,7 @@ module.exports.Users = class Users {
     let active = user.active;
     try {
       return await this.db.one(
-        'INSERT INTO users (first_name, last_name, grade, user_role, section, user_group, active) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING user_id',
+        'INSERT INTO users (first_name, last_name, grade, user_role, section, user_group, active) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
         [firstName, lastName, grade, userRole, section, userGroup, active])
     } catch (error) {
       return {};
@@ -109,16 +109,17 @@ module.exports.Users = class Users {
 
   async postCertification(userId, certs) {//expects an array of cert objects
     await certs.map(async (cert) => {
-      try {
-        await this.db.one('INSERT INTO user_certifications (user_id, cert_id) VALUES ($1, $2)', [userId, cert])
-      } catch (error) {
-        return null;
+      if (cert && cert > 0) {
+        try {
+          await this.db.one('INSERT INTO user_certifications (user_id, cert_id) VALUES ($1, $2)', [userId, cert])
+        } catch (error) {
+          return null;
+        }
       }
     })
   }
   
   async updateCertifications(userId, certs) {//expects an array of cert objects
-    console.log('inside updateCertifications: ' + userId, certs)
     try {
       await this.db.any('DELETE FROM user_certifications where user_id=$1', [userId]);
       await this.postCertification(userId, certs);
@@ -144,13 +145,15 @@ module.exports.Users = class Users {
       let inTraining = qual.in_training;
       let isInstructor = qual.is_instructor;
       let isEvaluator = qual.is_evaluator;
-
-      try {
-        await this.db.any('INSERT INTO user_qualifications (user_id, qual_id, in_training, is_instructor, is_evaluator) VALUES ($1, $2, $3, $4, $5)', [userId, qualId, inTraining, isInstructor, isEvaluator])
-      } catch (error) {
-        console.log(error)
-        return {};
+      if (qualId && qualId > 0) {
+        try {
+          await this.db.any('INSERT INTO user_qualifications (user_id, qual_id, in_training, is_instructor, is_evaluator) VALUES ($1, $2, $3, $4, $5)', [userId, qualId, inTraining, isInstructor, isEvaluator])
+        } catch (error) {
+          console.log(error)
+          return {};
+        }
       }
+
     });
   }  
 

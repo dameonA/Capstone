@@ -21,8 +21,7 @@ router.post('/new', async function (req, res) {
     })
 })
 
-router.post('/new/userqualification', async function (req, res) {
-  console.log("req.body: " + req.body.user_id)
+router.post('/new/userqualifications', async function (req, res) {
   UserService.postQualification(req.body.user_id, req.body.quals)
     .then(obj => {
       res.send(obj);
@@ -32,8 +31,7 @@ router.post('/new/userqualification', async function (req, res) {
     })
 })
 
-router.post('/new/usercertification', async function (req, res) {
-  console.log('req.body: ' + Number.parseInt(req.body.user_id), req.body.certs)
+router.post('/new/usercertifications', async function (req, res) {
   UserService.postCertification(Number.parseInt(req.body.user_id), req.body.certs)
     .then(obj => {
       res.send(obj);
