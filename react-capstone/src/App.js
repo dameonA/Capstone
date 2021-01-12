@@ -7,7 +7,8 @@ import Home from './Components/Home/Home'
 import UserPage from './Components/CreateUser/UserPage'
 import ConflictPage from './Components/Conflict_Page/conflict_page'
 import NotificationPage from './Components/Notifications/NotificationPage'
-import ScheduleHomePage from './Components/ScheduleHomePage/ScheduleHomePage'
+import SchedulePage from './Components/Schedules/SchedulePage'
+import SchedulePageTable from './Components/Schedules/SchedulePageTable'
 
 
 
@@ -36,6 +37,8 @@ class App extends React.Component {
     this.setState({users: usersArray});
   }
 
+
+
   setStaticTables = async () => {
     let response1 = await fetch(this.state.apiURL+'users/usergroups').catch(err=>console.log("cannot get usergroups: ", err)); //get the users
     let tempArray1 = await response1.json();
@@ -52,6 +55,8 @@ class App extends React.Component {
     let response5 = await fetch(this.state.apiURL+'users/sections').catch(err=>console.log("cannot get sections: ", err)); //get the users
     let tempArray5 = await response5.json();
     
+
+    
     this.setState({staticTables: {
       grades: ['E1', 'E2', 'E3', 'E4', 'E5', 'E6', 'E7', 'E8', 'E9', 'O1', 'O2', 'O3', 'O4', 'O5', 'O6' ],
       usergroups: tempArray1,
@@ -59,6 +64,7 @@ class App extends React.Component {
       certifications: tempArray3,
       qualifications: tempArray4,
       sections: tempArray5
+
     }});
   }
 
@@ -72,7 +78,8 @@ class App extends React.Component {
             <Route exact path='/Users'><UserPage api={this.state.apiURL} users={this.state.users} static={this.state.staticTables}/></Route>
             <Route exact path='/Conflicts'><ConflictPage/></Route>    
             <Route exact path='/Notifications'><NotificationPage/></Route>
-            <Route exact path='/Schedule'><ScheduleHomePage/></Route>                
+            <Route exact path='/Schedule'><SchedulePageTable api={this.state.apiURL} users={this.state.users} 
+            schedule={this.state.schedule} /></Route>                
         </Switch>
         </BrowserRouter>
       </ThemeProvider>
