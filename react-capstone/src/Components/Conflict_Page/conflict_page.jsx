@@ -157,12 +157,6 @@ class ConflictPage extends React.Component {
                     </label>
                     <br />
                     <br />
-                    <label>
-                        Schedule ID:
-                        <input type="text" value={this.state.schedule} onChange={this.handleSchedule}/>
-                    </label>
-                    <br />
-                    <br />
                     <input type="submit" value="Submit" onClick={this.submitConflict}/>
                     
                 </form>
