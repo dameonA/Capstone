@@ -17,7 +17,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       users: [],
-      staticTables: {}, //contains grades, usergroups, sections, qualifications, certifications, grades
+      staticTables: {}, //contains grades, usergroups, sections, qualifications, certifications, positions 
       apiURL: 'http://localhost:3001/'
     }
   }
@@ -54,6 +54,9 @@ class App extends React.Component {
 
     let response5 = await fetch(this.state.apiURL+'users/sections').catch(err=>console.log("cannot get sections: ", err)); //get the users
     let tempArray5 = await response5.json();
+
+    let response6 = await fetch(this.state.apiURL+'schedule/positions').catch(err=>console.log("cannot get positions: ", err));
+    let tempArray6 = await response6.json();
     
 
     
@@ -63,7 +66,8 @@ class App extends React.Component {
       roles: tempArray2,
       certifications: tempArray3,
       qualifications: tempArray4,
-      sections: tempArray5
+      sections: tempArray5,
+      positions: tempArray6
 
     }});
   }
@@ -79,7 +83,7 @@ class App extends React.Component {
             <Route exact path='/Conflicts'><ConflictPage/></Route>    
             <Route exact path='/Notifications'><NotificationPage/></Route>
             <Route exact path='/Schedule'><SchedulePageTable api={this.state.apiURL} users={this.state.users} 
-            schedule={this.state.schedule} /></Route>                
+            static={this.state.staticTables} /></Route>                
         </Switch>
         </BrowserRouter>
       </ThemeProvider>

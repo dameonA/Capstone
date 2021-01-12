@@ -12,6 +12,15 @@ module.exports.Schedule = class Schedule {
         }
     }
 
+    async getPositions () {
+        try{
+            return await this.db.any('SELECT * FROM positions')
+        }
+        catch(error) {
+            return undefined;
+        }
+    }
+
 
     
 
