@@ -37,8 +37,6 @@ module.exports.Conflicts = class Conflicts {
         let conflictComment = conflict.comment;
         let scheduleId = conflict.schedule_id;
         try {
-            // return await this.db.any ('insert into conflict (conflict_type_id, start_time, stop_time, comment) values ($1, $2, $3, $4)', [conflictTypeId, startTime, stopTime, conflictComment])
-
             return await this.db.any ('insert into conflict (conflict_type_id, start_time, stop_time, comment, schedule_id) values ($1, $2, $3, $4, $5)', [conflictTypeId, startTime, stopTime, conflictComment, scheduleId])
         }
         catch(error) {
