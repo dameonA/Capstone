@@ -10,6 +10,25 @@ router.get('', function (req, response) {
     .catch(ret => response.send([ ]));
 });
 
+router.get('/types', function(req, response) {
+    var conflict = ConflictService.getConflictTypes()
+    .then(ret => response.send(ret))
+    .catch(ret => response.send([ ])); 
+})
+
+router.get('/:id', function(req, response, next) {
+    let conflictTypeId = Number.parseInt(req.params.id);
+    if(!isNaN(conflictTypeId)) {
+        var conflicts = ConflictService.getConflict(conflictTypeId)
+        .then(ret => response.send(ret))
+        .catch(ret => response.send("{ }"));
+    }
+    else {
+        next()
+    }
+})
+
+
 router.post('', function (req, response) {
     var conflict = req.body;
     console.log(conflict);
@@ -20,6 +39,8 @@ router.post('', function (req, response) {
 
 module.exports = function(conflictService) {
     ConflictService = conflictService;
+    //do as you wish
+    //this runs in background, not on each request
 
     return router;
 }

@@ -27,17 +27,11 @@ class App extends React.Component {
     this.setStaticTables();
   }
 
-  // componentDidUpdate = () => {
-  //   this.intializeUsers(); 
-  // }
-
   intializeUsers = async () => {
     let response = await fetch(this.state.apiURL+'users').catch(err=>console.log("cannot get users: ", err)); //get the users
     let usersArray = await response.json();
     this.setState({users: usersArray});
   }
-
-
 
   setStaticTables = async () => {
     let response1 = await fetch(this.state.apiURL+'users/usergroups').catch(err=>console.log("cannot get usergroups: ", err)); //get the users
@@ -57,8 +51,6 @@ class App extends React.Component {
 
     let response6 = await fetch(this.state.apiURL+'schedule/positions').catch(err=>console.log("cannot get positions: ", err));
     let tempArray6 = await response6.json();
-    
-
     
     this.setState({staticTables: {
       grades: ['E1', 'E2', 'E3', 'E4', 'E5', 'E6', 'E7', 'E8', 'E9', 'O1', 'O2', 'O3', 'O4', 'O5', 'O6' ],
@@ -80,10 +72,9 @@ class App extends React.Component {
         <Switch>
             <Route exact path='/'><Home/></Route>
             <Route exact path='/Users'><UserPage api={this.state.apiURL} users={this.state.users} static={this.state.staticTables}/></Route>
-            <Route exact path='/Conflicts'><ConflictPage/></Route>    
+            <Route exact path='/Conflicts'><ConflictPage api={this.state.apiURL}/></Route>    
             <Route exact path='/Notifications'><NotificationPage/></Route>
-            <Route exact path='/Schedule'><SchedulePageTable api={this.state.apiURL} users={this.state.users} 
-            static={this.state.staticTables} /></Route>                
+            <Route exact path='/Schedule'><SchedulePage api={this.state.apiURL} users={this.state.users} static={this.state.staticTables} /></Route>                
         </Switch>
         </BrowserRouter>
       </ThemeProvider>
