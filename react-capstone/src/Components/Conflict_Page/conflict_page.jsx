@@ -13,7 +13,6 @@ class ConflictPage extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            value: [],
             getConflictTypes: [],
             selectedStartDate: Date.now(),
             selectedEndDate: Date.now()
@@ -40,7 +39,7 @@ class ConflictPage extends React.Component {
                 "start_time": this.state.selectedStartDate, 
                 "stop_time": this.state.selectedEndDate, 
                 "comment": this.state.comment,
-                "schedule_id": this.state.schedule})
+                "user_id": this.state.userId})
         })
     }
     
@@ -56,20 +55,8 @@ class ConflictPage extends React.Component {
         this.setState({conflict: event.target.value});
     }
 
-    handleFirstNameChange= (event) => {
-        this.setState({firstname: event.target.value})
-    }
-
-    handleLastNameChange= (event) => {
-        this.setState({lastname: event.target.value})
-    }
-
     handleCommentChange= (event) => {
         this.setState({comment: event.target.value})
-    }
-
-    handleSchedule = (event) => {
-        this.setState({schedule: event.target.value})
     }
 
     handleSubmit(event) {
@@ -77,18 +64,37 @@ class ConflictPage extends React.Component {
         event.preventDefault();
     }
 
+    SelectUser = () => {
+        const handleChange = (event) => {
+          let tempId = Number.parseInt(event.target.value);
+          let index = this.props.users.findIndex(user => user.user_id === tempId)
+          let tempUser = this.props.users[index]
+          this.setState(previousState => ({
+            ...previousState,
+            updatedUser: tempUser
+            }))
+        }
+    
+        return (
+          <select id="selectedUser" onChange={handleChange}>
+            {(!this.state.updatedUser)
+            ? <option id='selectedUser' value='Select User' selected disabled hidden>Select User</option>
+            : <option id='selectedUser' value='Select User'>{this.state.updatedUser.last_name}, {this.state.updatedUser.first_name} {this.state.updatedUser.grade}</option> 
+            }
+            
+            {this.props.users.map(user => <option id="selectedUser" value={user.user_id}>{user.last_name}, {user.first_name} {user.grade}</option>)}
+          </select>
+        )
+    
+      }
+
     render() {
         return (
             <div>
                 <header> <h1>Conflict</h1></header>
                 <hr />
                 <form onSubmit={this.handleSubmit}>
-                    <label>
-                        First Name:
-                        <input type="text" value={this.state.firstname} onChange={this.handleFirstNameChange}/>
-                        Last Name:
-                        <input type="text" value={this.state.lastname} onChange={this.handleLastNameChange}/>
-                    </label>
+                    <this.SelectUser />
                     <br />
                     <br />
                     <label>
@@ -146,10 +152,6 @@ class ConflictPage extends React.Component {
                         <textarea value={this.state.comment} onChange={this.handleCommentChange} />
                     </label>
                     <br />
-                    <label>
-                        Schedule ID:
-                        <input type="text" value={this.state.schedule} onChange={this.handleSchedule} />
-                    </label> {/*Added this bit back in because I received an error message when testing w/o. Message was "null value in column :schedule_id" of relation "conflict" violates not-null constraint. This will need some TLC. */}
                     <br />
                     <input type="submit" value="Submit" onClick={this.submitConflict}/>
                     

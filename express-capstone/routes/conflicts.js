@@ -28,7 +28,6 @@ router.get('/:id', function(req, response, next) {
     }
 })
 
-
 router.post('', function (req, response) {
     var conflict = req.body;
     console.log(conflict);
