@@ -52,6 +52,24 @@ class AddUser extends React.Component {
 
     SubmitNewUser = async () => {
 
+      if (this.state.newUser.certifications[0].cert_id === 0) {
+        this.setState(previousState => ({
+          newUser: {
+            ...previousState.newUser,
+            certifications: null
+          }
+        }))
+      }
+  
+      if (this.state.newUser.qualifications[0].qual_id === 0) {
+        this.setState(previousState => ({
+          newUser: {
+            ...previousState.newUser,
+            qualifications: null
+          }
+        }))
+      }
+
       let newUser = await fetch(this.props.api + 'users/new',
       {
         method: "POST",
@@ -142,6 +160,7 @@ class AddUser extends React.Component {
               }
             }));
           }
+
           if (event.target.id === "unassigned_qualifications") {
 
             this.setState(previousState => ({
