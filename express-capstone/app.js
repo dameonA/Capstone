@@ -15,7 +15,7 @@ const UserService = new (require('./services/users').Users)(db.db);
 const ConflictService = new (require('./services/conflicts').Conflicts)(db.db);
 const ScheduleService = new (require('./services/schedules').Schedule)(db.db);
 const AutoScheduleService = new (require('./services/autoschedule').AutoSchedule)(db.db);
-
+const AuthService = new (require('./services/auth').Auth)(db.db);
 //setup for cors
 app.use(cors());
 app.options('*', cors());
@@ -23,9 +23,9 @@ app.options('*', cors());
 //var exampleRouter = require('./routes/example')
 var userRouter = require('./routes/users')(UserService,NotificationService);
 var notificationRouter = require('./routes/notifications')(NotificationService);
-var conflictRouter = require('./routes/conflicts')(ConflictService);
-var scheduleRouter = require('./routes/schedules')(ScheduleService);
-
+var conflictRouter = require('./routes/conflicts')(ConflictService,ScheduleService,NotificationService);
+var scheduleRouter = require('./routes/schedules')(ScheduleService,AutoScheduleService);
+var authRouter = require('./routes/auth')(UserService,AuthService)
 
 // Set up json parsing
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -37,18 +37,7 @@ app.use('/users', userRouter)
 app.use('/notifications', notificationRouter)
 app.use('/conflicts', conflictRouter)
 app.use('/schedule', scheduleRouter)
-
-
-// Method to initialize the database if needed 
-app.get('/initdb',async(req,res)=>{
-  db.initDB("../database/").then(()=>res.send("success")).catch((err)=>res.sendStatus(500).send());
-})
-
-app.get('/autoschedule',async(req,res)=>{
-  AutoScheduleService.autoschedule2week(new Date("2021-01-21 20:00:00+00"))
-})
-
-
+app.use('/auth',authRouter)
 app.listen(listen_port, function () {
   console.log('App listening on port '+listen_port+"!")
 })

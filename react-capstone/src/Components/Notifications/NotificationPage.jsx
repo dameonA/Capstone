@@ -12,7 +12,7 @@ class NotificationPage extends React.Component {
         let notifs = this.state.notifications;
         let notif = notifs.find(n=>n.id===id);
         if (notif) {
-            const result = await fetch(this.props.api+"/notifications/"+id+"/read", { method: "POST"}).catch(err=>console.log("cannot mark read: ",err));
+            const result = await fetch(this.props.api+"notifications/"+id+"/read", { method: "POST"}).catch(err=>console.log("cannot mark read: ",err));
             let json = await result.json().catch((err)=>console.log("cannot convert to json: ",err, result));
             //console.log(json, json!={} )
             if (json != {}) {
@@ -26,7 +26,7 @@ class NotificationPage extends React.Component {
         let notifs = this.state.notifications;
         let notif = notifs.find(n=>n.id===id);
         if (notif) {
-            const result = await fetch(this.props.api+"/notifications/"+id+"/archive", { method: "POST"}).catch(err=>console.log("cannot mark read: ",err));
+            const result = await fetch(this.props.api+"notifications/"+id+"/archive", { method: "POST"}).catch(err=>console.log("cannot mark read: ",err));
             let json = await result.json().catch((err)=>console.log("cannot convert to json: ",err, result));
             //console.log(json, json!={} )
             if (json != {}) {
@@ -38,7 +38,7 @@ class NotificationPage extends React.Component {
     }
     componentDidMount= async ()=> {
         if (this.props.api && this.props.user && this.props.user.user_id) {
-            const result = await fetch(this.props.api+"/users/"+this.props.user.user_id+"/notifications/").catch(err=>console.log("cannot fetch: ",err));
+            const result = await fetch(this.props.api+"users/"+this.props.user.user_id+"/notifications/").catch(err=>console.log("cannot fetch: ",err));
             result.json().then(json=>{
                 this.setState({notifications:json})
             }).catch(err=>console.log("cannot convert to json: ",err,result));

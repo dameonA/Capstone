@@ -24,7 +24,7 @@ module.exports.AutoSchedule = class AutoSchedule {
          let staffusers = users.filter(u=>u.usergroups === "Day Staff")
          //let users = [greenusers,blueusers]; //greenusers.append(staffusers).append(blueusers)
          // TODO: REPLACE WITH POSITIONS SERVICE
-         let positions = this._getPositions();
+         let positions = await this._getPositions();
 
              //TODO remove filter of null from this check
          let curDate = startDate;
@@ -176,7 +176,7 @@ module.exports.AutoSchedule = class AutoSchedule {
         let blueusers = users.filter(u=>u.usergroups === "Blue")
         let staffusers = users.filter(u=>u.usergroups === "Day Staff")
         try {
-            let newScheduleEntry = await this.trySchedule(this._getPositions(),this.userService.getUsers(),[scheduleEntry],this.scheduleService.getSchedule(),this.conflictService.getConflicts());
+            let newScheduleEntry = await this.trySchedule(this._getPositions(),this.userServic.getUsers(),[scheduleEntry],this.scheduleService.getSchedule(),this.conflictService.getConflicts());
             this.db.any('UPDATE schedule SET user_id=$2 where schedule_id = $1',[scheduleEntry.schedule_id,newScheduleEntry.user_id]);
         }catch(err) {
 
