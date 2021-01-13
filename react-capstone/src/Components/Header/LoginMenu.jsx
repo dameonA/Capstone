@@ -5,6 +5,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import {makeStyles} from '@material-ui/styles'
 import LockIcon from '@material-ui/icons/Lock';
+import {Link} from 'react-router-dom'
 
 const useStyles = makeStyles(() => ({
     textField:{
@@ -23,10 +24,10 @@ const useStyles = makeStyles(() => ({
 
 export default function LoginMenu(props){
     const classes=useStyles();
-    let loggedIn = true;
+    //let loggedIn = true;
 
     function ButtonClick () {
-        loggedIn = !loggedIn
+        //loggedIn = !loggedIn
     }
 
     return(
@@ -66,17 +67,18 @@ export default function LoginMenu(props){
                     className: classes.input
                 }}
             /> */}
+            <Link to="/Login" >
             <Button 
                 className={classes.button} 
                 variant="contained" 
                 color="secondary" 
-                onClick={ButtonClick()}
             >
-                {loggedIn 
+                {props.user
                  ? <a>Logout</a>
                  : <a>Login</a>
                 }
             </Button>
+            </Link>
         </React.Fragment>
     )
 }

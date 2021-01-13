@@ -23,7 +23,7 @@ SELECT json_build_object(
        FROM user_certifications WHERE users.user_id = user_certifications.user_id)
       
 ) json
-FROM users ORDER BY last_name 
+FROM users 
 `
 
 module.exports.Users = class Users {
@@ -31,8 +31,10 @@ module.exports.Users = class Users {
     this.db = database;
   }
   async getUser(userId) {
+    console.log(queryUsers + ' where user_id = '+userId)
     try {
       let user = (await this.db.one(queryUsers + ' where user_id = $1', userId)).json
+      console.log(user)
       if (user.qualifications === null) {
         user.qualifications=[];
       }
@@ -41,7 +43,7 @@ module.exports.Users = class Users {
       }
       return user;
     } catch (error) {
-      //console.log(error);
+      console.log(error);
       return undefined;
     }
   }
@@ -106,7 +108,7 @@ module.exports.Users = class Users {
 
   async getUsers() {
     try {
-      return (await this.db.any(queryUsers)).map(e => e.json).map(u=>{
+      return (await this.db.any(queryUsers+' ORDER BY last_name')).map(e => e.json).map(u=>{
         return {...u,
           qualifications:(u.qualifications===null)?[]:u.qualifications,
           certifications:(u.certifications===null)?[]:u.certifications,

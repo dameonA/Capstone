@@ -10,7 +10,7 @@ INSERT INTO qualifications (qual_name) VALUES
     ('MCCT'),
     ('RSC'),
     ('SD'),    
-    ('ST'),
+    ('SDT'),
     ('AWO'),
     ('WD'),
     ('ASO'),

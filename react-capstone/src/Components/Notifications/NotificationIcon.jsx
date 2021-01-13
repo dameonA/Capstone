@@ -8,7 +8,7 @@ class NotificationIcon extends React.Component {
     }
     componentDidMount= async ()=> {
         if (this.props.api && this.props.user && this.props.user.user_id) {
-            const result = await fetch(this.props.api+"/user/"+this.props.user.user_id+"/notifications/").catch(err=>console.log("cannot fetch: ",err));
+            const result = await fetch(this.props.api+"user/"+this.props.user.user_id+"/notifications/").catch(err=>console.log("cannot fetch: ",err));
             result.json().then(data=>{this.setState({notifications:data})}).catch(err=>console.log("cannot convert to json: ",err,result));
         }        
     }
