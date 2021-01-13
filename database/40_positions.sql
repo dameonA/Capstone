@@ -20,6 +20,6 @@ INSERT INTO positions (position_name,minimum) VALUES
 ('IDT',2),
 ('APM - DNIC',1),
 ('ICO/T',1),
-('ICO/T - DNIC',1)
-
+('ICO/T - DNIC',1),
+('FO',0)
 ;

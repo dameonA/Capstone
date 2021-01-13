@@ -2,6 +2,13 @@ module.exports.Notifications = class Notifications {
     constructor(database) {
         this.db = database;
     }
+    async postNotification (notification) {
+        if ((notification.userid || notification.role_id) &&
+        notification.type_notify &&
+        notification.comment) {
+                return await this.db.any('insert into notification(userid,role_id,type_notify,comment,sent_tm,is_read,archived) VALUES ($1,$2,$3,$4,false,false)',[notification.userid || null, notification.role_id || null, type_notify,comment]);
+            }
+    }
     async getNotifications (userId, user_role) {
         try {
             return await this.db.any('select * from notification where userid = $1 or role_id = $2;',[userId,user_role]);
