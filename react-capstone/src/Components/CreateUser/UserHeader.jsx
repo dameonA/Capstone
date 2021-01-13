@@ -9,7 +9,8 @@ function UserTableHeader(props) {
               <th>Grade</th>
               <th>Access Role</th>
               <th>Crew Qualification</th>
-              <th>Certification</th>
+              <th>Available Certifications</th>
+              <th>User's Certifications</th>
               <th>Flight</th>
               <th>Crew</th>
               <th>Active</th>

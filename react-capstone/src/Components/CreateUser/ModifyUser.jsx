@@ -6,11 +6,11 @@ class ModifyUser extends React.Component {
     super(props) //api <router api>, users <object of all users>, static <static tables>
     this.state = {
       users: [],
-      newUserQualifications: {},
-      newUserCertifications: {},
+      newUserQualifications: [],
+      newUserCertifications: [],
       levels: ['None', 'Training', 'Instructor', 'Evaluator'],
       activeUserSelection: 'all'
-    
+   
     };
   }
 
@@ -36,6 +36,8 @@ class ModifyUser extends React.Component {
       })
     this.SubmitUpdatedUserQualifications();
     this.SubmitUpdatedUserCertifications();
+    alert(`User Updated! \n Name: ${this.state.updatedUser.last_name}, ${this.state.updatedUser.first_name} ${this.state.updatedUser.grade}`);
+
     this.setState({ updatedUser: null }); //reset the updatedUser to null to remove the inputs for the user modification
     this.intializeUsers(); //reset the state to the database to bring in the new updates of the user
     
@@ -330,7 +332,7 @@ class ModifyUser extends React.Component {
     return (
       <div>
         <h2>Modify User </h2>
-        <this.SelectActiveUsers />
+        {/* <this.SelectActiveUsers /> */}
         <this.SelectUser />
 
         {(this.state.updatedUser)
