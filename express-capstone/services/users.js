@@ -7,7 +7,7 @@ SELECT json_build_object(
   'section',users.section,
   'user_group',users.user_group,
   'active',users.active,
-  'role', users.user_role, 
+  'user_role', users.user_role, 
   'qualifications',
       (SELECT json_agg(
           json_build_object(
@@ -32,7 +32,14 @@ module.exports.Users = class Users {
   }
   async getUser(userId) {
     try {
-      return (await this.db.one(queryUsers + ' where user_id = $1', userId)).json
+      let user = (await this.db.one(queryUsers + ' where user_id = $1', userId)).json
+      if (user.qualifications === null) {
+        user.qualifications=[];
+      }
+      if (user.certifications === null) {
+        user.certifications=[];
+      }
+      return user;
     } catch (error) {
       //console.log(error);
       return undefined;
@@ -43,14 +50,37 @@ module.exports.Users = class Users {
     let firstName = user.first_name;
     let lastName = user.last_name;
     let grade = user.grade;
-    let userRole = user.role;
+    let userRole = user.user_role;
     let section = user.section;
     let userGroup = user.user_group;
     let active = user.active;
     try {
-      return await this.db.one(
-        'INSERT INTO users (first_name, last_name, grade, user_role, section, user_group, active) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING user_id',
+      let ret = await this.db.one(
+        'INSERT INTO users (first_name, last_name, grade, user_role, section, user_group, active) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
         [firstName, lastName, grade, userRole, section, userGroup, active])
+        if (Array.isArray(user.qualifications)) {
+          //let qualifications = await this.getQualifications();
+          for (let qIndex = 0; qIndex < user.qualifications.length; qIndex++) {
+            let qual = user.qualifications[qIndex];
+            if (qual) {
+              try {
+                await this.db.one('INSERT INTO user_qualifications (user_id,qual_id,is_evaluator,is_instructor) VALUES ($1,$2,$3,$4)',[ret.user_id,qual.qual_id,qual.is_evaluator||false,qual.is_instructor||false])
+              } catch (ignored) {}
+            }
+          }
+        }
+        if (Array.isArray(user.certifications)) {
+          //let certifications = await this.getCertifications();
+          for (let cIndex = 0; cIndex < user.certifications.length; cIndex++) {
+            let cert = user.certifications[cIndex];
+            if (cert) {
+              try {
+                await this.db.one('INSERT INTO user_certifications (user_id,qual_id) VALUES ($1,$2)',[ret.user_id,cert.cert_id])
+              } catch (ignored) {}
+            }
+          }
+        }
+        return await this.getUser(ret.user_id);
     } catch (error) {
       return {};
     }
@@ -61,7 +91,7 @@ module.exports.Users = class Users {
     let firstName = user.first_name;
     let lastName = user.last_name;
     let grade = user.grade;
-    let userRole = user.role;
+    let userRole = user.user_role;
     let section = user.section;
     let userGroup = user.user_group;
     let active = user.active;
@@ -76,7 +106,12 @@ module.exports.Users = class Users {
 
   async getUsers() {
     try {
-      return (await this.db.any(queryUsers)).map(e => e.json)
+      return (await this.db.any(queryUsers)).map(e => e.json).map(u=>{
+        return {...u,
+          qualifications:(u.qualifications===null)?[]:u.qualifications,
+          certifications:(u.certifications===null)?[]:u.certifications,
+        }
+      })
     } catch (error) {
       //console.log(error);
       return undefined;
@@ -107,6 +142,30 @@ module.exports.Users = class Users {
     }
   }
 
+  async postCertification(userId, certs) {//expects an array of cert objects
+    await certs.map(async (cert) => {
+      if (cert && cert > 0) {
+        try {
+          await this.db.one('INSERT INTO user_certifications (user_id, cert_id) VALUES ($1, $2)', [userId, cert])
+        } catch (error) {
+          return null;
+        }
+      }
+    })
+  }
+  
+  async updateCertifications(userId, certs) {//expects an array of cert objects
+    try {
+      await this.db.any('DELETE FROM user_certifications where user_id=$1', [userId]);
+      await this.postCertification(userId, certs);
+    } catch (error) {
+      console.log(error)
+      return [];
+    } 
+
+  }
+  
+
   async getQualifications() {
     try {
       return await this.db.any('SELECT * FROM qualifications')
@@ -114,6 +173,24 @@ module.exports.Users = class Users {
       return undefined;
     }
   }
+
+  async postQualification(userId, quals) {//expects an array of qual objects
+    quals.forEach(async (qual) => {
+      let qualId = qual.qual_id;
+      let inTraining = qual.in_training;
+      let isInstructor = qual.is_instructor;
+      let isEvaluator = qual.is_evaluator;
+      if (qualId && qualId > 0) {
+        try {
+          await this.db.any('INSERT INTO user_qualifications (user_id, qual_id, in_training, is_instructor, is_evaluator) VALUES ($1, $2, $3, $4, $5)', [userId, qualId, inTraining, isInstructor, isEvaluator])
+        } catch (error) {
+          console.log(error)
+          return {};
+        }
+      }
+
+    });
+  }  
 
   async getRoles() {
     try {

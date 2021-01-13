@@ -5,64 +5,105 @@ class AddUser extends React.Component {
     constructor(props) {
         super(props) //api <router api>, static <static tables>
         this.state = {
-            newUser: {},
-            newUserQualifications: {},
-            newUserCertifications:{},
-            levels: ['None', 'Training', 'Instructor', 'Evaluator'],
-            newUserId: 1           
-        };
+          newUser: {
+            grade: '',
+            first_name: '',
+            last_name: '',
+            user_role: 1,
+            section: 1,
+            user_group: 1,
+            active: true,
+            qualifications: [{qual_id: 0, qual_name: 'None'}],
+            certifications: [{cert_id: 0, cert_name: 'None'}]
+          },
+          levels: ['None', 'Training', 'Instructor', 'Evaluator'],
+          newCertification: this.props.static.certifications[0],
+          removeCertification: {cert_id: 0, cert_name: 'None'},
+          newQualification: {
+            qual_id: this.props.static.qualifications[0].qual_id,
+            qual_name: this.props.static.qualifications[0].qual_name,
+            in_training: false,
+            is_instructor: false,
+            is_evaluator:false,
+          },
+          removeQualification: {
+            qual_id: 0,
+            qual_name: 'None',
+            in_training: false,
+            is_instructor: false,
+            is_evaluator:false,
+          },
+        }
+        this.baseState = this.state
     }
 
     // initialize newUser
     componentDidMount = () => {
         this.ResetNewUserForm();
-        console.log(this.props.static.roles)
     }
 
     ResetNewUserForm = () => {
-        this.setState({newUser: {
-            grade: this.props.static.grades[0],
-            first_name: '',
-            last_name: '',
-            user_role: this.props.static.roles[0],
-            section: this.props.static.sections[0],
-            user_group: this.props.static.usergroups[0],
-            active: true
-        }})
-        
-        this.setState({newUserQualifications: {
-            qual_id: this.props.static.qualifications[0].qual_id, //this will need to be modified when the data base is connected
-            in_training: false,
-            is_instructor: false,
-            is_evaluator: false
-        }})
-      }
+
+      Array.from(document.querySelectorAll('input')).forEach(
+        input => (input.value = '')
+      );
+      this.setState(this.baseState)
+    }
 
     SubmitNewUser = async () => {
-        console.log(this.state.newUser);
-        await fetch(this.props.api + 'users/new',
+
+      let newUser = await fetch(this.props.api + 'users/new',
+      {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(this.state.newUser)
+      }).catch(err => {
+        console.log(err);
+      })
+
+
+      if (!newUser.ok) {
+        throw new Error('Waiting on newUser to add to the database')
+      } else {
+        let tempObj = await newUser.json()
+        alert(`New User Created! \n Name: ${tempObj.last_name}, ${tempObj.first_name} ${tempObj.grade}`);
+      }
+        
+      this.ResetNewUserForm();
+
+    }
+  
+    SubmitNewUserQualifications  = async (userId) => {
+      let qualifications = [this.state.qualification]
+      this.setState( {newUserQualifications: qualifications} );
+      let jsonBody = {"user_id": userId, "quals": this.state.newUserQualifications}
+  //TODO check to see if the newUser cert_id is 0. this indicates no certs to pass and will need to pass a null []
+      await fetch(this.props.api +'users/new/userqualifications',
         {
           method: "POST",
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify(this.state.newUser)
-        }).then(userId => {
-           this.SubmitNewUserQualifications(userId.user_id);
-           this.SubmitNewUserCertifications(userId.user_id);
-           this.ResetNewUserForm();
-        })
- 
-     }
+          body: JSON.stringify(jsonBody)
+        }
+      )
 
-    SubmitNewUserQualifications = (userId) => {
-        this.state.newUserQualifications.user_id = userId;
-        console.log(this.state.newUserQualifications)
+ 
     }
 
-    SubmitNewUserCertifications = (userId) => {
-        this.state.newUserCertifications.user_id = userId;
-        console.log(this.state.newUserCertifications);
+    SubmitNewUserCertifications = async (userId) => {
+      let jsonBody = {"user_id": userId, "certs": this.state.newUserCertifications}
+      await fetch(this.props.api +'users/new/usercertifications',
+        {
+          method: "POST",
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(jsonBody)
+        }
+      )
     }
 
     NewUserInputForm = () => {
@@ -97,20 +138,33 @@ class AddUser extends React.Component {
             this.setState(previousState => ({
               newUser: {
                 ...previousState.newUser, 
-                role: event.target.value
+                user_role: Number.parseInt(event.target.value)
               }
             }));
           }
-          if (event.target.id === "qualification") {
+          if (event.target.id === "unassigned_qualifications") {
+
             this.setState(previousState => ({
-                newUserQualifications: {
-                  ...previousState.newUserQualifications, 
-                  qual_id: this.props.static.qualifications.indexOf(event.target.value)
-                }
-              }));
+              newQualification: {
+                ...previousState.newQualification, 
+                qual_id: Number.parseInt(event.target.value),
+                qual_name: this.props.static.qualifications[this.props.static.qualifications.findIndex(qual => qual.qual_id==event.target.value)].qual_name
+              
+            }}))
           }
 
-          if (event.target.id === "level") {
+          if (event.target.id === "assigned_qualifications") {
+
+            this.setState(previousState => ({
+              removeQualification: {
+                ...previousState.removeQualification, 
+                qual_id: Number.parseInt(event.target.value),
+                qual_name: this.props.static.qualifications[this.props.static.qualifications.findIndex(qual => qual.qual_id==event.target.value)].qual_name
+              
+            }}))
+          }
+
+          if (event.target.id === "new_level") {
             let training = false;
             let evaluator = false;
             let instructor = false;
@@ -126,8 +180,8 @@ class AddUser extends React.Component {
             }   
 
             this.setState(previousState => ({
-              newUserQualifications: {
-                ...previousState.newUserQualifications, 
+              newQualification: {
+                ...previousState.newQualification,
                 in_training: training,
                 is_instructor: instructor,
                 is_evaluator: evaluator
@@ -135,19 +189,48 @@ class AddUser extends React.Component {
             }));
           }
 
-          if (event.target.id === "certification") {
+          if (event.target.id === "remove_level") {
+            let training = false;
+            let evaluator = false;
+            let instructor = false;
+
+            if (event.target.value === 'Training')  {
+                training = true;
+            }
+            if (event.target.value === 'Instructor')  {
+                instructor = true;
+            }
+            if (event.target.value === 'Evaluator')  {
+                evaluator = true;
+            }   
+
             this.setState(previousState => ({
-                newUserCertifications: {
-                  ...previousState.newUserCertifications, 
-                  cert_id: this.props.static.certifications.indexOf(event.target.value) 
-                }
-              }));
+              removeQualification: {
+                ...previousState.removeQualification,
+                in_training: training,
+                is_instructor: instructor,
+                is_evaluator: evaluator
+              }
+            }));
           }
+
+          if (event.target.id === "unassigned_certifications") {
+            this.setState({
+              newCertification: this.props.static.certifications[this.props.static.certifications.findIndex(cert => cert.cert_id==event.target.value)]
+            })
+          }
+
+          if (event.target.id === "assigned_certifications" ) {
+            this.setState({
+              removeCertification: this.props.static.certifications[this.props.static.certifications.findIndex(cert => cert.cert_id==event.target.value)]
+            })
+          }
+
           if (event.target.id === "flight") {
             this.setState(previousState => ({
               newUser: {
                 ...previousState.newUser, 
-                section: event.target.value
+                section: Number.parseInt(event.target.value)
               }
             }));
           }
@@ -156,7 +239,7 @@ class AddUser extends React.Component {
             this.setState(previousState => ({
               newUser: {
                 ...previousState.newUser, 
-                user_group: event.target.value
+                user_group: Number.parseInt(event.target.value)
               }
             }));
           }   
@@ -175,44 +258,132 @@ class AddUser extends React.Component {
           }
         } 
 
+        const assign_certification = () => {
+          let tempArray = this.state.newUser.certifications;
+          if (tempArray.length === 1 && tempArray[0].cert_id===0 ) {
+            tempArray[0] = this.state.newCertification       
+          } else if (tempArray.includes(this.state.newCertication)) {
+            tempArray = tempArray;
+          } else {
+            tempArray.push(this.state.newCertification)
+          };
+
+          this.setState(previousState => ({
+            newUser: {
+              ...previousState.newUser,
+              certifications: tempArray,
+            }
+          }))
+        }
+
+        const remove_certification = () => {
+          let tempArray;
+          if (this.state.newUser.certifications.length === 1) {
+            tempArray = [{cert_id: 0, cert_name: 'None'}]
+          } else {
+            tempArray = this.state.newUser.certifications.filter(cert => (this.state.removeCertification.cert_id !== cert.cert_id));
+          }
+          this.setState(previousState => ({
+            newUser: {
+              ...previousState.newUser,
+              certifications: tempArray,
+            }
+          }))
+        }
+
+        const assign_qualification = () => {
+          let tempArray = this.state.newUser.qualifications;
+          if (tempArray.length === 1 && tempArray[0].qual_id===0 ) {
+            tempArray[0] = this.state.newQualification       
+          } else if (tempArray.filter(qual => qual.qual_id==this.state.newQualification.qual_id).length > 0) {//filter to see if the qual_id is already in the tempArray tempArray.filter(qual => qual.qual_id==this.state.newQualification.qual_id).length > 0
+            //remove the old and replace with new
+            tempArray = tempArray.filter(qual => qual.qual_id != this.state.newQualification.qual_id)
+            tempArray.push(this.state.newQualification)
+          } else {
+            tempArray.push(this.state.newQualification)
+          };
+
+          this.setState(previousState => ({
+            newUser: {
+              ...previousState.newUser,
+              qualifications: tempArray,
+            }
+          }))
+        }
+
+        const remove_qualification = () => {
+          let tempArray;
+          if (this.state.newUser.qualifications.length === 1) {
+            tempArray = [{qual_id: 0, qual_name: 'None', in_training: false, is_instructor: false, is_evaluator: false}]
+          } else {
+            tempArray = this.state.newUser.qualifications.filter(qual => (this.state.removeQualification.qual_id != qual.qual_id));
+          }
+          this.setState(previousState => ({
+            newUser: {
+              ...previousState.newUser,
+              qualifications: tempArray,
+            }
+          }))
+        }
+
+        const showLevel = (qual) => {
+          if (qual.in_training) return "Training"
+          if (qual.is_evaluator) return "Evaluator"
+          if (qual.is_instructor) return "Instructor"
+          else return ""
+        }
+
         return (
 
           <tr>
               <td><input required onChange={handleChange} type="text" id="lastName" placeholder='Last Name'></input></td>    
               <td><input required onChange={handleChange} type="text" id="firstName" placeholder='First Name'></input></td>    
               <td>
-                  <select id="grade" onChange={handleChange}> 
+                  <select id="grade" onChange={handleChange} value={this.props.static.grades[0]}> 
                       {this.props.static.grades.map(grade => <option id="grade" value={grade}> {grade} </option> )}
                   </select>
               </td> 
               <td>
-                  <select id="role" onChange={handleChange}> 
+                  <select id="role" onChange={handleChange} value={this.props.static.roles[0]}> 
                       {this.props.static.roles.map(role => <option id="role" value={role.role_id}> {role.role_name} </option> )}
                   </select>
               </td> 
               <td>
-                  <select id="qualification" onChange={handleChange}> 
-                      <option id="qualification" value='None' >None</option>
-                      {this.props.static.qualifications.map(qualification => <option id="qualification" value={qualification.qual_id}> {qualification.qual_name} </option> )}
+                  <select id="unassigned_qualifications" onChange={handleChange} > 
+                      {this.props.static.qualifications.filter(q=>!this.state.newUser.qualifications.find(newq => newq.qual_id===q.qual_id)).map(q => <option id="unassigned_qualifications" value={q.qual_id}> {q.qual_name} </option> )}
                   </select>
-                  <select id="level" onChange={handleChange}> 
-                      {this.state.levels.map(level => <option id="level" value={level}> {level} </option> )}
-                  </select>                       
-              </td>                              
+                  <select id="new_level" onChange={handleChange} defaultvalue={this.state.levels[0]}> 
+                      {this.state.levels.map(level => <option id="new_level" value={level}> {level} </option> )}
+                  </select>   
+                  <button type="button" onClick={assign_qualification}>Add</button>                    
+              </td>    
+              <td>    
+                <select id="assigned_qualifications" onChange={handleChange} defaultvalue={this.state.newUser.qualifications[0]}> 
+                  {this.state.newUser.qualifications.map(qual => <option id="assigned_qualifications" value={qual.qual_id}> {qual.qual_name} {showLevel(qual)} </option> )}
+                </select> 
+                
+                <button type="button" onClick={remove_qualification}>Remove</button>
+              </td>                           
               <td>
-                  <select id="certification" onChange={handleChange}> 
-                      <option id="certification" value='None' >None</option>
-                      {this.props.static.certifications.map(certification => <option id="certification" value={certification.cert_id}> {certification.cert_name} </option> )}
-                  </select>
+                <select id="unassigned_certifications" onChange={handleChange} > 
+                  {this.props.static.certifications.filter(v=>!this.state.newUser.certifications.includes(v)).map(v => <option id="unassigned_certifications" value={v.cert_id} name={v.cert_name}> {v.cert_name} </option> )}
+                </select>
+                <button type="button" onClick={assign_certification}>Add</button>
+              </td>
+              <td>    
+                <select id="assigned_certifications" onChange={handleChange} defaultvalue={this.state.newUser.certifications[0]}> 
+                  {this.state.newUser.certifications.map(cert => <option id="assigned_certifications" value={cert.cert_id}> {cert.cert_name} </option> )}
+                </select> 
+                <button type="button" onClick={remove_certification}>Remove</button>
               </td> 
 
               <td>
-                  <select id="flight" onChange={handleChange}> 
-                      {this.props.static.sections.map(flight => <option id="flight" value={flight.section_id}> {flight.section_name} </option> )}
-                  </select>
+                <select id="flight" onChange={handleChange} value={this.props.static.sections[0]}> 
+                  {this.props.static.sections.map(flight => <option id="flight" value={flight.section_id}> {flight.section_name} </option> )}
+                </select>
               </td>  
               <td>
-                  <select id="crew" onChange={handleChange}> 
+                  <select id="crew" onChange={handleChange} value={this.props.static.usergroups[0]}> 
                       {this.props.static.usergroups.map(crew => <option id="crew" value={crew.group_id}> {crew.group_name} </option> )}
                   </select>
               </td>               

@@ -7,24 +7,42 @@ import {
     KeyboardTimePicker,
     KeyboardDatePicker,
 } from '@material-ui/pickers';
+import { date } from 'date-fns/locale/af';
 
 class ConflictPage extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            value: [],
-            selectedDate: new Date('2020-08-18T21:11:54')
+            getConflictTypes: [],
+            selectedStartDate: Date.now(),
+            selectedEndDate: Date.now()
         };
 
-        // this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         
-    };//end of constructor   
-    
-    // handleDateChange = (date) => {
-    //         this.setState({selectedDate: date});
-    // }
+    };//end of constructor
 
+    componentDidMount = () => {
+        fetch(this.props.api + 'conflicts/types')
+        .then(ret => ret.json())
+        .then(json => this.setState({getConflictTypes: json}))
+    }
+
+    submitConflict = async () => {
+        await fetch(this.props.api + 'conflicts', {
+            method: "POST",
+            headers: {
+                "Accept": "application/json, text/plain, */*",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({"conflict_type_id": this.state.conflict, 
+                "start_time": this.state.selectedStartDate, 
+                "stop_time": this.state.selectedEndDate, 
+                "comment": this.state.comment,
+                "user_id": this.state.updatedUser.user_id})
+        })
+    }
+    
     handleStartDateChange = (date) => {
         this.setState({selectedStartDate: date})
     }
@@ -37,14 +55,6 @@ class ConflictPage extends React.Component {
         this.setState({conflict: event.target.value});
     }
 
-    handleFirstNameChange= (event) => {
-        this.setState({firstname: event.target.value})
-    }
-
-    handleLastNameChange= (event) => {
-        this.setState({lastname: event.target.value})
-    }
-
     handleCommentChange= (event) => {
         this.setState({comment: event.target.value})
     }
@@ -54,29 +64,43 @@ class ConflictPage extends React.Component {
         event.preventDefault();
     }
 
+    SelectUser = () => {
+        const handleChange = (event) => {
+          let tempId = Number.parseInt(event.target.value);
+          let index = this.props.users.findIndex(user => user.user_id === tempId)
+          let tempUser = this.props.users[index]
+          this.setState(previousState => ({
+            ...previousState,
+            updatedUser: tempUser
+            }))
+        }
+    
+        return (
+          <select id="selectedUser" onChange={handleChange}>
+            {(!this.state.updatedUser)
+            ? <option id='selectedUser' value='Select User' selected disabled hidden>Select User</option>
+            : <option id='selectedUser' value='Select User'>{this.state.updatedUser.last_name}, {this.state.updatedUser.first_name} {this.state.updatedUser.grade}</option> 
+            }
+            
+            {this.props.users.map(user => <option id="selectedUser" value={user.user_id}>{user.last_name}, {user.first_name} {user.grade}</option>)}
+          </select>
+        )
+    
+      }
+
     render() {
         return (
             <div>
                 <header> <h1>Conflict</h1></header>
                 <hr />
                 <form onSubmit={this.handleSubmit}>
-                    <label>
-                        First Name:
-                        <input type="text" value={this.state.firstname} onChange={this.handleFirstNameChange}/>
-                        Last Name:
-                        <input type="text" value={this.state.lastname} onChange={this.handleLastNameChange}/>
-                    </label>
+                    <this.SelectUser />
                     <br />
                     <br />
                     <label>
                         Select Conflict Type:
                         <select value={this.state.conflict} onChange={this.handleConflictChange}>
-                            <option value="leave-approved">1 Leave Approved</option>
-                            <option value="leave-requested">2 Leave Requested</option>
-                            <option value="tdy">3 TDY</option>
-                            <option value="dnic">4 DNIC</option>
-                            <option value="appointment">5 Appointment</option>
-                            <option value="other">6 Other</option>
+                            {this.state.getConflictTypes.map(typeID => <option value={typeID.conflict_type_id}>{typeID.conflict_type_name}</option>)}
                         </select>
                     </label>
                     <br />
@@ -129,7 +153,8 @@ class ConflictPage extends React.Component {
                     </label>
                     <br />
                     <br />
-                    <input type="submit" value="Submit"/>
+                    <input type="submit" value="Submit" onClick={this.submitConflict}/>
+                    
                 </form>
 
             </div>

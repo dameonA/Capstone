@@ -3,16 +3,6 @@ module.exports.Conflicts = class Conflicts {
         this.db = database;
     }//end of constructor
 
-    // async getConflict (conflictId) {
-    //     try {
-    //         return await this.db.one ('select * from conflict where conflict_id = $1', conflictId)
-    //     }
-    //     catch(error) {
-    //         return undefined;
-    //     }
-        
-    // }
-
     async getConflicts () {
         try {
             return await this.db.any ('select * from conflict')
@@ -22,13 +12,36 @@ module.exports.Conflicts = class Conflicts {
         }
     }
 
-    async postConflicts (conflict) {
+    async getConflict (conflictTypeId) {
         try {
-            return await this.db.any ('insert into conflict (conflict_type_id, start_time, stop_time, comment, schedule_id) values ($1, $2, $3, $4, $5)', [conflict.conflict_type_id, conflict.start_time, conflict.stop_time, conflict.comment, conflict.schedule_id])
+            return await this.db.any('select * from conflict where conflict_type_id = $1', conflictTypeId)
+        }
+        catch(error) {
+            return undefined;
+        }
+    }
+
+    async getConflictTypes () {
+        try {
+            return await this.db.any('select * from conflict_type')
+        }
+        catch(error) {
+            return undefined;
+        }
+    }
+
+    async postConflicts (conflict) {
+        let conflictTypeId = conflict.conflict_type_id;
+        let startTime = conflict.start_time;
+        let stopTime = conflict.stop_time;
+        let conflictComment = conflict.comment;
+        let userId = conflict.user_id;
+        try {
+            return await this.db.any ('insert into conflict (conflict_type_id, start_time, stop_time, comment, user_id) values ($1, $2, $3, $4, $5)', [conflictTypeId, startTime, stopTime, conflictComment, userId])
         }
         catch(error) {
             console.log(error);
-            return undefined;
+            return {};
         }
     }
 

@@ -7,7 +7,8 @@ import Home from './Components/Home/Home'
 import UserPage from './Components/CreateUser/UserPage'
 import ConflictPage from './Components/Conflict_Page/conflict_page'
 import NotificationPage from './Components/Notifications/NotificationPage'
-import ScheduleHomePage from './Components/ScheduleHomePage/ScheduleHomePage'
+import SchedulePage from './Components/Schedules/SchedulePage'
+//import SchedulePageTable from './Components/Schedules/SchedulePageTable'
 
 
 
@@ -16,7 +17,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       users: [],
-      staticTables: {}, //contains grades, usergroups, sections, qualifications, certifications, grades
+      staticTables: {}, //contains grades, usergroups, sections, qualifications, certifications, positions 
       apiURL: 'http://localhost:3001/'
     }
   }
@@ -25,10 +26,6 @@ class App extends React.Component {
     this.intializeUsers();
     this.setStaticTables();
   }
-
-  // componentDidUpdate = () => {
-  //   this.intializeUsers(); 
-  // }
 
   intializeUsers = async () => {
     let response = await fetch(this.state.apiURL+'users').catch(err=>console.log("cannot get users: ", err)); //get the users
@@ -51,6 +48,9 @@ class App extends React.Component {
 
     let response5 = await fetch(this.state.apiURL+'users/sections').catch(err=>console.log("cannot get sections: ", err)); //get the users
     let tempArray5 = await response5.json();
+
+    let response6 = await fetch(this.state.apiURL+'schedule/positions').catch(err=>console.log("cannot get positions: ", err));
+    let tempArray6 = await response6.json();
     
     this.setState({staticTables: {
       grades: ['E1', 'E2', 'E3', 'E4', 'E5', 'E6', 'E7', 'E8', 'E9', 'O1', 'O2', 'O3', 'O4', 'O5', 'O6' ],
@@ -58,7 +58,9 @@ class App extends React.Component {
       roles: tempArray2,
       certifications: tempArray3,
       qualifications: tempArray4,
-      sections: tempArray5
+      sections: tempArray5,
+      positions: tempArray6
+
     }});
   }
 
@@ -70,9 +72,9 @@ class App extends React.Component {
         <Switch>
             <Route exact path='/'><Home/></Route>
             <Route exact path='/Users'><UserPage api={this.state.apiURL} users={this.state.users} static={this.state.staticTables}/></Route>
-            <Route exact path='/Conflicts'><ConflictPage/></Route>    
+            <Route exact path='/Conflicts'><ConflictPage api={this.state.apiURL} users={this.state.users} static={this.state.staticTables}/></Route>    
             <Route exact path='/Notifications'><NotificationPage/></Route>
-            <Route exact path='/Schedule'><ScheduleHomePage/></Route>                
+            <Route exact path='/Schedule'><SchedulePage api={this.state.apiURL} users={this.state.users} static={this.state.staticTables} /></Route>                
         </Switch>
         </BrowserRouter>
       </ThemeProvider>
