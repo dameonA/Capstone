@@ -6,6 +6,6 @@ CREATE TABLE conflict (
     start_time TIMESTAMP NOT NULL,
     stop_time TIMESTAMP NOT NULL,
     comment VARCHAR(250),
-    schedule_id INTEGER NOT NULL,
-    FOREIGN KEY (schedule_id) REFERENCES schedule (schedule_id)
+    user_id INTEGER NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users (user_id)
 );

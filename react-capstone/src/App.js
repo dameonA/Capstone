@@ -72,7 +72,7 @@ class App extends React.Component {
         <Switch>
             <Route exact path='/'><Home/></Route>
             <Route exact path='/Users'><UserPage api={this.state.apiURL} users={this.state.users} static={this.state.staticTables}/></Route>
-            <Route exact path='/Conflicts'><ConflictPage api={this.state.apiURL}/></Route>    
+            <Route exact path='/Conflicts'><ConflictPage api={this.state.apiURL} users={this.state.users} static={this.state.staticTables}/></Route>    
             <Route exact path='/Notifications'><NotificationPage/></Route>
             <Route exact path='/Schedule'><SchedulePage api={this.state.apiURL} users={this.state.users} static={this.state.staticTables} /></Route>                
         </Switch>

@@ -32,7 +32,14 @@ module.exports.Users = class Users {
   }
   async getUser(userId) {
     try {
-      return (await this.db.one(queryUsers + ' where user_id = $1', userId)).json
+      let user = (await this.db.one(queryUsers + ' where user_id = $1', userId)).json
+      if (user.qualifications === null) {
+        user.qualifications=[];
+      }
+      if (user.certifications === null) {
+        user.certifications=[];
+      }
+      return user;
     } catch (error) {
       //console.log(error);
       return undefined;
@@ -48,9 +55,32 @@ module.exports.Users = class Users {
     let userGroup = user.user_group;
     let active = user.active;
     try {
-      return await this.db.one(
+      let ret = await this.db.one(
         'INSERT INTO users (first_name, last_name, grade, user_role, section, user_group, active) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
         [firstName, lastName, grade, userRole, section, userGroup, active])
+        if (Array.isArray(user.qualifications)) {
+          //let qualifications = await this.getQualifications();
+          for (let qIndex = 0; qIndex < user.qualifications.length; qIndex++) {
+            let qual = user.qualifications[qIndex];
+            if (qual) {
+              try {
+                await this.db.one('INSERT INTO user_qualifications (user_id,qual_id,is_evaluator,is_instructor) VALUES ($1,$2,$3,$4)',[ret.user_id,qual.qual_id,qual.is_evaluator||false,qual.is_instructor||false])
+              } catch (ignored) {}
+            }
+          }
+        }
+        if (Array.isArray(user.certifications)) {
+          //let certifications = await this.getCertifications();
+          for (let cIndex = 0; cIndex < user.certifications.length; cIndex++) {
+            let cert = user.certifications[cIndex];
+            if (cert) {
+              try {
+                await this.db.one('INSERT INTO user_certifications (user_id,qual_id) VALUES ($1,$2)',[ret.user_id,cert.cert_id])
+              } catch (ignored) {}
+            }
+          }
+        }
+        return await this.getUser(ret.user_id);
     } catch (error) {
       return {};
     }
@@ -76,7 +106,12 @@ module.exports.Users = class Users {
 
   async getUsers() {
     try {
-      return (await this.db.any(queryUsers)).map(e => e.json)
+      return (await this.db.any(queryUsers)).map(e => e.json).map(u=>{
+        return {...u,
+          qualifications:(u.qualifications===null)?[]:u.qualifications,
+          certifications:(u.certifications===null)?[]:u.certifications,
+        }
+      })
     } catch (error) {
       //console.log(error);
       return undefined;
