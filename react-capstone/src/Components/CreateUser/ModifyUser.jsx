@@ -6,26 +6,73 @@ class ModifyUser extends React.Component {
     super(props) //api <router api>, users <object of all users>, static <static tables>
     this.state = {
       users: [],
-      newUserQualifications: [],
-      newUserCertifications: [],
+      updatedUser: {
+        grade: '',
+        first_name: '',
+        last_name: '',
+        user_role: 1,
+        section: 1,
+        user_group: 1,
+        active: true,
+        qualifications: [{qual_id: 0, qual_name: 'None'}],
+        certifications: [{cert_id: 0, cert_name: 'None'}]
+      },
       levels: ['None', 'Training', 'Instructor', 'Evaluator'],
-      activeUserSelection: 'all'
-   
+      activeUserSelection: 'all',
+      newCertification: this.props.static.certifications[0],
+      removeCertification: {cert_id: 0, cert_name: 'None'},
+      newQualification: {
+        qual_id: this.props.static.qualifications[0].qual_id,
+        qual_name: this.props.static.qualifications[0].qual_name,
+        in_training: false,
+        is_instructor: false,
+        is_evaluator:false,
+      },
+      removeQualification: {
+        qual_id: 0,
+        qual_name: 'None',
+        in_training: false,
+        is_instructor: false,
+        is_evaluator:false,
+      },
     };
+    this.baseState = this.state
   }
 
   componentDidMount = async () => {
-    this.intializeUsers();
-
+    await this.intializeUsers();
   }
 
   intializeUsers = async () => {
     let response = await fetch(this.props.api+'users').catch(err=>console.log("cannot get users: ", err)); //get the users
     let usersArray = await response.json();
-    this.setState({users: usersArray});
+    this.setState(this.baseState)
+    this.setState(previousState => ({
+      ...previousState,
+      users: usersArray,
+    }));
   }
 
   SubmitUpdatedUser = async () => {
+    //check for no quals or no certs
+    if (this.state.updatedUser.certifications[0].cert_id === 0) {
+      this.setState(previousState => ({
+        updatedUser: {
+          ...previousState.updatedUser,
+          certifications: null
+        }
+      }))
+    }
+
+    if (this.state.updatedUser.qualifications[0].qual_id === 0) {
+      this.setState(previousState => ({
+        updatedUser: {
+          ...previousState.updatedUser,
+          qualifications: null
+        }
+      }))
+    }
+
     await fetch(this.props.api + 'users/update',
       {
         method: "POST",
@@ -34,52 +81,68 @@ class ModifyUser extends React.Component {
         },
         body: JSON.stringify(this.state.updatedUser)
       })
-    this.SubmitUpdatedUserQualifications();
-    this.SubmitUpdatedUserCertifications();
     alert(`User Updated! \n Name: ${this.state.updatedUser.last_name}, ${this.state.updatedUser.first_name} ${this.state.updatedUser.grade}`);
 
-    this.setState({ updatedUser: null }); //reset the updatedUser to null to remove the inputs for the user modification
     this.intializeUsers(); //reset the state to the database to bring in the new updates of the user
     
   }
 
-  SubmitUpdatedUserQualifications = () => {
-    this.setState({ newUserQualifications: { user_id: this.state.updatedUser.user_id } });
-    console.log('quals: ' + this.state.newUserQualifications)
-  }
+  // SubmitUpdatedUserQualifications = () => {
+  //   this.setState({ newUserQualifications: { user_id: this.state.updatedUser.user_id } });
+  //   console.log('quals: ' + this.state.newUserQualifications)
+  // }
 
-  SubmitUpdatedUserCertifications = () => {
-    this.setState({ newUserCertifications: { user_id: this.state.updatedUser.user_id } });
-    console.log('certs: ' + this.state.newUserCertifications);
-  }
+  // SubmitUpdatedUserCertifications = () => {
+  //   this.setState({ newUserCertifications: { user_id: this.state.updatedUser.user_id } });
+  //   console.log('certs: ' + this.state.newUserCertifications);
+  // }
 
   SelectUser = () => {
 
     const handleChange = (event) => {
-      let tempId = Number.parseInt(event.target.value);
-      let index = this.state.users.findIndex(user => user.user_id === tempId)
-      let tempUser = this.state.users[index]
-      this.setState(previousState => ({
-        ...previousState,
-        updatedUser: tempUser,
-        newUserCertifications: tempUser.certifications,
-        newUserQualifications: tempUser.qualifications
-      }))
-      // this.ModifyUserForm();
-    }
+
+      if (event.target.value === 'None') {
+        this.intializeUsers()
+      } else {
+          let tempId = Number.parseInt(event.target.value);
+          let index = this.state.users.findIndex(user => user.user_id === tempId)
+          let tempUser = this.state.users[index]
+
+          if (Array.isArray(tempUser.certifications) && tempUser.certifications.length > 0) {
+            for (let i =0; i<tempUser.certifications.length; i++) {
+              tempUser.certifications[i].cert_name = this.props.static.certifications[this.props.static.certifications.findIndex(cert => cert.cert_id == tempUser.certifications[i].cert_id)].cert_name
+            }
+          } else{
+            tempUser.certifications = [{cert_id: 0, cert_name: 'None'}]
+          }
+
+          if (Array.isArray(tempUser.qualifications) && tempUser.qualifications.length > 0) {
+            for (let i =0; i<tempUser.qualifications.length; i++) {
+              tempUser.qualifications[i].qual_name = this.props.static.qualifications[this.props.static.qualifications.findIndex(qual => qual.qual_id == tempUser.qualifications[i].qual_id)].qual_name
+            }
+          } else{
+            tempUser.qualifications = [{qual_id: 0, qual_name: 'None'}]
+          }
+
+          this.setState(previousState => ({
+            ...previousState,
+            updatedUser: tempUser,
+            removeQualification: tempUser.qualifications[0],
+            removeCertification: tempUser.certifications[0],
+          }))
+      }
+    } //end of handleChange
+
+
 
     return (
-      <select id="selectedUser" onChange={handleChange}>
-        {(!this.state.updatedUser)
-        ? <option id='selectedUser' value='Select User' selected disabled hidden>Select User</option>
-        : <option id='selectedUser' value='Select User'>{this.state.updatedUser.last_name}, {this.state.updatedUser.first_name} {this.state.updatedUser.grade}</option> 
-        }
-        
+      <select id="selectedUser" onChange={handleChange} defaultValue="Select User">
+        <option id="selectedUser" value="None">Select User</option>
         {this.state.users.map(user => <option id="selectedUser" value={user.user_id}>{user.last_name}, {user.first_name} {user.grade}</option>)}
       </select>
     )
 
-  }
+  }//end of SelectUser
 
   SelectActiveUsers = () =>{
 
@@ -127,7 +190,7 @@ class ModifyUser extends React.Component {
     let roleIndex = this.props.static.roles.findIndex(role => this.state.updatedUser.user_role === role.role_id);
     let role = this.props.static.roles[roleIndex].role_name;
     let qual = 'None';
-    let level = 'None';
+    var level = 'None';
     if (Array.isArray(this.state.updatedUser.qualifications) && this.state.updatedUser.qualifications.length > 0) {
       let qualIndex = this.props.static.qualifications.findIndex(qual => qual.qual_id === this.state.updatedUser.qualifications[0].qual_id);
       if (qualIndex >= 0) {
@@ -193,33 +256,47 @@ class ModifyUser extends React.Component {
           }
         }));
       }
-      if (event.target.id === "qualification") {
+
+      if (event.target.id === "unassigned_qualifications") {
+
         this.setState(previousState => ({
-          newUserQualifications: {
-            ...previousState.newUserQualifications,
-            qual_id: Number.parseInt(event.target.value)
-          }
-        }));
+          newQualification: {
+            ...previousState.newQualification, 
+            qual_id: Number.parseInt(event.target.value),
+            qual_name: this.props.static.qualifications[this.props.static.qualifications.findIndex(qual => qual.qual_id==event.target.value)].qual_name
+          
+        }}))
       }
 
-      if (event.target.id === "level") {
+      if (event.target.id === "assigned_qualifications") {
+
+        this.setState(previousState => ({
+          removeQualification: {
+            ...previousState.removeQualification, 
+            qual_id: Number.parseInt(event.target.value),
+            qual_name: this.props.static.qualifications[this.props.static.qualifications.findIndex(qual => qual.qual_id==event.target.value)].qual_name
+          
+        }}))
+      }
+
+      if (event.target.id === "new_level") {
         let training = false;
         let evaluator = false;
         let instructor = false;
 
-        if (event.target.value === 'Training') {
-          training = true;
+        if (event.target.value === 'Training')  {
+            training = true;
         }
-        if (event.target.value === 'Instructor') {
-          instructor = true;
+        if (event.target.value === 'Instructor')  {
+            instructor = true;
         }
-        if (event.target.value === 'Evaluator') {
-          evaluator = true;
-        }
+        if (event.target.value === 'Evaluator')  {
+            evaluator = true;
+        }   
 
         this.setState(previousState => ({
-          newUserQualifications: {
-            ...previousState.newUserQualifications,
+          newQualification: {
+            ...previousState.newQualification,
             in_training: training,
             is_instructor: instructor,
             is_evaluator: evaluator
@@ -227,14 +304,43 @@ class ModifyUser extends React.Component {
         }));
       }
 
-      if (event.target.id === "certification") {
+      if (event.target.id === "remove_level") {
+        let training = false;
+        let evaluator = false;
+        let instructor = false;
+
+        if (event.target.value === 'Training')  {
+            training = true;
+        }
+        if (event.target.value === 'Instructor')  {
+            instructor = true;
+        }
+        if (event.target.value === 'Evaluator')  {
+            evaluator = true;
+        }   
+
         this.setState(previousState => ({
-          newUserCertifications: {
-            ...previousState.newUserCertifications,
-            cert_id: Number.parseInt(event.target.value)
+          removeQualification: {
+            ...previousState.removeQualification,
+            in_training: training,
+            is_instructor: instructor,
+            is_evaluator: evaluator
           }
         }));
       }
+
+      if (event.target.id === "unassigned_certifications") {
+        this.setState({
+          newCertification: this.props.static.certifications[this.props.static.certifications.findIndex(cert => cert.cert_id==event.target.value)]
+        })
+      }
+
+      if (event.target.id === "assigned_certifications" ) {
+        this.setState({
+          removeCertification: this.props.static.certifications[this.props.static.certifications.findIndex(cert => cert.cert_id==event.target.value)]
+        })
+      }
+
       if (event.target.id === "flight") {
         this.setState(previousState => ({
           updatedUser: {
@@ -269,6 +375,81 @@ class ModifyUser extends React.Component {
       }
     }
 
+    const assign_certification = () => {
+      let tempArray = this.state.updatedUser.certifications;
+      if (tempArray.length === 1 && tempArray[0].cert_id===0 ) {
+        tempArray[0] = this.state.newCertification       
+      } else if (tempArray.includes(this.state.newCertication)) {
+        tempArray = tempArray;
+      } else {
+        tempArray.push(this.state.newCertification)
+      };
+
+      this.setState(previousState => ({
+        updatedUser: {
+          ...previousState.updatedUser,
+          certifications: tempArray,
+        }
+      }))
+    }
+
+    const remove_certification = () => {
+      let tempArray;
+      if (this.state.updatedUser.certifications.length === 1) {
+        tempArray = [{cert_id: 0, cert_name: 'None'}]
+      } else {
+        tempArray = this.state.updatedUser.certifications.filter(cert => (this.state.removeCertification.cert_id !== cert.cert_id));
+      }
+      this.setState(previousState => ({
+        updatedUser: {
+          ...previousState.updatedUser,
+          certifications: tempArray,
+        }
+      }))
+    }
+
+    const assign_qualification = () => {
+      let tempArray = this.state.updatedUser.qualifications;
+      if (tempArray.length === 1 && tempArray[0].qual_id===0 ) {
+        tempArray[0] = this.state.newQualification       
+      } else if (tempArray.filter(qual => qual.qual_id==this.state.newQualification.qual_id).length > 0) {//filter to see if the qual_id is already in the tempArray tempArray.filter(qual => qual.qual_id==this.state.newQualification.qual_id).length > 0
+        //remove the old and replace with new
+        tempArray = tempArray.filter(qual => qual.qual_id != this.state.newQualification.qual_id)
+        tempArray.push(this.state.newQualification)
+      } else {
+        tempArray.push(this.state.newQualification)
+      };
+
+      this.setState(previousState => ({
+        updatedUser: {
+          ...previousState.updatedUser,
+          qualifications: tempArray,
+        }
+      }))
+    }
+
+    const remove_qualification = () => {
+      let tempArray;
+      if (this.state.updatedUser.qualifications.length === 1) {
+        tempArray = [{qual_id: 0, qual_name: 'None', in_training: false, is_instructor: false, is_evaluator: false}]
+      } else {
+        tempArray = this.state.updatedUser.qualifications.filter(qual => (this.state.removeQualification.qual_id != qual.qual_id));
+      }
+      this.setState(previousState => ({
+        updatedUser: {
+          ...previousState.updatedUser,
+          qualifications: tempArray,
+        }
+      }))
+    }
+
+    const showLevel = (qual) => {
+      if (qual.in_training) return "Training"
+      if (qual.is_evaluator) return "Evaluator"
+      if (qual.is_instructor) return "Instructor"
+      else return ""
+    }
+
     return (
       <tr>
         <td><input onChange={handleChange} type="text" id="lastName" value={this.state.updatedUser.last_name}></input></td>
@@ -286,20 +467,33 @@ class ModifyUser extends React.Component {
           </select>
         </td>
         <td>
-          <select id="qualification" onChange={handleChange}>
-            <option value={qual} selected disabled hidden>{qual}</option>
-            {this.props.static.qualifications.map(qualification => <option id="qualification" value={qualification.qual_id}> {qualification.qual_name} </option>)}
+          <select id="unassigned_qualifications" onChange={handleChange} > 
+              {this.props.static.qualifications.filter(q=>!this.state.updatedUser.qualifications.find(newq => newq.qual_id===q.qual_id)).map(q => <option id="unassigned_qualifications" value={q.qual_id}> {q.qual_name} </option> )}
           </select>
-          <select id="level" onChange={handleChange}>
-            {this.state.levels.map(level => <option id="level" value={level}> {level} </option>)}
-          </select>
-        </td>
+          <select id="new_level" onChange={handleChange} defaultValue={this.state.levels[0]}> 
+              {this.state.levels.map(level => <option id="new_level" value={level}> {level} </option> )}
+          </select>   
+          <button type="button" onClick={assign_qualification}>Add</button>                    
+        </td>    
+        <td>    
+          <select id="assigned_qualifications" onChange={handleChange} defaultValue={this.state.updatedUser.qualifications[0]}> 
+            {this.state.updatedUser.qualifications.map(qual => <option id="assigned_qualifications" value={qual.qual_id}> {qual.qual_name} {showLevel(qual)} </option> )}
+          </select> 
+          
+          <button type="button" onClick={remove_qualification}>Remove</button>
+        </td>                           
         <td>
-          <select id="certification" onChange={handleChange}>
-            <option value={cert} selected disabled hidden>{cert}</option>
-            {this.props.static.certifications.map(certification => <option id="certification" value={certification.cert_id}> {certification.cert_name} </option>)}
+          <select id="unassigned_certifications" onChange={handleChange} > 
+            {this.props.static.certifications.filter(v=>!this.state.updatedUser.certifications.includes(v)).map(v => <option id="unassigned_certifications" value={v.cert_id} name={v.cert_name}> {v.cert_name} </option> )}
           </select>
+          <button type="button" onClick={assign_certification}>Add</button>
         </td>
+        <td>    
+          <select id="assigned_certifications" onChange={handleChange} defaultValue={this.state.updatedUser.certifications[0]}> 
+            {this.state.updatedUser.certifications.map(cert => <option id="assigned_certifications" value={cert.cert_id}> {cert.cert_name} </option> )}
+          </select> 
+          <button type="button" onClick={remove_certification}>Remove</button>
+        </td> 
 
         <td>
           <select id="flight" onChange={handleChange}>
@@ -335,7 +529,7 @@ class ModifyUser extends React.Component {
         {/* <this.SelectActiveUsers /> */}
         <this.SelectUser />
 
-        {(this.state.updatedUser)
+        {(this.state.updatedUser.user_id > 0)
           ? <table>
             <UserTableHeader />
             <tbody>
