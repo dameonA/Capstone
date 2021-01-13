@@ -39,6 +39,7 @@ module.exports.Users = class Users {
       if (user.certifications === null) {
         user.certifications=[];
       }
+      return user;
     } catch (error) {
       //console.log(error);
       return undefined;
