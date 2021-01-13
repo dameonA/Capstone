@@ -80,6 +80,7 @@ module.exports.Users = class Users {
             }
           }
         }
+        return await this.getUser(user.user_id);
     } catch (error) {
       return {};
     }
