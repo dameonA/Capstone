@@ -51,10 +51,17 @@ class ModifyUser extends React.Component {
       ...previousState,
       users: usersArray,
     }));
+    this.setState(previousState =>({
+      updatedUser: {
+        ...previousState.updatedUser,
+        qualifications: [{qual_id: 0, qual_name: 'None'}],
+        certifications: [{cert_id: 0, cert_name: 'None'}]
+      }
+    }))
   }
 
   SubmitUpdatedUser = async () => {
-    //check for no quals or no certs
+    //check for no certs
     if (this.state.updatedUser.certifications[0].cert_id === 0) {
       this.setState(previousState => ({
         updatedUser: {
@@ -63,7 +70,7 @@ class ModifyUser extends React.Component {
         }
       }))
     }
-
+    //check for no quals 
     if (this.state.updatedUser.qualifications[0].qual_id === 0) {
       this.setState(previousState => ({
         updatedUser: {
@@ -85,17 +92,7 @@ class ModifyUser extends React.Component {
 
     this.intializeUsers(); //reset the state to the database to bring in the new updates of the user
     
-  }
-
-  // SubmitUpdatedUserQualifications = () => {
-  //   this.setState({ newUserQualifications: { user_id: this.state.updatedUser.user_id } });
-  //   console.log('quals: ' + this.state.newUserQualifications)
-  // }
-
-  // SubmitUpdatedUserCertifications = () => {
-  //   this.setState({ newUserCertifications: { user_id: this.state.updatedUser.user_id } });
-  //   console.log('certs: ' + this.state.newUserCertifications);
-  // }
+  } //end of SubmitUpdatedUser
 
   SelectUser = () => {
 
