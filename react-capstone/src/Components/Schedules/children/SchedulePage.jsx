@@ -10,6 +10,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import axios from 'axios';
 import ScheduleTable from '../ScheduleTable';
+import Sidebar from '../Sidebar/Sidebar';
 
 
 
@@ -47,7 +48,11 @@ class SchedulePage extends React.Component {
 
       render() {  
         return (
+          
           <>
+          <div className="Side">
+            <Sidebar/>
+            </div>
           <h7><center>Week At A Glance</center></h7>
           <TableContainer component={Paper}>  
           <Table stickyHeader  aria-label="sticky table">  
