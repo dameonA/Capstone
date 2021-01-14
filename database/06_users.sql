@@ -13,29 +13,155 @@ CREATE TABLE users (
     active boolean
 );
 
-INSERT INTO users (first_name, last_name, grade, user_role, section, user_group, active) VALUES
-    ('joe', 'snuffy', 'A1C', 1, 2, 1, false),
-    ('joe1', 'snuffy', 'A1C', 1, 2, 1, false),
-    ('joe2', 'snuffy', 'A1C', 2, 2, 1, false),
-    ('joe3', 'snuffy', 'A1C', 3, 2, 1, false),
-    ('joe4', 'snuffy', 'A1C', 4, 2, 1, false),
-    ('joe5', 'snuffy', 'A1C', 1, 2, 1, false),
-    ('joe6', 'snuffy', 'A1C', 1, 2, 1, false),
-    ('joe7', 'snuffy', 'A1C', 1, 2, 1, false),
-    ('joe8', 'snuffy', 'A1C', 1, 2, 1, false),
-    ('joe9', 'snuffy', 'A1C', 1, 2, 1, false),
-    ('joea', 'snuffy', 'A1C', 1, 2, 1, false),
-    ('joeb', 'snuffy', 'A1C', 1, 2, 1, false),
-    ('joec', 'snuffy', 'A1C', 1, 2, 1, false),
-    ('joed', 'snuffy', 'A1C', 1, 2, 1, false),
-    ('joee', 'snuffy', 'A1C', 1, 2, 1, false),
-    ('joef', 'snuffy', 'A1C', 1, 2, 1, false),
-    ('joeg', 'snuffy', 'A1C', 1, 2, 1, false),
-    ('joeh', 'snuffy', 'A1C', 1, 2, 1, false),
-    ('joei', 'snuffy', 'A1C', 1, 2, 1, false),
-    ('joej', 'snuffy', 'A1C', 1, 2, 1, false),
-    ('joek', 'snuffy', 'A1C', 1, 2, 1, false),
-    ('joel', 'snuffy', 'A1C', 1, 2, 1, false),
-    ('joem', 'snuffy', 'A1C', 1, 2, 1, false),
-    ('another', 'snuffy', 'Lt Col', 2, 2, 1, true)
-;
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (25, 'Person', 'Horrocks', 'O2', 1, 1, 1, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (26, 'Person', 'Morris', 'O5', 2, 1, 1, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (27, 'Person', 'Muller', 'E3', 3, 1, 1, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (28, 'Person', 'Rose', 'E1', 4, 1, 1, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (29, 'Person', 'Ross', 'O1', 4, 1, 1, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (30, 'Person', 'Thoennes', 'O4', 4, 1, 1, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (31, 'Person', 'Evans', 'E8', 4, 1, 1, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (32, 'Person', 'Green', 'E4', 4, 1, 1, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (33, 'Person', 'Quesenberry, a', 'O1', 4, 1, 1, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (34, 'Person', 'Ryan', 'O2', 4, 1, 1, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (35, 'Person', 'Tally', 'E6', 4, 1, 1, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (36, 'Person', 'Baunsgard', 'E2', 4, 1, 1, true);INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (37, 'Person', 'Young', 'E8', 4, 1, 1, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (38, 'Person', 'Allenton', 'O2', 4, 1, 1, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (39, 'Person', 'Capristo', 'O2', 4, 1, 1, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (40, 'Person', 'Villanueva, r', 'E5', 4, 1, 1, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (41, 'Person', 'Fair', 'O2', 4, 1, 1, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (42, 'Person', 'Vosel', 'E2', 4, 1, 1, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (43, 'Person', 'Robertson', 'O5', 4, 1, 1, true);INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (44, 'Person', 'Spaulding', 'E4', 4, 1, 1, true);INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (45, 'Person', 'Doran', 'O1', 4, 1, 1, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (46, 'Person', 'Meyer', 'E3', 4, 1, 1, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (47, 'Person', 'Leffler, s.', 'E7', 4, 1, 1, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (48, 'Person', 'Irizarry', 'O2', 4, 1, 1, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (49, 'Person', 'Gordon', 'O5', 4, 1, 1, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (50, 'Person', 'Rankin, h', 'E8', 4, 1, 1, true);INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (51, 'Person', 'Coppinger', 'O5', 4, 1, 1, true);INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (52, 'Person', 'Beresford', 'O1', 4, 1, 1, true);INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (53, 'Person', 'Riedl', 'O5', 4, 1, 1, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (54, 'Person', 'Vogel', 'E5', 4, 1, 1, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (55, 'Person', 'Huchingson', 'O2', 4, 1, 1, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (56, 'Person', 'Popa', 'E4', 4, 1, 1, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (57, 'Person', 'Geroux', 'O5', 4, 1, 1, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (58, 'Person', 'Hynes', 'O4', 4, 1, 1, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (59, 'Person', 'Kulp', 'E4', 4, 1, 1, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (60, 'Person', 'Firestone', 'O3', 4, 1, 1, true);INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (61, 'Person', 'Chesley', 'E8', 4, 2, 1, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (62, 'Person', 'Cruz', 'O5', 4, 2, 1, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (63, 'Person', 'Hampton', 'O4', 4, 2, 1, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (64, 'Person', 'Blomquist', 'O2', 4, 2, 1, true);INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (65, 'Person', 'White', 'O4', 4, 2, 1, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (66, 'Person', 'Swim', 'E8', 4, 2, 1, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (67, 'Person', 'Nash', 'E7', 4, 2, 1, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (68, 'Person', 'Jacques', 'E3', 4, 2, 1, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (69, 'Person', 'Denton', 'E4', 4, 2, 1, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (70, 'Person', 'Rowsell', 'E1', 4, 2, 1, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (71, 'Person', 'Dungan', 'E5', 4, 2, 1, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (72, 'Person', 'Wood, d', 'E1', 4, 2, 1, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (73, 'Person', 'Skarlatos', 'O3', 4, 2, 1, true);INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (74, 'Person', 'Hughes', 'E8', 4, 2, 1, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (75, 'Person', 'Shoemaker', 'E6', 4, 2, 1, true);INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (76, 'Person', 'Smith, k', 'O3', 4, 2, 1, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (77, 'Person', 'Johnson, c', 'O1', 4, 2, 1, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (78, 'Person', 'Miller', 'E3', 4, 1, 1, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (79, 'Person', 'Cooper', 'E8', 4, 2, 1, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (80, 'Person', 'Layton', 'O2', 4, 2, 1, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (81, 'Person', 'Holmes', 'O1', 4, 2, 1, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (82, 'Person', 'Mayers', 'E6', 4, 2, 1, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (83, 'Person', 'Bradley', 'E7', 4, 2, 1, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (84, 'Person', 'Friedman', 'E1', 4, 2, 1, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (85, 'Person', 'Pettersen', 'E2', 4, 4, 1, true);INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (86, 'Person', 'Brockman', 'E7', 4, 4, 1, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (87, 'Person', 'Oberkrom', 'E3', 4, 4, 1, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (88, 'Person', 'Stine', 'O5', 4, 4, 1, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (89, 'Person', 'Villanueva, e', 'E5', 4, 4, 1, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (90, 'Person', 'Smith, t', 'E1', 4, 4, 1, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (91, 'Person', 'Stephens', 'O4', 4, 4, 1, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (92, 'Person', 'Fleet', 'O1', 4, 4, 1, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (93, 'Person', 'Ayers', 'O4', 4, 1, 4, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (94, 'Person', 'Bienenfeld', 'O4', 4, 1, 4, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (95, 'Person', 'Mundell', 'O3', 4, 1, 4, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (96, 'Person', 'Robinson', 'E6', 4, 1, 4, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (97, 'Person', 'Van de rostyne', 'O1', 4, 1, 4, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (98, 'Person', 'Bissette', 'O5', 4, 1, 4, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (99, 'Person', 'Yergin, m', 'E6', 4, 1, 4, true);INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (100, 'Person', 'Hughey', 'E6', 4, 1, 4, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (101, 'Person', 'Wood', 'O1', 4, 1, 4, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (102, 'Person', 'Blomquist, k', 'O5', 4, 1, 4, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (103, 'Person', 'Slifer', 'E8', 4, 1, 4, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (104, 'Person', 'Limones', 'E5', 4, 1, 4, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (105, 'Person', 'Wolfe', 'O5', 4, 1, 4, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (106, 'Person', 'Ritacco', 'O5', 4, 1, 4, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (107, 'Person', 'Lucas', 'E4', 4, 1, 4, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (108, 'Person', 'Koenig', 'E5', 4, 1, 4, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (109, 'Person', 'Weaver', 'O4', 4, 1, 4, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (110, 'Person', 'Heldreth', 'O4', 4, 1, 4, true);INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (111, 'Person', 'Maxwell', 'E2', 4, 1, 4, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (112, 'Person', 'Allen', 'E6', 4, 1, 4, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (113, 'Person', 'Adolphin', 'O3', 4, 1, 4, true);INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (114, 'Person', 'Martini', 'O2', 4, 1, 4, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (115, 'Person', 'Zehr', 'O2', 4, 1, 4, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (116, 'Person', 'Hawkins', 'E5', 4, 1, 4, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (117, 'Person', 'Yates', 'E5', 4, 1, 4, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (118, 'Person', 'Reimer', 'E5', 4, 1, 4, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (119, 'Person', 'Krueger', 'O4', 4, 1, 4, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (120, 'Person', 'Bochniak', 'E7', 4, 1, 2, true);INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (121, 'Person', 'Harpe', 'O2', 4, 1, 2, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (122, 'Person', 'Kirby', 'E4', 4, 1, 2, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (123, 'Person', 'Lang', 'O1', 4, 1, 2, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (124, 'Person', 'Lathrop', 'O3', 4, 1, 2, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (125, 'Person', 'Martin', 'O3', 4, 1, 2, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (126, 'Person', 'Thompson', 'O1', 4, 1, 2, true);INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (127, 'Person', 'Beverly', 'E1', 4, 1, 2, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (128, 'Person', 'Chapman', 'E1', 4, 1, 2, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (129, 'Person', 'Markin', 'E4', 4, 1, 2, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (130, 'Person', 'Pinto', 'E1', 4, 1, 2, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (131, 'Person', 'Staszek', 'O1', 4, 1, 2, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (132, 'Person', 'Wyatt', 'E6', 4, 1, 2, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (133, 'Person', 'Detloff', 'E1', 4, 1, 2, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (134, 'Person', 'Villanueva, b', 'E5', 4, 1, 2, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (135, 'Person', 'Nguyen', 'O4', 4, 1, 2, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (136, 'Person', 'Smith', 'E2', 4, 1, 2, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (137, 'Person', 'Ferguson', 'E2', 4, 1, 2, true);INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (138, 'Person', 'Decremer', 'O1', 4, 1, 2, true);INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (139, 'Person', 'Brosius', 'E3', 4, 1, 2, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (140, 'Person', 'Brown', 'O3', 4, 1, 2, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (141, 'Person', 'Snyder', 'O2', 4, 1, 2, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (142, 'Person', 'Dawson', 'O1', 4, 1, 2, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (143, 'Person', 'Rankin, l', 'O4', 4, 1, 2, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (144, 'Person', 'Leffler, a.', 'E2', 4, 1, 2, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (145, 'Person', 'Schaefer', 'O4', 4, 1, 2, true);INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (146, 'Person', 'Yergin', 'O5', 4, 2, 2, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (147, 'Person', 'Peery', 'O3', 4, 2, 2, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (148, 'Person', 'Modjtabai', 'O5', 4, 2, 2, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (149, 'Person', 'Bickford', 'E5', 4, 2, 2, true);INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (150, 'Person', 'Williams', 'O3', 4, 2, 2, true);INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (151, 'Person', 'Holmgren', 'E4', 4, 2, 2, true);INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (152, 'Person', 'Bassett', 'E8', 4, 2, 2, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (153, 'Person', 'Swanson', 'O4', 4, 2, 2, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (154, 'Person', 'Bizzell', 'E2', 4, 2, 2, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (155, 'Person', 'Cereno', 'E8', 4, 2, 2, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (156, 'Person', 'Young', 'O2', 4, 2, 2, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (157, 'Person', 'Lake', 'O5', 4, 2, 2, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (158, 'Person', 'Ly', 'O1', 4, 2, 2, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (159, 'Person', 'Zimmerman', 'E4', 4, 2, 2, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (160, 'Person', 'Davis, b', 'E5', 4, 2, 2, true);INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (161, 'Person', 'Hastings', 'O1', 4, 2, 2, true);INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (162, 'Person', 'Gutierrez', 'E6', 4, 2, 2, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (163, 'Person', 'Ngo', 'O5', 4, 2, 2, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (164, 'Person', 'Geroux', 'E2', 4, 2, 2, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (165, 'Person', 'Ferguson', 'E4', 4, 2, 2, true);INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (166, 'Person', 'Bolo', 'E3', 4, 2, 2, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (167, 'Person', 'Jensen', 'E8', 4, 2, 2, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (168, 'Person', 'Reilly', 'O4', 4, 4, 2, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (169, 'Person', 'Schultz', 'E5', 4, 4, 2, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (170, 'Person', 'Milton', 'E8', 4, 4, 2, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (171, 'Person', 'Larkin', 'E5', 4, 4, 2, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (172, 'Person', 'Bykov', 'E5', 4, 4, 2, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (173, 'Person', 'Bergren', 'O1', 4, 1, 3, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (174, 'Person', 'Brodd', 'E1', 4, 1, 3, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (175, 'Person', 'Brown', 'O1', 4, 1, 3, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (176, 'Person', 'Bruce', 'O1', 4, 1, 3, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (177, 'Person', 'Camel', 'E1', 4, 1, 3, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (178, 'Person', 'Dalrymple', 'E2', 4, 1, 3, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (179, 'Person', 'Davis', 'O1', 4, 1, 3, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (180, 'Person', 'Fawcett', 'E7', 4, 1, 3, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (181, 'Person', 'Mayer', 'O3', 4, 1, 3, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (182, 'Person', 'Royster', 'E4', 4, 1, 3, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (183, 'Person', 'Thiessen', 'O2', 4, 1, 3, true);INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (184, 'Person', 'Calder', 'E6', 4, 1, 3, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (185, 'Person', 'Chapman', 'O4', 4, 1, 3, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (186, 'Person', 'Holmgren, a', 'E2', 4, 1, 3, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (187, 'Person', 'Treichler', 'E4', 4, 1, 3, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (188, 'Person', 'Warren', 'O1', 4, 1, 3, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (189, 'Person', 'Yamada', 'O3', 4, 1, 3, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (190, 'Person', 'Roberts', 'E3', 4, 1, 3, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (191, 'Person', 'Farmer', 'O5', 4, 1, 3, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (192, 'Person', 'Burton', 'E3', 4, 1, 3, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (193, 'Person', 'Schwertman', 'O3', 4, 1, 3, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (194, 'Person', 'Thompson', 'E6', 4, 1, 3, true);INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (195, 'Person', 'Olson', 'E4', 4, 1, 3, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (196, 'Person', 'Jugo', 'O3', 4, 1, 3, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (197, 'Person', 'Trausch', 'E5', 4, 1, 3, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (198, 'Person', 'Carey', 'O3', 4, 1, 3, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (199, 'Person', 'Pierce', 'E8', 4, 1, 3, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (200, 'Person', 'Thomson', 'E6', 4, 1, 3, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (201, 'Person', 'Blevins', 'O1', 4, 1, 3, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (202, 'Person', 'Hutcheson', 'O5', 4, 1, 3, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (203, 'Person', 'Knutsen', 'O1', 4, 1, 3, true);

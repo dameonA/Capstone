@@ -8,8 +8,10 @@ function UserTableHeader(props) {
               <th>First Name</th>
               <th>Grade</th>
               <th>Access Role</th>
-              <th>Crew Qualification</th>
-              <th>Certification</th>
+              <th>Available Qualifications</th>
+              <th>User's Qualifications</th>
+              <th>Available Certifications</th>
+              <th>User's Certifications</th>
               <th>Flight</th>
               <th>Crew</th>
               <th>Active</th>

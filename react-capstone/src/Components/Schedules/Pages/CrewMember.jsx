@@ -1,11 +1,27 @@
 import React from 'react';
+import SchedulePage from '../children/SchedulePage';
 
-function CrewMember() {
-  return (
-    <div className='crewmember'>
-      <h1>Individual Crew Member</h1>
-    </div>
-  );
+class CrewMember extends React.Component{
+  constructor(props){
+    super(props);
+    this.state = {
+
+    }
+  }
+  render(){
+     return (
+         <div>
+           <div className="row">
+             <div className="col s12">
+                  <h2 className="emp-h2"> Employee Dashboard</h2>
+             </div>
+           </div>
+           <div className="col s12">
+             <SchedulePage />
+           </div>
+         </div>
+     );
+ }
 }
 
 export default CrewMember;

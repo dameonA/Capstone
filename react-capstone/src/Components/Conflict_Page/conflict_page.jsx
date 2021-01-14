@@ -108,8 +108,6 @@ class ConflictPage extends React.Component {
                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
                         <Grid container justify="space-around">
                             <KeyboardDatePicker 
-                                disableToolbar
-                                variant="inline"
                                 format="yyyy-MM-dd"
                                 margin="normal"
                                 id="start-date"
