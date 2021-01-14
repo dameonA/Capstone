@@ -66,7 +66,7 @@ module.exports.Users = class Users {
             let qual = user.qualifications[qIndex];
             if (qual) {
               try {
-                await this.db.one('INSERT INTO user_qualifications (user_id,qual_id,is_evaluator,is_instructor) VALUES ($1,$2,$3,$4)',[ret.user_id,qual.qual_id,qual.is_evaluator||false,qual.is_instructor||false])
+                await this.db.one('INSERT INTO user_qualifications (user_id,qual_id,is_evaluator,is_instructor, in_training) VALUES ($1,$2,$3,$4,$5)',[ret.user_id,qual.qual_id,qual.is_evaluator||false,qual.is_instructor||false,qual.in_training||false])
               } catch (ignored) {}
             }
           }
@@ -77,7 +77,7 @@ module.exports.Users = class Users {
             let cert = user.certifications[cIndex];
             if (cert) {
               try {
-                await this.db.one('INSERT INTO user_certifications (user_id,qual_id) VALUES ($1,$2)',[ret.user_id,cert.cert_id])
+                await this.db.one('INSERT INTO user_certifications (user_id,cert_id) VALUES ($1,$2)',[ret.user_id,cert.cert_id])
               } catch (ignored) {}
             }
           }
@@ -98,9 +98,45 @@ module.exports.Users = class Users {
     let userGroup = user.user_group;
     let active = user.active;
     try {
-      return await this.db.one(
+      let ret = await this.db.one(
         'UPDATE users SET first_name=$1, last_name=$2, grade=$3, user_role=$4, section=$5, user_group=$6, active=$7 WHERE user_id=$8 RETURNING *',
         [firstName, lastName, grade, userRole, section, userGroup, active, userId])
+      //delete existing quals associated with current user_id
+      try {
+        await this.db.any('DELETE * FROM user_qualifications where user_id=$1', [ret.user_id])
+      } catch (error) {
+        return error
+      }
+      if (Array.isArray(user.qualifications)) {
+
+        for (let qIndex = 0; qIndex < user.qualifications.length; qIndex++) {
+          let qual = user.qualifications[qIndex];
+          if (qual) {
+            try {
+              await this.db.one('INSERT INTO user_qualifications (user_id,qual_id,is_evaluator,is_instructor, in_training) VALUES ($1,$2,$3,$4,$5)',[ret.user_id,qual.qual_id,qual.is_evaluator||false,qual.is_instructor||false,qual.in_training||false])
+            } catch (ignored) {}
+          }
+        }
+      }
+      //delete existing certs associated with current user_id before inserting new ones
+      try {
+        await this.db.any('DELETE * FROM user_certifications where user_id=$1', [ret.user_id])
+      } catch (error) {
+        return error
+      }
+
+      if (Array.isArray(user.certifications)) {
+        //let certifications = await this.getCertifications();
+        for (let cIndex = 0; cIndex < user.certifications.length; cIndex++) {
+          let cert = user.certifications[cIndex];
+          if (cert) {
+            try {
+              await this.db.one('INSERT INTO user_certifications (user_id,cert_id) VALUES ($1,$2)',[ret.user_id,cert.cert_id])
+            } catch (ignored) {}
+          }
+        }
+      }
+      return await this.getUser(ret.user_id);
     } catch (error) {
       return {};
     }

@@ -47,7 +47,14 @@ class AddUser extends React.Component {
       Array.from(document.querySelectorAll('input')).forEach(
         input => (input.value = '')
       );
-      this.setState(this.baseState)
+      this.setState(this.baseState);
+      this.setState(previousState =>({
+        newUser: {
+          ...previousState.newUser,
+          qualifications: [{qual_id: 0, qual_name: 'None'}],
+          certifications: [{cert_id: 0, cert_name: 'None'}]
+        }
+      }))
     }
 
     SubmitNewUser = async () => {
@@ -70,7 +77,7 @@ class AddUser extends React.Component {
         }))
       }
 
-      let newUser = await fetch(this.props.api + 'users/new',
+      let submittedUser = await fetch(this.props.api + 'users/new',
       {
         method: "POST",
         headers: {
@@ -81,11 +88,10 @@ class AddUser extends React.Component {
         console.log(err);
       })
 
-
-      if (!newUser.ok) {
+      if (!submittedUser.ok) {
         throw new Error('Waiting on newUser to add to the database')
       } else {
-        let tempObj = await newUser.json()
+        let tempObj = await submittedUser.json()
         alert(`New User Created! \n Name: ${tempObj.last_name}, ${tempObj.first_name} ${tempObj.grade}`);
       }
         
