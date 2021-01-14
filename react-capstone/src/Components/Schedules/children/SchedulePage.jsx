@@ -6,11 +6,11 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';  
 import TableRow from '@material-ui/core/TableRow';  
 import Paper from '@material-ui/core/Paper';
-import EditIcon from '@material-ui/icons/Edit';
-import DeleteIcon from '@material-ui/icons/Delete';
+// import EditIcon from '@material-ui/icons/Edit';
+// import DeleteIcon from '@material-ui/icons/Delete';
 import axios from 'axios';
-import ScheduleTable from '../ScheduleTable';
-import Sidebar from '../Sidebar/Sidebar';
+// import ScheduleTable from '../ScheduleTable';
+// import Sidebar from '../Sidebar/Sidebar';
 
 
 
@@ -50,9 +50,9 @@ class SchedulePage extends React.Component {
         return (
           
           <>
-          <div className="Side">
+          {/* <div className="Side">
             <Sidebar/>
-            </div>
+            </div> */}
           <h7><center>Week At A Glance</center></h7>
           <TableContainer component={Paper}>  
           <Table stickyHeader  aria-label="sticky table">  
