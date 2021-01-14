@@ -1,4 +1,5 @@
 import React from 'react'
+
 class LoginForm extends React.Component {
     constructor(props) {
         super(props)
@@ -14,17 +15,17 @@ class LoginForm extends React.Component {
     }
     login = async (event)=>{
         event.preventDefault();
-        let loggedin = await fetch(this.props.api+"/auth", {
+        let loggedin = await fetch(this.props.api+"auth", {
             method: "POST",
             body: JSON.stringify(this.state),
             headers: {
                 'Content-Type': 'application/json'
             }
+        })
+        .then(async loggedin=>{if(!loggedin.ok){throw("Failed to login")};return loggedin.json()})
+        .then(user=>{
+            this.props.handleLogIn(user)
         }).catch(err=>console.log("cannot fetch: ",err));
-        if (loggedin.ok) {
-            loggedin = (await loggedin.json()).user;
-            this.props.handleLogIn(loggedin)
-        }
     }
     render() {
         return (
