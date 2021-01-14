@@ -1,7 +1,15 @@
 import React, { Component } from 'react'
 import axios from 'axios';
 import '../../../App.js'
+import Table from '@material-ui/core/Table';  
+import TableBody from '@material-ui/core/TableBody';  
+import TableCell from '@material-ui/core/TableCell';  
+import TableContainer from '@material-ui/core/TableContainer';  
+import TableHead from '@material-ui/core/TableHead';  
+import TableRow from '@material-ui/core/TableRow';  
+import Paper from '@material-ui/core/Paper';
 import { deprecatedPropType } from '@material-ui/core';
+import Sidebar from '../Sidebar/Sidebar';
 
 class SectionScheduler extends Component {
     constructor(props){
@@ -25,7 +33,7 @@ class SectionScheduler extends Component {
     componentDidMount(){
         axios.get(this.props.api+'schedule').then(response => {   
             this.setState({  
-              crewSchedule: response.data  
+              userSchedule: response.data  
             });  
           });  
         } 
