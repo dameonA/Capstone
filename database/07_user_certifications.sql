@@ -10,9 +10,3 @@ CREATE TABLE user_certifications (
     FOREIGN KEY (cert_id) REFERENCES certifications (cert_id)
 );
 
-INSERT INTO user_certifications (user_id,cert_id) VALUES
-    (1,1),
-    (2,1),
-    (2,3),
-    (2,6)
-;

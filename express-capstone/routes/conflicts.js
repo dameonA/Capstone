@@ -1,7 +1,11 @@
 const { response } = require("express");
 const bodyParser = require("body-parser");
 var express = require("express");
+const { dateRangeIntersects } = require("../services/utils");
+const {parseISO}=require('date-fns');
 var ConflictService;
+var ScheduleService;
+var NotificationService;
 var router = express.Router()
 
 router.get('', function (req, response) {
@@ -28,19 +32,26 @@ router.get('/:id', function(req, response, next) {
     }
 })
 
-
 router.post('', function (req, response) {
     var conflict = req.body;
-    console.log(conflict);
     ConflictService.postConflicts(conflict)
-    .then(ret => response.send("Conflict added!"))
+    .then(async ret => {
+        let sched = (await ScheduleService.getSchedule()).filter(s=>s.user_id===conflict.user_id)
+        let conflicted_schedule = sched.filter(s=>dateRangeIntersects(s.start_time,s.stop_time,parseISO(conflict.start_time), parseISO(conflict.stop_time)));
+        conflicted_schedule.forEach((s)=>{
+            console.log(s,conflict);
+            NotificationService.postNotification({role_id:2,type_notify:2,comment:"Schedule conflict on "+s.start_time});
+        });
+        response.send("Conflict added!")
+
+    })
     .catch(ret => response.send("Conflict not submitted."));
 })//This is a basic POST test to check if I know what I'm doing
 
-module.exports = function(conflictService) {
+module.exports = function(conflictService,scheduleService,notificationService) {
     ConflictService = conflictService;
-    //do as you wish
-    //this runs in background, not on each request
+    ScheduleService=scheduleService;
+    NotificationService=notificationService;
 
     return router;
 }
