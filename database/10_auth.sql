@@ -8,8 +8,8 @@ CREATE TABLE user_auth (
 );
 
 INSERT INTO user_auth (username, user_id,password) VALUES
-    ('joe1', 2, 'password'),
-    ('joe2', 3, 'password'),
-    ('joe3', 4, 'password'),
-    ('joe4', 5, 'password')
+    ('user', 25, 'password'),
+    ('user2', 26, 'password'),
+    ('user3', 27, 'password'),
+    ('user4', 28, 'password')
 ;

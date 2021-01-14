@@ -7,8 +7,14 @@ import Home from './Components/Home/Home'
 import UserPage from './Components/CreateUser/UserPage'
 import ConflictPage from './Components/Conflict_Page/conflict_page'
 import NotificationPage from './Components/Notifications/NotificationPage'
-import SchedulePage from './Components/Schedules/SchedulePage'
+
+import SchedulePage from './Components/Schedules/children/SchedulePage'
+
+=======
+
+import LoginForm from './Components/Login/LoginForm'
 //import SchedulePageTable from './Components/Schedules/SchedulePageTable'
+
 
 
 
@@ -68,13 +74,14 @@ class App extends React.Component {
     return (
       <ThemeProvider theme={theme}>
         <BrowserRouter>
-        <Header/>
+        <Header user={this.state.user}/>
         <Switch>
             <Route exact path='/'><Home/></Route>
             <Route exact path='/Users'><UserPage api={this.state.apiURL} users={this.state.users} static={this.state.staticTables}/></Route>
             <Route exact path='/Conflicts'><ConflictPage api={this.state.apiURL} users={this.state.users} static={this.state.staticTables}/></Route>    
-            <Route exact path='/Notifications'><NotificationPage/></Route>
+            <Route exact path='/Notifications'><NotificationPage api={this.state.apiURL} user={this.state.user} /></Route>
             <Route exact path='/Schedule'><SchedulePage api={this.state.apiURL} users={this.state.users} static={this.state.staticTables} /></Route>                
+            <Route exact path='/Login'><LoginForm api={this.state.apiURL} handleLogIn={(user)=>{this.setState({user:user})}}/></Route>                
         </Switch>
         </BrowserRouter>
       </ThemeProvider>

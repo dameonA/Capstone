@@ -8,7 +8,9 @@ router.post('', function (req, res) {
   let loginData = req.body;
   if (loginData.username && loginData.password) {
     AuthService.getLoginData(loginData.username).then(authData=>{
+      //console.log(authData);
       UserService.getUser(authData.user_id).then(user=>{
+        console.log(user);
         res.send(user);
       }).catch((err)=>{console.log(err);res.sendStatus(500)});
     }).catch(()=>res.sendStatus(403))
