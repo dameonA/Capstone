@@ -10,6 +10,8 @@ import axios from 'axios';
 import AutoScheduleButton from './AutoScheduleButton'
 import ResolveConflictsButton from './ResolveConflictsButton'
 
+
+
 class SchedulePage extends React.Component {
     constructor(props){//api, users, static(contains grades, usergroups, sections, qualifications, certifications)
         super(props)
