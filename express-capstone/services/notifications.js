@@ -6,6 +6,7 @@ module.exports.Notifications = class Notifications {
         if ((notification.userid || notification.role_id) &&
         notification.type_notify &&
         notification.comment) {
+                console.log(notification.userid || null, notification.role_id || null, notification.type_notify,notification.comment)
                 return await this.db.any('insert into notification(userid,role_id,type_notify,comment,is_read,archived) VALUES ($1,$2,$3,$4,false,false)',[notification.userid || null, notification.role_id || null, notification.type_notify,notification.comment]);
             }
     }

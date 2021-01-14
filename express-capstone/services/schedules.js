@@ -21,7 +21,9 @@ module.exports.Schedule = class Schedule {
         }
     }
 
-
+    async clearSchedule() {
+        return await this.db.none('DELETE FROM schedule');
+    }
     
 
     

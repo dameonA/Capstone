@@ -19,7 +19,7 @@ class App extends React.Component {
     this.state = {
       users: [],
       staticTables: {}, //contains grades, usergroups, sections, qualifications, certifications, positions 
-      apiURL: 'http://localhost:3001/'
+      apiURL: 'http://localhost:8080/'
     }
   }
 
@@ -69,7 +69,7 @@ class App extends React.Component {
     return (
       <ThemeProvider theme={theme}>
         <BrowserRouter>
-        <Header user={this.state.user}/>
+        <Header api={this.state.apiURL} user={this.state.user} handleLogin={(user)=>{this.setState({user:user})}}/>
         <Switch>
             <Route exact path='/'><Home/></Route>
             <Route exact path='/Users'><UserPage api={this.state.apiURL} users={this.state.users} static={this.state.staticTables}/></Route>

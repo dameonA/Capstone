@@ -38,8 +38,9 @@ router.post('', function (req, response) {
     .then(async ret => {
         let sched = (await ScheduleService.getSchedule()).filter(s=>s.user_id===conflict.user_id)
         let conflicted_schedule = sched.filter(s=>dateRangeIntersects(s.start_time,s.stop_time,parseISO(conflict.start_time), parseISO(conflict.stop_time)));
+        //console.log(parseISO(conflict.start_time), parseISO(conflict.stop_time))
         conflicted_schedule.forEach((s)=>{
-            console.log(s,conflict);
+            //console.log(s,conflict);
             NotificationService.postNotification({role_id:2,type_notify:2,comment:"Schedule conflict on "+s.start_time});
         });
         response.send("Conflict added!")

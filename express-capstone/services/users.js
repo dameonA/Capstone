@@ -31,7 +31,7 @@ module.exports.Users = class Users {
     this.db = database;
   }
   async getUser(userId) {
-    console.log(queryUsers + ' where user_id = '+userId)
+    //console.log(queryUsers + ' where user_id = '+userId)
     try {
       let user = (await this.db.one(queryUsers + ' where user_id = $1', userId)).json
       console.log(user)
