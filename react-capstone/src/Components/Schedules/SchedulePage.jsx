@@ -7,8 +7,8 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';  
 import Paper from '@material-ui/core/Paper';
 import axios from 'axios';  
-
-
+import AutoScheduleButton from './AutoScheduleButton'
+import ResolveConflictsButton from './ResolveConflictsButton'
 
 class SchedulePage extends React.Component {
     constructor(props){//api, users, static(contains grades, usergroups, sections, qualifications, certifications)
@@ -33,6 +33,7 @@ class SchedulePage extends React.Component {
       render() {  
         return (  
           <TableContainer component={Paper}>  
+          <AutoScheduleButton api={this.props.api}/> <ResolveConflictsButton api={this.props.api}/>
             <Table stickyHeader  aria-label="sticky table">  
               <TableHead>  
                 <TableRow>  
