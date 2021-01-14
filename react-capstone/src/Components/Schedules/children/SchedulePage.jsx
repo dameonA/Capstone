@@ -9,8 +9,17 @@ import Paper from '@material-ui/core/Paper';
 // import EditIcon from '@material-ui/icons/Edit';
 // import DeleteIcon from '@material-ui/icons/Delete';
 import axios from 'axios';
+import 'date-fns';
 // import ScheduleTable from '../ScheduleTable';
 // import Sidebar from '../Sidebar/Sidebar';
+import DateFnsUtils from '@date-io/date-fns';
+import {
+    MuiPickersUtilsProvider,
+    KeyboardTimePicker,
+    KeyboardDatePicker,
+} from '@material-ui/pickers';
+
+import { date } from 'date-fns/locale/af';
 
 
 
@@ -18,7 +27,10 @@ class SchedulePage extends React.Component {
     constructor(props){//api, users, static(contains grades, usergroups, sections, qualifications, certifications)
         super(props)
         this.state={
-            ScheduleData: []
+            ScheduleData: [],
+            date: new Date(),
+            selectedStartDate: Date.now(),
+            selectedEndDate: Date.now()
         }
         
     }
@@ -30,6 +42,14 @@ class SchedulePage extends React.Component {
           });  
         });  
       }  
+
+      handleStartDateChange = (date) => {
+        this.setState({selectedStartDate: date})
+    }
+
+    handleEndDateChange = (date) => {
+        this.setState({selectedEndDate: date})
+    }
 
       // handleSubmit = (event) => {
       //   this.setState({})
@@ -53,7 +73,10 @@ class SchedulePage extends React.Component {
           {/* <div className="Side">
             <Sidebar/>
             </div> */}
-          <h7><center>Week At A Glance</center></h7>
+       
+          <h7><center>Schedule Weekly Page &#160;
+          {this.state.date.toLocaleDateString()}
+            </center></h7>
           <TableContainer component={Paper}>  
           <Table stickyHeader  aria-label="sticky table">  
             <TableHead>  
