@@ -5,7 +5,9 @@ import ResolveConflictsButton from './ResolveConflictsButton'
 
 class ScheduleViewer extends Component {
     constructor(props){
+
         super(props);
+
         
     }
   
