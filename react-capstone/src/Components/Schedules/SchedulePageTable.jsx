@@ -20,8 +20,6 @@ const useStyles = makeStyles({
     maxHeight: 440,  
   },  
 });  
-// http://localhost:3001/
-//this.props.api${props.schedule
 
 export default function SchedulePageTable(props) { 
       const classes = useStyles();  
@@ -47,14 +45,6 @@ export default function SchedulePageTable(props) {
  
       return (  
         <>
-            {/* <SearchBar
-      onChange={() => console.log('onChange')}
-      onRequestSearch={() => console.log('onRequestSearch')}
-      style={{
-        margin: '0 auto',
-        maxWidth: 800
-      }}
-    /> */}
         <Paper className={classes.root}>  
           <TableContainer className={classes.container}>  
             <Table stickyHeader aria-label="sticky table">  

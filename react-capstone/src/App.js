@@ -7,8 +7,6 @@ import Home from './Components/Home/Home'
 import UserPage from './Components/CreateUser/UserPage'
 import ConflictPage from './Components/Conflict_Page/conflict_page'
 import NotificationPage from './Components/Notifications/NotificationPage'
-// import SchedulePage from './Components/Schedules/children/SchedulePage'
-// import ScheduleViewer from './Components/Schedules/ScheduleViewer'
 import LoginForm from './Components/Login/LoginForm'
 import SchedulePageTable from './Components/Schedules/SchedulePageTable'
 
