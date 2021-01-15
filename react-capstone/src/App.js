@@ -9,6 +9,7 @@ import ConflictPage from './Components/Conflict_Page/conflict_page'
 import NotificationPage from './Components/Notifications/NotificationPage'
 import LoginForm from './Components/Login/LoginForm'
 import SchedulePageTable from './Components/Schedules/SchedulePageTable'
+import SchedulePage from './Components/Schedules/children/SchedulePage'
 
 
 
@@ -76,7 +77,7 @@ class App extends React.Component {
             <Route exact path='/Users'><UserPage api={this.state.apiURL} users={this.state.users} static={this.state.staticTables}/></Route>
             <Route exact path='/Conflicts'><ConflictPage api={this.state.apiURL} users={this.state.users} static={this.state.staticTables}/></Route>    
             <Route exact path='/Notifications'><NotificationPage api={this.state.apiURL} user={this.state.user} /></Route>
-            <Route exact path='/Schedule'><SchedulePageTable api={this.state.apiURL} users={this.state.users} static={this.state.staticTables} /></Route>                 
+            <Route exact path='/Schedule'><SchedulePage api={this.state.apiURL} users={this.state.users} static={this.state.staticTables} /></Route>                 
             <Route exact path='/Login'><LoginForm api={this.state.apiURL} handleLogIn={(user)=>{this.setState({user:user})}}/></Route>                
         </Switch>
         </BrowserRouter>
