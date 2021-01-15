@@ -77,8 +77,8 @@ class AddUser extends React.Component {
 
     }
 
-    SubmitNewUser = async () => {
-
+    SubmitNewUser = async (event) => {
+      event.preventDefault()
       if (this.state.newUser.certifications[0].cert_id === 0) {
         this.setState(previousState => ({
           newUser: {
@@ -115,9 +115,10 @@ class AddUser extends React.Component {
         console.log(`New User Created! \n Name: ${tempObj.last_name}, ${tempObj.first_name} ${tempObj.grade}`);
 
         alert(`New User Created! \n Name: ${tempObj.last_name}, ${tempObj.first_name} ${tempObj.grade}`);
+        this.ResetNewUserForm();
       }
         
-      this.ResetNewUserForm();
+     
 
     }
  

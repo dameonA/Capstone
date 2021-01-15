@@ -6,8 +6,8 @@ import AutoScheduleButton from './AutoScheduleButton'
 import ResolveConflictsButton from './ResolveConflictsButton'
 
 class ScheduleViewer extends Component {
-    contructor(props){
-        super(props);
+    constructor(props){
+        super(props)
         
     }
     localeData: EventSettingsModel = {

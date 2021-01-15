@@ -72,15 +72,23 @@ class App extends React.Component {
       <ThemeProvider theme={theme}>
         <BrowserRouter>
         <Header api={this.state.apiURL} user={this.state.user} handleLogin={(user)=>{this.setState({user:user})}}/>
-        <Switch>
-            <Route exact path='/'><Home/></Route>
-            <Route exact path='/Users'><UserPage api={this.state.apiURL} users={this.state.users} static={this.state.staticTables}/></Route>
+        {this.state.user
+         ?<Switch>
+            
+
+            <Route exact path='/'><Home user={this.state.user}/></Route>
+            {this.state.user.user_role !== 4
+            ? <Route exact path='/Users'><UserPage api={this.state.apiURL} users={this.state.users} static={this.state.staticTables}/></Route>
+            :''}
+
             <Route exact path='/Conflicts'><ConflictPage api={this.state.apiURL} users={this.state.users} static={this.state.staticTables}/></Route>    
             <Route exact path='/Notifications'><NotificationPage api={this.state.apiURL} user={this.state.user} /></Route>
             {/* <Route exact path='/Schedule'><SchedulePage api={this.state.apiURL} users={this.state.users} static={this.state.staticTables} /></Route>  */}
-            <Route exact path='/Schedule'><ScheduleViewer api={this.state.apiURL} users={this.state.users} static={this.state.staticTables} /></Route>                
+            <Route exact path='/Schedule'><ScheduleViewer api={this.state.apiURL} users={this.state.users} static={this.state.staticTables} /></Route>              
+          </Switch>
+          :   
             <Route exact path='/Login'><LoginForm api={this.state.apiURL} handleLogIn={(user)=>{this.setState({user:user})}}/></Route>                
-        </Switch>
+        }
         </BrowserRouter>
       </ThemeProvider>
     );

@@ -69,13 +69,20 @@ export default function Header(props){
                     <Typography variant="h4">
                         Ops Crew Schedule
                     </Typography>
-                    <Tabs className={classes.tabContainer} centered onChange={handleChange} value={value}>
-                        <Tab component={Link} to={'/'} className={classes.tab} label="Home" />
-                        <Tab component={Link} to={'/Users'} className={classes.tab} label="Users" />                        
+                    {props.user
+                    ?<Tabs className={classes.tabContainer} centered onChange={handleChange} value={value}>
+                        <Tab component={Link} to={'/Schedule'} className={classes.tab} label="Schedule" />
+                        {/* <Tab component={Link} to={'/'} className={classes.tab} label="Home" /> */}
+                        {props.user.user_role !==4
+                        ?<Tab component={Link} to={'/Users'} className={classes.tab} label="Users" />                        
+                        :""
+                        }
                         <Tab component={Link} to={'/Conflicts'} className={classes.tab} label="Conflicts" />                        
                         <Tab component={Link} to={'/Notifications'} className={classes.tab} label="Notifications" /> 
-                        <Tab component={Link} to={'/Schedule'} className={classes.tab} label="Schedule" /> 
+                         
                     </Tabs>
+                    :""}
+                    
                 {/* {(props.user)?<NotificationIcon user={props.user} api={props.api} />:""} */}
                 <LoginMenu user={props.user} handleLogin={props.handleLogin}/>
                 </Toolbar>

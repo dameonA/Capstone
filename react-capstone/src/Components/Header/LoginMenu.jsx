@@ -55,19 +55,10 @@ export default function LoginMenu(props){
     )
     return(
         <React.Fragment>
-            <Link to="/Login" >
-            <Button 
-                className={classes.button} 
-                variant="contained" 
-                color="secondary"
-                onClick 
-            >
-                {props.user
-                 ? <a>Logout</a>
-                 : <a>Login</a>
+                 {props.user
+                 ? logout
+                 : login
                 }
-            </Button>
-            </Link>
         </React.Fragment>
     )
 }
