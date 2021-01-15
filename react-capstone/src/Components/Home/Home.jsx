@@ -18,6 +18,10 @@ export default class Home extends React.Component{
                 }}
             >
                 <img src={logo} alt="logo" />
+                {this.props.user
+                ? <h1>Welcome {this.props.user.first_name} {this.props.user.last_name} </h1>
+                :""
+                }
 
             </div>
 

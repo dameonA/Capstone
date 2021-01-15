@@ -80,8 +80,9 @@ class ModifyUser extends React.Component {
   }
   
 
-  SubmitUpdatedUser = async () => {
+  SubmitUpdatedUser = async (event) => {
     //check for no certs
+    event.preventDefault();
     if (this.state.updatedUser.certifications[0].cert_id === 0) {
       this.setState(previousState => ({
         updatedUser: {
