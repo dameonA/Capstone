@@ -1,18 +1,14 @@
 import React, { Component } from 'react'
-
-import {Inject, ScheduleComponent, Day, Week, Month, EventSettingsModel } from '@syncfusion/ej2-react-schedule'
 //import SchedulePage from './children/SchedulePage'
 import AutoScheduleButton from './AutoScheduleButton'
 import ResolveConflictsButton from './ResolveConflictsButton'
 
 class ScheduleViewer extends Component {
-    contructor(props){
+    constructor(props){
         super(props);
         
     }
-    localeData: EventSettingsModel = {
-
-    }
+  
     render() {
         return (
             <div>
