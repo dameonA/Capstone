@@ -15,25 +15,24 @@ router.get('/positions', function (req, res) {
   .catch(ret=>res.send([]));
 })
 
-router.post('/autoschedule',async(req,res)=>{
-  AutoScheduleService.autoschedule2week(Date.now()).then(r=>res.send("success")).catch(c=>res.status(500).send("failed"));
+router.all('/autoschedule',async(req,res)=>{
+  AutoScheduleService.autoschedule2week(new Date("2021-01-18 08:00:00+00")).then(r=>res.send("success")).catch(c=>res.status(500).send("failed"));
 })
 
-router.post('/reschedule',async(req,res)=>{
+router.all('/reschedule',async(req,res)=>{
   if (req.body.schedule_id) {
-    
-    AutoScheduleService.autoschedule1(req.body);
+    AutoScheduleService.autoschedule1(req.body).then(r=>res.send("success")).catch(c=>res.status(500).send("failed"));;
+  }else{
+    res.send("failed")
   }
   //AutoScheduleService.autoschedule2week(new Date("2021-01-21 20:00:00+00")).then(r=>res.send("success")).catch(c=>res.status(500).send("failed"));
-  res.send("success")
 })
 
-router.post('/resolve',async(req,res)=>{
-   await AutoScheduleService.resolve()
+router.all('/resolve',async(req,res)=>{
+  AutoScheduleService.resolve().then(r=>res.send("success")).catch(c=>res.status(500).send("failed"));
   //AutoScheduleService.autoschedule2week(new Date("2021-01-21 20:00:00+00")).then(r=>res.send("success")).catch(c=>res.status(500).send("failed"));
-  res.send("success")
 })
-router.post('/clear',async(req,res)=>{
+router.all('/clear',async(req,res)=>{
   ScheduleService.clearSchedule().then(r=>res.send("success")).catch(r=>res.send("error"));
 })
 module.exports = function(scheduleService,autoScheduleService){
