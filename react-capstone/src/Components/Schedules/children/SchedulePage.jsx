@@ -6,20 +6,8 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';  
 import TableRow from '@material-ui/core/TableRow';  
 import Paper from '@material-ui/core/Paper';
-// import EditIcon from '@material-ui/icons/Edit';
-// import DeleteIcon from '@material-ui/icons/Delete';
-import axios from 'axios';
+import axios from 'axios';  
 import 'date-fns';
-// import ScheduleTable from '../ScheduleTable';
-// import Sidebar from '../Sidebar/Sidebar';
-import DateFnsUtils from '@date-io/date-fns';
-import {
-    MuiPickersUtilsProvider,
-    KeyboardTimePicker,
-    KeyboardDatePicker,
-} from '@material-ui/pickers';
-
-import { date } from 'date-fns/locale/af';
 
 
 
@@ -41,39 +29,23 @@ class SchedulePage extends React.Component {
             ScheduleData: response.data  
           });  
         });  
-      }  
+      } 
+      
+      handleSearch = (event) => {
+        this.setState({})
+      }
 
-      handleStartDateChange = (date) => {
-        this.setState({selectedStartDate: date})
-    }
-
-    handleEndDateChange = (date) => {
-        this.setState({selectedEndDate: date})
-    }
-
-      // handleSubmit = (event) => {
-      //   this.setState({})
-      // }
-      // let tempId = Number.parseInt(event.target.value);
-      // let index = this.props.users.findIndex(user => user.user_id === p.user_id)
-      // let tempUser = this.props.users[this.props.users.findIndex(user => user.user_id === p.user_id)].last_name;
-      // let tempUser = this.props.tempArray6[this.props.tempArray6.findIndex(position => position.posistion_id === p.position_id)].position_name;
-      // this.props.position[this.props.static.position.findIndex(position => position.position_id === p.position_id)].position_name
-      //{this.props.static.positions[this.props.static.positions.findIndex(position => position.position_id === p.position_id)].position_name}
-
-      // let roleIndex = this.props.static.roles.findIndex(role => this.state.updatedUser.user_role === role.role_id);
-      // let role = this.props.static.roles[roleIndex].role_name;
-
-      //&#160;&#160;
+   
 
       render() {  
-        return (
-          
+        return (       
           <>
-          {/* <div className="Side">
-            <Sidebar/>
-            </div> */}
-       
+              <label>
+                  Search Name:
+                    <input type="text" value={this.state.first_name} onChange={this.handleSearch} />
+                </label>
+                    <br />
+                    <br/>
           <h7><center>Schedule Weekly Page &#160;
           {this.state.date.toLocaleDateString()}
             </center></h7>
@@ -92,8 +64,7 @@ class SchedulePage extends React.Component {
                 <TableCell align="right">Sunday</TableCell>    
                 </TableRow> 
             </TableHead>   
-            <TableBody>   
-            
+            <TableBody>      
               {  
   
                 this.state.ScheduleData.map((p, index) => {  
@@ -123,4 +94,3 @@ class SchedulePage extends React.Component {
   
     export default SchedulePage
 
-       

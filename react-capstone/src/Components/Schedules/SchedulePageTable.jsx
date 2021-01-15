@@ -21,19 +21,18 @@ const useStyles = makeStyles({
   },  
 });  
 
-
 export default function SchedulePageTable(props) { 
       const classes = useStyles();  
       const [page, setPage] = React.useState(0);  
       const [data, setData] = useState([]);   
       const [rowsPerPage, setRowsPerPage] = React.useState(5);  
       
-      useEffect(() => {    
+      useEffect((props) => {    
             const GetData = async () => {    
-              const result = await axios('http://localhost:3001/schedule');    
+              const result = await axios('this.props.api${props.schedule');    
               setData(result.data);    
             }  
-            GetData();      
+            GetData(props);      
     }, []);   
       const handleChangePage = (event, newPage) => {  
         setPage(newPage);  
@@ -45,31 +44,36 @@ export default function SchedulePageTable(props) {
       };  
  
       return (  
+        <>
         <Paper className={classes.root}>  
           <TableContainer className={classes.container}>  
             <Table stickyHeader aria-label="sticky table">  
             <TableHead>  
                 <TableRow>  
-                  <TableCell>Last Name</TableCell>  
-                  <TableCell align="right">First Name</TableCell>
-                  <TableCell align="right">Schedule ID</TableCell>  
-                  <TableCell align="right">Start Time</TableCell>  
-                  <TableCell align="right">Stop Time</TableCell>     
-                  <TableCell align="right">Position ID</TableCell>   
-                  <TableCell style={{paddingRight:"60px"}} align="right" >User ID</TableCell>   
+                  <TableCell>Position</TableCell>  
+                  <TableCell align="right">Name</TableCell>  
+                  <TableCell align="right">Sunday</TableCell>  
+                  <TableCell align="right">Monday</TableCell>     
+                  <TableCell align="right">Tuesday</TableCell> 
+                  <TableCell align="right">Wednesday</TableCell>  
+                  <TableCell align="right">Thursday</TableCell>     
+                  <TableCell align="right">Friday</TableCell>  
+                  <TableCell style={{paddingRight:"60px"}} align="right" >Saturday</TableCell>   
                 </TableRow>  
               </TableHead>  
               <TableBody>  
                 {data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => {
                   return (  
                <TableRow >  
-                     <TableCell component="th" scope="row"> {row.lastName} </TableCell> 
-                     <TableCell align="right">{row.firstName}</TableCell> 
-                      <TableCell align="right">{row.schedule_id}</TableCell>  
-                      <TableCell align="right">{row.start_time}</TableCell>   
-                      <TableCell align="right">{row.stop_time}</TableCell>   
-                      <TableCell align="right">{row.position_id}</TableCell>       
-                      <TableCell style={{paddingRight:"114px"}} align="right">{row.user_id}</TableCell>
+                     <TableCell component="th" scope="row"> {row.position_id} </TableCell> 
+                     <TableCell align="right">{row.firstName}  {row.lastName}</TableCell>  
+                      <TableCell align="right">{row.sunday}</TableCell>   
+                      <TableCell align="right">{row.monday}</TableCell>   
+                      <TableCell align="right">{row.tuesday}</TableCell>  
+                      <TableCell align="right">{row.wednesday}</TableCell>   
+                      <TableCell align="right">{row.thursday}</TableCell>   
+                      <TableCell align="right">{row.friday}</TableCell>      
+                      <TableCell style={{paddingRight:"114px"}} align="right">{row.saturday}</TableCell>
                   </TableRow>  
                   );  
                 })}  
@@ -85,6 +89,7 @@ export default function SchedulePageTable(props) {
             onChangePage={handleChangePage}  
             onChangeRowsPerPage={handleChangeRowsPerPage}  
           />  
-        </Paper>  
+        </Paper>
+        </>
       );  
     } 
