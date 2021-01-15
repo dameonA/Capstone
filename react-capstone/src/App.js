@@ -88,8 +88,9 @@ class App extends React.Component {
          
           </Switch>
           : ''
+            }
             <Route exact path='/Login'><LoginForm api={this.state.apiURL} handleLogIn={(user)=>{this.setState({user:user})}}/></Route>                
-        }
+        
         </BrowserRouter>
       </ThemeProvider>
     );
