@@ -13,7 +13,7 @@ function AutoScheduleButton(props) {
                 "content-type":"application/json"
             },
             body: JSON.stringify({date:currentDate})
-        }).then((ret)=>{
+        }).then(ret.text()).then((ret)=>{
             if (ret==="success")
                 alert("Successfully autoscheduled starting on Monday: "+currentDate)
             else
