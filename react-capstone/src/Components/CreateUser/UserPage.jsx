@@ -1,6 +1,5 @@
 import React from 'react'
 import AddUser from './AddUser'
-import AddUser2 from './AddUser2'
 import ModifyUser from './ModifyUser'
 
 class UserPage extends React.Component {

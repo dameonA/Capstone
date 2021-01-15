@@ -36,3 +36,11 @@
     transform: rotate(360deg);
   }
 }
+
+.container-div{ 
+  Display: flex;
+  Height: 100vh;
+  Width: 100vw; 
+  Align-Items: center;
+  Justify-Content: centre;
+  }
