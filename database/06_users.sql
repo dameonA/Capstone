@@ -13,6 +13,9 @@ CREATE TABLE users (
     active boolean
 );
 
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (1, 'Admin', 'Admin', 'E9', 1, 1, 1, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (2, 'Supervisor', 'Supervisor', 'E5', 2, 3, 1, true);
+INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (3, 'Crew', 'Crew', 'E1', 3, 4, 1, true);
 INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (25, 'Person', 'Horrocks', 'O2', 1, 1, 1, true);
 INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (26, 'Person', 'Morris', 'O5', 2, 1, 1, true);
 INSERT INTO users (user_id, first_name, last_name, grade, user_role, section, user_group, active) VALUES (27, 'Person', 'Muller', 'E3', 3, 1, 1, true);
