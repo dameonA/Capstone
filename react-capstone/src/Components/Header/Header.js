@@ -8,6 +8,8 @@ import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
 import LoginMenu from './LoginMenu'
 import logo from '../Assets/logo.png'
+import NotificationIcon from '../Notifications/NotificationIcon'
+
 import {Link,Router} from 'react-router-dom'
 
 function ElevationScroll(props) {
@@ -74,7 +76,8 @@ export default function Header(props){
                         <Tab component={Link} to={'/Notifications'} className={classes.tab} label="Notifications" /> 
                         <Tab component={Link} to={'/Schedule'} className={classes.tab} label="Schedule" /> 
                     </Tabs>
-                <LoginMenu user={props.user}/>
+                {/* {(props.user)?<NotificationIcon user={props.user} api={props.api} />:""} */}
+                <LoginMenu user={props.user} handleLogin={props.handleLogin}/>
                 </Toolbar>
             </AppBar>
         </ElevationScroll>

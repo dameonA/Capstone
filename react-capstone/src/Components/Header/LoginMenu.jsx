@@ -29,49 +29,38 @@ export default function LoginMenu(props){
     function ButtonClick () {
         //loggedIn = !loggedIn
     }
+    let login=(
+        <Link to="/Login" >
+        <Button 
+            className={classes.button} 
+            variant="contained" 
+            color="secondary"
+        >
+            Login
+        </Button>
+        </Link>
+    );
+    let logout=(
+        <Link to="/Login" >
+        <Button 
+            className={classes.button} 
+            variant="contained" 
+            color="secondary"
+            onClick={()=>props.handleLogin(undefined)}
+        >
+            Logout
+        </Button>
+        </Link>
 
+    )
     return(
         <React.Fragment>
-            {/* <TextField
-                className={classes.textField}
-                required
-                id="outlined-required"
-                label="Username"
-                // defaultValue="Username"
-                placeholder="Username"
-                variant="outlined"
-                color="white"
-                InputProps={{
-                    startAdornment: (
-                        <InputAdornment position="start">
-                        <AccountCircle />
-                        </InputAdornment>
-                    ),
-                    className: classes.input
-                    }}
-            />
-            <TextField
-                className={classes.textField}
-                required
-                id="outlined-required"
-                label="Password"
-                // defaultValue="Password"
-                placeholder="Password"
-                variant="outlined"
-                InputProps={{
-                    startAdornment: (
-                        <InputAdornment position="start">
-                        <LockIcon />
-                        </InputAdornment>
-                    ),
-                    className: classes.input
-                }}
-            /> */}
             <Link to="/Login" >
             <Button 
                 className={classes.button} 
                 variant="contained" 
-                color="secondary" 
+                color="secondary"
+                onClick 
             >
                 {props.user
                  ? <a>Logout</a>

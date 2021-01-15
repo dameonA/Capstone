@@ -31,7 +31,7 @@ module.exports.Users = class Users {
     this.db = database;
   }
   async getUser(userId) {
-    console.log(queryUsers + ' where user_id = '+userId)
+    //console.log(queryUsers + ' where user_id = '+userId)
     try {
       let user = (await this.db.one(queryUsers + ' where user_id = $1', userId)).json
       console.log(user)
@@ -66,7 +66,7 @@ module.exports.Users = class Users {
             let qual = user.qualifications[qIndex];
             if (qual) {
               try {
-                await this.db.one('INSERT INTO user_qualifications (user_id,qual_id,is_evaluator,is_instructor) VALUES ($1,$2,$3,$4)',[ret.user_id,qual.qual_id,qual.is_evaluator||false,qual.is_instructor||false])
+                await this.db.one('INSERT INTO user_qualifications (user_id,qual_id,is_evaluator,is_instructor, in_training) VALUES ($1,$2,$3,$4,$5)',[ret.user_id,qual.qual_id,qual.is_evaluator||false,qual.is_instructor||false,qual.in_training||false])
               } catch (ignored) {}
             }
           }
@@ -77,7 +77,7 @@ module.exports.Users = class Users {
             let cert = user.certifications[cIndex];
             if (cert) {
               try {
-                await this.db.one('INSERT INTO user_certifications (user_id,qual_id) VALUES ($1,$2)',[ret.user_id,cert.cert_id])
+                await this.db.one('INSERT INTO user_certifications (user_id,cert_id) VALUES ($1,$2)',[ret.user_id,cert.cert_id])
               } catch (ignored) {}
             }
           }
@@ -88,7 +88,7 @@ module.exports.Users = class Users {
     }
   }
 
-  async updateUser(user) {
+   updateUser = async (user) => {
     let userId = user.user_id;
     let firstName = user.first_name;
     let lastName = user.last_name;
@@ -97,10 +97,59 @@ module.exports.Users = class Users {
     let section = user.section;
     let userGroup = user.user_group;
     let active = user.active;
+
+    console.log('user passed into function: ',user)
+    //update the existing user data
     try {
-      return await this.db.one(
+      await this.db.one(
         'UPDATE users SET first_name=$1, last_name=$2, grade=$3, user_role=$4, section=$5, user_group=$6, active=$7 WHERE user_id=$8 RETURNING *',
         [firstName, lastName, grade, userRole, section, userGroup, active, userId])
+    } catch (error) {
+      return error
+    }   
+    
+    //update the quals 
+    try {
+      //delete existing quals associated with current user_id
+      await this.db.any('DELETE FROM user_qualifications where user_id=$1', [userId]);
+      // check to see if there are valid quals and loop through each with an INSERT
+      if (Array.isArray(user.qualifications)) {
+        console.log('In the quals array checker')
+        for (let qIndex = 0; qIndex < user.qualifications.length; qIndex++) {
+          console.log('iterating quals: ' + qIndex)
+          let qual = user.qualifications[qIndex];
+          if (qual) {
+            try {
+              await this.db.one('INSERT INTO user_qualifications (user_id,qual_id,is_evaluator,is_instructor, in_training) VALUES ($1,$2,$3,$4,$5)',[userId,qual.qual_id,qual.is_evaluator||false,qual.is_instructor||false,qual.in_training||false])
+            } catch (ignored) {}
+          }
+        }
+      }
+    } catch (error) {
+      return error
+    }
+
+    //update the certifications
+    try {
+      //delete existing certs associated with current user_id before inserting new ones
+      await this.db.any('DELETE FROM user_certifications where user_id=$1', [userId])
+      // check to see if there are valid quals and loop through each with an INSERT
+      if (Array.isArray(user.certifications)) {
+        for (let cIndex = 0; cIndex < user.certifications.length; cIndex++) {
+          let cert = user.certifications[cIndex];
+          if (cert) {
+            try {
+              await this.db.one('INSERT INTO user_certifications (user_id,cert_id) VALUES ($1,$2)',[userId,cert.cert_id])
+            } catch (ignored) {}
+          }
+        }
+      }
+    } catch (error) {
+      return error
+    }
+    //return the user join with quals and certs
+    try {
+      return await this.getUser(ret.user_id);
     } catch (error) {
       return {};
     }

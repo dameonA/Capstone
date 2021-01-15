@@ -1,5 +1,6 @@
 import React from 'react'
 import UserTableHeader from './UserHeader'
+import Button from '@material-ui/core/Button';
 
 class ModifyUser extends React.Component {
   constructor(props) {
@@ -19,11 +20,11 @@ class ModifyUser extends React.Component {
       },
       levels: ['None', 'Training', 'Instructor', 'Evaluator'],
       activeUserSelection: 'all',
-      newCertification: this.props.static.certifications[0],
-      removeCertification: {cert_id: 0, cert_name: 'None'},
+      newCertification: {},
+      removeCertification: {},
       newQualification: {
-        qual_id: this.props.static.qualifications[0].qual_id,
-        qual_name: this.props.static.qualifications[0].qual_name,
+        qual_id: 1,
+        qual_name: "",
         in_training: false,
         is_instructor: false,
         is_evaluator:false,
@@ -35,12 +36,14 @@ class ModifyUser extends React.Component {
         is_instructor: false,
         is_evaluator:false,
       },
+      showModifyUserForm:false,
     };
     this.baseState = this.state
   }
 
   componentDidMount = async () => {
-    await this.intializeUsers();
+      await this.intializeUsers();
+    
   }
 
   intializeUsers = async () => {
@@ -51,24 +54,48 @@ class ModifyUser extends React.Component {
       ...previousState,
       users: usersArray,
     }));
+    this.setState(previousState =>({
+      updatedUser: {
+        ...previousState.updatedUser,
+        qualifications: [{qual_id: 0, qual_name: 'None'}],
+        certifications: [{cert_id: 0, cert_name: 'None'}]
+      }
+    }))
+    this.setState(previousState => ({
+      ...previousState,
+      newCertification: {cert_id: 1, cert_name: "RSC"},
+      removeCertification: {cert_id: 0, cert_name: 'None'},
+
+    }))
+    this.setState(previousState=>({
+      newQualification: {
+        ...previousState.newQualification,
+        qual_id: 1,
+        qual_name: "MCC",
+        in_training: false,
+        is_instructor: false,
+        is_evaluator:false,
+      },
+    }))
   }
+  
 
   SubmitUpdatedUser = async () => {
-    //check for no quals or no certs
+    //check for no certs
     if (this.state.updatedUser.certifications[0].cert_id === 0) {
       this.setState(previousState => ({
         updatedUser: {
           ...previousState.updatedUser,
-          certifications: null
+          certifications: []
         }
       }))
     }
-
+    //check for no quals 
     if (this.state.updatedUser.qualifications[0].qual_id === 0) {
       this.setState(previousState => ({
         updatedUser: {
           ...previousState.updatedUser,
-          qualifications: null
+          qualifications: []
         }
       }))
     }
@@ -85,17 +112,7 @@ class ModifyUser extends React.Component {
 
     this.intializeUsers(); //reset the state to the database to bring in the new updates of the user
     
-  }
-
-  // SubmitUpdatedUserQualifications = () => {
-  //   this.setState({ newUserQualifications: { user_id: this.state.updatedUser.user_id } });
-  //   console.log('quals: ' + this.state.newUserQualifications)
-  // }
-
-  // SubmitUpdatedUserCertifications = () => {
-  //   this.setState({ newUserCertifications: { user_id: this.state.updatedUser.user_id } });
-  //   console.log('certs: ' + this.state.newUserCertifications);
-  // }
+  } //end of SubmitUpdatedUser
 
   SelectUser = () => {
 
@@ -514,21 +531,41 @@ class ModifyUser extends React.Component {
             <option id='active' value={false}>Archived</option>
           </select>
         </td>
-        <td> <button onClick={this.SubmitUpdatedUser} value="Update User">Update User</button>  </td>
+        <button onClick={this.SubmitUpdatedUser} value="Update User">Update User</button>
 
       </tr>
     )
   }
 
 
+  ModifyUserButton = () => {
+
+    const handleClick =()=>{
+      let temp = !this.state.showModifyUserForm
+      this.setState({showModifyUserForm: temp})
+    }
+
+    return (
+        <Button
+            variant="contained"
+            color="seconday"
+            id="addUserButton"
+            onClick={handleClick}
+        >
+        Modify Existing User
+        </Button>
+    );
+}
 
   render() {
     return (
       <div>
-        <h2>Modify User </h2>
-        {/* <this.SelectActiveUsers /> */}
+        
+        {!this.state.showModifyUserForm
+        ?<this.ModifyUserButton/>
+        :
         <this.SelectUser />
-
+        }
         {(this.state.updatedUser.user_id > 0)
           ? <table>
             <UserTableHeader />
