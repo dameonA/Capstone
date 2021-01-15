@@ -1,5 +1,6 @@
 import React from 'react'
 import UserTableHeader from './UserHeader'
+import Button from '@material-ui/core/Button';
 
 class ModifyUser extends React.Component {
   constructor(props) {
@@ -19,11 +20,11 @@ class ModifyUser extends React.Component {
       },
       levels: ['None', 'Training', 'Instructor', 'Evaluator'],
       activeUserSelection: 'all',
-      newCertification: this.props.static.certifications[0],
-      removeCertification: {cert_id: 0, cert_name: 'None'},
+      newCertification: {},
+      removeCertification: {},
       newQualification: {
-        qual_id: this.props.static.qualifications[0].qual_id,
-        qual_name: this.props.static.qualifications[0].qual_name,
+        qual_id: 1,
+        qual_name: "",
         in_training: false,
         is_instructor: false,
         is_evaluator:false,
@@ -35,12 +36,14 @@ class ModifyUser extends React.Component {
         is_instructor: false,
         is_evaluator:false,
       },
+      showModifyUserForm:false,
     };
     this.baseState = this.state
   }
 
   componentDidMount = async () => {
-    await this.intializeUsers();
+      await this.intializeUsers();
+    
   }
 
   intializeUsers = async () => {
@@ -58,7 +61,24 @@ class ModifyUser extends React.Component {
         certifications: [{cert_id: 0, cert_name: 'None'}]
       }
     }))
+    this.setState(previousState => ({
+      ...previousState,
+      newCertification: {cert_id: 1, cert_name: "RSC"},
+      removeCertification: {cert_id: 0, cert_name: 'None'},
+
+    }))
+    this.setState(previousState=>({
+      newQualification: {
+        ...previousState.newQualification,
+        qual_id: 1,
+        qual_name: "MCC",
+        in_training: false,
+        is_instructor: false,
+        is_evaluator:false,
+      },
+    }))
   }
+  
 
   SubmitUpdatedUser = async () => {
     //check for no certs
@@ -66,7 +86,7 @@ class ModifyUser extends React.Component {
       this.setState(previousState => ({
         updatedUser: {
           ...previousState.updatedUser,
-          certifications: null
+          certifications: []
         }
       }))
     }
@@ -75,7 +95,7 @@ class ModifyUser extends React.Component {
       this.setState(previousState => ({
         updatedUser: {
           ...previousState.updatedUser,
-          qualifications: null
+          qualifications: []
         }
       }))
     }
@@ -511,21 +531,41 @@ class ModifyUser extends React.Component {
             <option id='active' value={false}>Archived</option>
           </select>
         </td>
-        <td> <button onClick={this.SubmitUpdatedUser} value="Update User">Update User</button>  </td>
+        <button onClick={this.SubmitUpdatedUser} value="Update User">Update User</button>
 
       </tr>
     )
   }
 
 
+  ModifyUserButton = () => {
+
+    const handleClick =()=>{
+      let temp = !this.state.showModifyUserForm
+      this.setState({showModifyUserForm: temp})
+    }
+
+    return (
+        <Button
+            variant="contained"
+            color="seconday"
+            id="addUserButton"
+            onClick={handleClick}
+        >
+        Modify Existing User
+        </Button>
+    );
+}
 
   render() {
     return (
       <div>
-        <h2>Modify User </h2>
-        {/* <this.SelectActiveUsers /> */}
+        
+        {!this.state.showModifyUserForm
+        ?<this.ModifyUserButton/>
+        :
         <this.SelectUser />
-
+        }
         {(this.state.updatedUser.user_id > 0)
           ? <table>
             <UserTableHeader />

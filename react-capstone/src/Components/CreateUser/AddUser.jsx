@@ -1,5 +1,7 @@
 import React from 'react'
 import UserTableHeader from './UserHeader'
+import Button from '@material-ui/core/Button';
+
 
 class AddUser extends React.Component {
     constructor(props) {
@@ -17,11 +19,11 @@ class AddUser extends React.Component {
             certifications: [{cert_id: 0, cert_name: 'None'}]
           },
           levels: ['None', 'Training', 'Instructor', 'Evaluator'],
-          newCertification: this.props.static.certifications[0],
-          removeCertification: {cert_id: 0, cert_name: 'None'},
+          newCertification: {},
+          removeCertification: {},
           newQualification: {
-            qual_id: this.props.static.qualifications[0].qual_id,
-            qual_name: this.props.static.qualifications[0].qual_name,
+            qual_id: 1,
+            qual_name: "",
             in_training: false,
             is_instructor: false,
             is_evaluator:false,
@@ -33,6 +35,7 @@ class AddUser extends React.Component {
             is_instructor: false,
             is_evaluator:false,
           },
+          showAddUserForm: false,
         }
         this.baseState = this.state
     }
@@ -40,21 +43,38 @@ class AddUser extends React.Component {
     // initialize newUser
     componentDidMount = () => {
         this.ResetNewUserForm();
+      
     }
 
     ResetNewUserForm = () => {
+        Array.from(document.querySelectorAll('input')).forEach(
+          input => (input.value = '')
+        );
+        this.setState(this.baseState);
+        this.setState(previousState =>({
+          newUser: {
+            ...previousState.newUser,
+            qualifications: [{qual_id: 0, qual_name: 'None'}],
+            certifications: [{cert_id: 0, cert_name: 'None'}]
+          }
+        }))
+        this.setState(previousState => ({
+          ...previousState,
+          newCertification: {cert_id: 1, cert_name: "RSC"},
+          removeCertification: {cert_id: 0, cert_name: 'None'},
+    
+        }))
+        this.setState(previousState=>({
+          newQualification: {
+            ...previousState.newQualification,
+            qual_id: 1,
+            qual_name: "MCC",
+            in_training: false,
+            is_instructor: false,
+            is_evaluator:false,
+          },
+        }))
 
-      Array.from(document.querySelectorAll('input')).forEach(
-        input => (input.value = '')
-      );
-      this.setState(this.baseState);
-      this.setState(previousState =>({
-        newUser: {
-          ...previousState.newUser,
-          qualifications: [{qual_id: 0, qual_name: 'None'}],
-          certifications: [{cert_id: 0, cert_name: 'None'}]
-        }
-      }))
     }
 
     SubmitNewUser = async () => {
@@ -63,7 +83,7 @@ class AddUser extends React.Component {
         this.setState(previousState => ({
           newUser: {
             ...previousState.newUser,
-            certifications: null
+            certifications: []
           }
         }))
       }
@@ -72,7 +92,7 @@ class AddUser extends React.Component {
         this.setState(previousState => ({
           newUser: {
             ...previousState.newUser,
-            qualifications: null
+            qualifications: []
           }
         }))
       }
@@ -92,43 +112,15 @@ class AddUser extends React.Component {
         throw new Error('Waiting on newUser to add to the database')
       } else {
         let tempObj = await submittedUser.json()
+        console.log(`New User Created! \n Name: ${tempObj.last_name}, ${tempObj.first_name} ${tempObj.grade}`);
+
         alert(`New User Created! \n Name: ${tempObj.last_name}, ${tempObj.first_name} ${tempObj.grade}`);
       }
         
       this.ResetNewUserForm();
 
     }
-  
-    SubmitNewUserQualifications  = async (userId) => {
-      let qualifications = [this.state.qualification]
-      this.setState( {newUserQualifications: qualifications} );
-      let jsonBody = {"user_id": userId, "quals": this.state.newUserQualifications}
-  //TODO check to see if the newUser cert_id is 0. this indicates no certs to pass and will need to pass a null []
-      await fetch(this.props.api +'users/new/userqualifications',
-        {
-          method: "POST",
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(jsonBody)
-        }
-      )
-
  
-    }
-
-    SubmitNewUserCertifications = async (userId) => {
-      let jsonBody = {"user_id": userId, "certs": this.state.newUserCertifications}
-      await fetch(this.props.api +'users/new/usercertifications',
-        {
-          method: "POST",
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(jsonBody)
-        }
-      )
-    }
 
     NewUserInputForm = () => {
 
@@ -423,17 +415,37 @@ class AddUser extends React.Component {
 
         )
     }
+    AddUserButton = () => {
+
+      const handleClick =()=>{
+        let temp = !this.state.showAddUserForm
+        this.setState({showAddUserForm: temp})
+      }
+
+      return (
+          <Button
+              variant="contained"
+              color="primary"
+              id="addUserButton"
+              onClick={handleClick}
+          >
+          Add a New User
+          </Button>
+      );
+  }
 
      render() {
         return (
             <div>
-                <h2>Add New User</h2>
+                {!this.state.showAddUserForm
+                ?<this.AddUserButton />
+                :
                 <table>
                     <UserTableHeader/>
                     <tbody>
                     <this.NewUserInputForm />
                     </tbody>
-                </table>
+                </table>}
             </div>
 
         )
