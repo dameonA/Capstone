@@ -19,11 +19,23 @@ router.post('/autoschedule',async(req,res)=>{
   AutoScheduleService.autoschedule2week(Date.now()).then(r=>res.send("success")).catch(c=>res.status(500).send("failed"));
 })
 
-router.post('/conflictresolution',async(req,res)=>{
+router.post('/reschedule',async(req,res)=>{
+  if (req.body.schedule_id) {
+    
+    AutoScheduleService.autoschedule1(req.body);
+  }
   //AutoScheduleService.autoschedule2week(new Date("2021-01-21 20:00:00+00")).then(r=>res.send("success")).catch(c=>res.status(500).send("failed"));
   res.send("success")
 })
 
+router.post('/resolve',async(req,res)=>{
+   await AutoScheduleService.resolve()
+  //AutoScheduleService.autoschedule2week(new Date("2021-01-21 20:00:00+00")).then(r=>res.send("success")).catch(c=>res.status(500).send("failed"));
+  res.send("success")
+})
+router.post('/clear',async(req,res)=>{
+  ScheduleService.clearSchedule().then(r=>res.send("success")).catch(r=>res.send("error"));
+})
 module.exports = function(scheduleService,autoScheduleService){
   ScheduleService=scheduleService;
   AutoScheduleService=autoScheduleService

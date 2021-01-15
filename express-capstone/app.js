@@ -2,13 +2,17 @@ var express = require('express')
 var app = express()
 var bodyParser =require('body-parser');
 const cors = require("cors")
-
-const listen_port = 3001;
+let appStatus = {status:"loading",message:""};
+const listen_port = 8080;
 
 const Database = require('./services/database.js').database;
 const db = new Database();
+try {
 db.connectdb();
-
+appStatus={status:"connected",message:""}
+}catch(error) {
+  appStatus={status:"error",message:error}
+}
 
 const NotificationService = new (require('./services/notifications').Notifications)(db.db);
 const UserService = new (require('./services/users').Users)(db.db);
@@ -38,6 +42,11 @@ app.use('/notifications', notificationRouter)
 app.use('/conflicts', conflictRouter)
 app.use('/schedule', scheduleRouter)
 app.use('/auth',authRouter)
+
+app.get('/status', function (req, res) {
+  res.send(appStatus);
+
+})
 app.listen(listen_port, function () {
   console.log('App listening on port '+listen_port+"!")
 })
